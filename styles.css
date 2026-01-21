@@ -1,0 +1,470 @@
+/* Reset and Base Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    /* Color Palette */
+    --color-primary: #1A1A1A;
+    --color-secondary: #F4F4F2;
+    --color-accent: #D4AF37; /* Muted gold */
+    --color-text: #1A1A1A;
+    --color-text-light: #666;
+    --color-bg: #F4F4F2;
+    
+    /* Typography */
+    --font-headline: 'Playfair Display', serif;
+    --font-body: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    
+    /* Spacing */
+    --spacing-xs: 0.5rem;
+    --spacing-sm: 1rem;
+    --spacing-md: 2rem;
+    --spacing-lg: 4rem;
+    --spacing-xl: 6rem;
+    
+    /* Container */
+    --container-width: 1200px;
+    --container-padding: 2rem;
+}
+
+body {
+    font-family: var(--font-body);
+    font-weight: 300;
+    color: var(--color-text);
+    background-color: var(--color-bg);
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* Navigation */
+.nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    background-color: var(--color-bg);
+    border-bottom: 1px solid rgba(26, 26, 26, 0.1);
+    z-index: 1000;
+    padding: var(--spacing-sm) 0;
+}
+
+.nav-container {
+    max-width: var(--container-width);
+    margin: 0 auto;
+    padding: 0 var(--container-padding);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.nav-logo {
+    font-family: var(--font-headline);
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--color-text);
+    text-decoration: none;
+    letter-spacing: -0.02em;
+}
+
+.nav-links {
+    display: flex;
+    gap: var(--spacing-md);
+    align-items: center;
+}
+
+.nav-links a {
+    color: var(--color-text);
+    text-decoration: none;
+    font-size: 0.95rem;
+    font-weight: 400;
+    transition: opacity 0.2s;
+}
+
+.nav-links a:hover {
+    opacity: 0.6;
+}
+
+.nav-contact {
+    padding: var(--spacing-xs) var(--spacing-sm);
+    border: 1px solid var(--color-primary);
+    border-radius: 2px;
+}
+
+/* Container */
+.container {
+    max-width: var(--container-width);
+    margin: 0 auto;
+    padding: 0 var(--container-padding);
+}
+
+/* Hero Section */
+.hero {
+    margin-top: 80px;
+    padding: var(--spacing-xl) 0;
+    min-height: 70vh;
+    display: flex;
+    align-items: center;
+}
+
+.hero-title {
+    font-family: var(--font-headline);
+    font-size: clamp(3rem, 8vw, 5rem);
+    font-weight: 700;
+    color: var(--color-primary);
+    margin-bottom: var(--spacing-md);
+    line-height: 1.1;
+    letter-spacing: -0.03em;
+}
+
+.hero-subtitle {
+    font-size: clamp(1.25rem, 3vw, 1.75rem);
+    font-weight: 300;
+    color: var(--color-text);
+    margin-bottom: var(--spacing-sm);
+    max-width: 800px;
+    line-height: 1.5;
+}
+
+.hero-text {
+    font-size: 1.1rem;
+    color: var(--color-text-light);
+    margin-bottom: var(--spacing-lg);
+    max-width: 600px;
+}
+
+.hero-buttons {
+    display: flex;
+    gap: var(--spacing-sm);
+    flex-wrap: wrap;
+}
+
+/* Buttons */
+.btn {
+    display: inline-block;
+    padding: 0.75rem 1.5rem;
+    font-size: 0.95rem;
+    font-weight: 400;
+    text-decoration: none;
+    border: 1px solid var(--color-primary);
+    border-radius: 2px;
+    transition: all 0.2s;
+    font-family: var(--font-body);
+}
+
+.btn-primary {
+    background-color: var(--color-primary);
+    color: var(--color-bg);
+}
+
+.btn-primary:hover {
+    background-color: transparent;
+    color: var(--color-primary);
+}
+
+.btn-secondary {
+    background-color: transparent;
+    color: var(--color-primary);
+}
+
+.btn-secondary:hover {
+    background-color: var(--color-primary);
+    color: var(--color-bg);
+}
+
+/* Sections */
+.section {
+    padding: var(--spacing-xl) 0;
+}
+
+.section-title {
+    font-family: var(--font-headline);
+    font-size: clamp(2rem, 5vw, 3rem);
+    font-weight: 600;
+    color: var(--color-primary);
+    margin-bottom: var(--spacing-lg);
+    letter-spacing: -0.02em;
+}
+
+.page-header {
+    margin-top: 80px;
+    padding: var(--spacing-lg) 0;
+    border-bottom: 1px solid rgba(26, 26, 26, 0.1);
+}
+
+.page-title {
+    font-family: var(--font-headline);
+    font-size: clamp(2.5rem, 6vw, 4rem);
+    font-weight: 700;
+    color: var(--color-primary);
+    letter-spacing: -0.03em;
+}
+
+/* Content Blocks */
+.content-block {
+    max-width: 800px;
+}
+
+.large-text {
+    font-size: 1.15rem;
+    line-height: 1.8;
+    margin-bottom: var(--spacing-md);
+    color: var(--color-text);
+    font-weight: 300;
+}
+
+.subsection-title {
+    font-family: var(--font-headline);
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--color-primary);
+    margin-top: var(--spacing-lg);
+    margin-bottom: var(--spacing-sm);
+}
+
+/* What We Are Section */
+.what-we-are {
+    background-color: var(--color-primary);
+    color: var(--color-bg);
+}
+
+.what-we-are .section-title {
+    color: var(--color-bg);
+}
+
+.what-we-are .large-text {
+    color: var(--color-bg);
+}
+
+/* Ventures Section */
+.ventures-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: var(--spacing-lg);
+    margin-top: var(--spacing-lg);
+}
+
+.venture-card {
+    padding: var(--spacing-lg);
+    border: 1px solid rgba(26, 26, 26, 0.1);
+    background-color: var(--color-bg);
+    transition: border-color 0.2s;
+}
+
+.venture-card:hover {
+    border-color: var(--color-primary);
+}
+
+.venture-name {
+    font-family: var(--font-headline);
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--color-primary);
+    margin-bottom: var(--spacing-sm);
+}
+
+.venture-description {
+    font-size: 1rem;
+    color: var(--color-text-light);
+    margin-bottom: var(--spacing-md);
+    line-height: 1.6;
+}
+
+.venture-link {
+    display: inline-block;
+    color: var(--color-primary);
+    text-decoration: none;
+    font-size: 0.95rem;
+    font-weight: 400;
+    transition: opacity 0.2s;
+}
+
+.venture-link:hover {
+    opacity: 0.6;
+}
+
+.venture-link.private {
+    color: var(--color-text-light);
+    cursor: default;
+}
+
+/* Venture Detail Pages */
+.venture-detail {
+    max-width: 800px;
+}
+
+.venture-detail-name {
+    font-family: var(--font-headline);
+    font-size: clamp(2rem, 5vw, 3rem);
+    font-weight: 700;
+    color: var(--color-primary);
+    margin-bottom: var(--spacing-sm);
+    letter-spacing: -0.02em;
+}
+
+.venture-detail-tagline {
+    font-size: 1.25rem;
+    color: var(--color-text-light);
+    margin-bottom: var(--spacing-lg);
+    font-weight: 300;
+}
+
+.venture-detail-content {
+    margin-bottom: var(--spacing-lg);
+}
+
+/* Philosophy Section */
+.philosophy-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: var(--spacing-lg);
+    margin-top: var(--spacing-lg);
+}
+
+.philosophy-item {
+    padding: var(--spacing-md) 0;
+}
+
+.philosophy-title {
+    font-family: var(--font-headline);
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--color-primary);
+    margin-bottom: var(--spacing-sm);
+}
+
+.philosophy-text {
+    font-size: 1rem;
+    color: var(--color-text-light);
+    line-height: 1.7;
+}
+
+/* Contact Section */
+.contact-section {
+    background-color: var(--color-primary);
+    color: var(--color-bg);
+}
+
+.contact-section .section-title {
+    color: var(--color-bg);
+}
+
+.contact-text {
+    font-size: 1.15rem;
+    color: var(--color-bg);
+    margin-bottom: var(--spacing-md);
+    max-width: 600px;
+}
+
+.contact-email {
+    display: inline-block;
+    font-size: 1.1rem;
+    color: var(--color-bg);
+    text-decoration: none;
+    border-bottom: 1px solid var(--color-bg);
+    padding-bottom: 2px;
+    transition: opacity 0.2s;
+}
+
+.contact-email:hover {
+    opacity: 0.7;
+}
+
+/* Footer */
+.footer {
+    border-top: 1px solid rgba(26, 26, 26, 0.1);
+    padding: var(--spacing-lg) 0;
+    margin-top: var(--spacing-xl);
+}
+
+.footer-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: var(--spacing-md);
+}
+
+.footer-main {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-xs);
+}
+
+.footer-name {
+    font-family: var(--font-headline);
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--color-primary);
+}
+
+.footer-location,
+.footer-copyright {
+    font-size: 0.9rem;
+    color: var(--color-text-light);
+}
+
+.footer-links {
+    display: flex;
+    gap: var(--spacing-md);
+    flex-wrap: wrap;
+}
+
+.footer-links a {
+    font-size: 0.9rem;
+    color: var(--color-text-light);
+    text-decoration: none;
+    transition: opacity 0.2s;
+}
+
+.footer-links a:hover {
+    opacity: 0.6;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    :root {
+        --container-padding: 1.5rem;
+        --spacing-xl: 4rem;
+        --spacing-lg: 3rem;
+    }
+    
+    .nav-container {
+        flex-direction: column;
+        gap: var(--spacing-sm);
+        align-items: flex-start;
+    }
+    
+    .nav-links {
+        flex-wrap: wrap;
+        gap: var(--spacing-sm);
+    }
+    
+    .hero {
+        min-height: auto;
+        padding: var(--spacing-lg) 0;
+    }
+    
+    .ventures-grid,
+    .philosophy-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .footer-content {
+        flex-direction: column;
+    }
+}
+
+@media (max-width: 480px) {
+    .hero-buttons {
+        flex-direction: column;
+    }
+    
+    .btn {
+        width: 100%;
+        text-align: center;
+    }
+}
