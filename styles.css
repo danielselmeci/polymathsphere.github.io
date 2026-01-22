@@ -124,16 +124,17 @@ body {
     font-size: clamp(1.25rem, 3vw, 1.75rem);
     font-weight: 300;
     color: var(--color-text);
-    margin-bottom: var(--spacing-sm);
+    margin-bottom: var(--spacing-xs);
     max-width: 800px;
     line-height: 1.5;
 }
 
-.hero-text {
-    font-size: 1.1rem;
+.hero-tagline {
+    font-size: 0.95rem;
     color: var(--color-text-light);
     margin-bottom: var(--spacing-lg);
-    max-width: 600px;
+    font-weight: 300;
+    letter-spacing: 0.05em;
 }
 
 .hero-buttons {
@@ -173,6 +174,21 @@ body {
 .btn-secondary:hover {
     background-color: var(--color-primary);
     color: var(--color-bg);
+}
+
+.btn-text {
+    background-color: transparent;
+    color: var(--color-primary);
+    border: none;
+    padding: 0.5rem 0;
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 4px;
+}
+
+.btn-text:hover {
+    opacity: 0.6;
+    text-decoration: none;
 }
 
 /* Sections */
@@ -225,110 +241,51 @@ body {
     margin-bottom: var(--spacing-sm);
 }
 
-/* What We Are Section */
-.what-we-are {
-    background-color: var(--color-primary);
-    color: var(--color-bg);
-}
-
-.what-we-are .section-title {
-    color: var(--color-bg);
-}
-
-.what-we-are .large-text {
-    color: var(--color-bg);
-}
-
-/* Ventures Section */
-.ventures-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+/* Capabilities Section */
+.capabilities-list {
+    display: flex;
+    flex-direction: column;
     gap: var(--spacing-lg);
     margin-top: var(--spacing-lg);
 }
 
-.venture-card {
-    padding: var(--spacing-lg);
-    border: 1px solid rgba(26, 26, 26, 0.1);
-    background-color: var(--color-bg);
-    transition: border-color 0.2s;
+.capability-item {
+    padding: var(--spacing-md) 0;
+    border-bottom: 1px solid rgba(26, 26, 26, 0.05);
 }
 
-.venture-card:hover {
-    border-color: var(--color-primary);
+.capability-item:last-child {
+    border-bottom: none;
 }
 
-.venture-name {
+.capability-title {
     font-family: var(--font-headline);
     font-size: 1.5rem;
     font-weight: 600;
     color: var(--color-primary);
-    margin-bottom: var(--spacing-sm);
+    margin-bottom: var(--spacing-xs);
 }
 
-.venture-description {
-    font-size: 1rem;
+.capability-description {
+    font-size: 1.05rem;
     color: var(--color-text-light);
-    margin-bottom: var(--spacing-md);
-    line-height: 1.6;
-}
-
-.venture-link {
-    display: inline-block;
-    color: var(--color-primary);
-    text-decoration: none;
-    font-size: 0.95rem;
-    font-weight: 400;
-    transition: opacity 0.2s;
-}
-
-.venture-link:hover {
-    opacity: 0.6;
-}
-
-.venture-link.private {
-    color: var(--color-text-light);
-    cursor: default;
-}
-
-/* Venture Detail Pages */
-.venture-detail {
-    max-width: 800px;
-}
-
-.venture-detail-name {
-    font-family: var(--font-headline);
-    font-size: clamp(2rem, 5vw, 3rem);
-    font-weight: 700;
-    color: var(--color-primary);
-    margin-bottom: var(--spacing-sm);
-    letter-spacing: -0.02em;
-}
-
-.venture-detail-tagline {
-    font-size: 1.25rem;
-    color: var(--color-text-light);
-    margin-bottom: var(--spacing-lg);
+    line-height: 1.7;
     font-weight: 300;
 }
 
-.venture-detail-content {
-    margin-bottom: var(--spacing-lg);
-}
-
-/* Philosophy Section */
-.philosophy-grid {
+/* Process Section */
+.process-list {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     gap: var(--spacing-lg);
     margin-top: var(--spacing-lg);
 }
 
-.philosophy-item {
+.process-item {
     padding: var(--spacing-md) 0;
 }
 
-.philosophy-title {
+.process-title {
     font-family: var(--font-headline);
     font-size: 1.25rem;
     font-weight: 600;
@@ -336,10 +293,11 @@ body {
     margin-bottom: var(--spacing-sm);
 }
 
-.philosophy-text {
+.process-description {
     font-size: 1rem;
     color: var(--color-text-light);
     line-height: 1.7;
+    font-weight: 300;
 }
 
 /* Contact Section */
@@ -401,10 +359,16 @@ body {
     color: var(--color-primary);
 }
 
-.footer-location,
-.footer-copyright {
+.footer-location {
     font-size: 0.9rem;
     color: var(--color-text-light);
+}
+
+.footer-statement {
+    font-size: 0.9rem;
+    color: var(--color-text-light);
+    font-style: italic;
+    margin-top: var(--spacing-xs);
 }
 
 .footer-links {
@@ -448,8 +412,7 @@ body {
         padding: var(--spacing-lg) 0;
     }
     
-    .ventures-grid,
-    .philosophy-grid {
+    .process-list {
         grid-template-columns: 1fr;
     }
     

@@ -1,14 +1,19 @@
 # Polymath Sphere LLC Website
 
-Corporate website for Polymath Sphere LLC, a U.S.-based holding company that develops and operates independent ventures in travel technology, aviation standards, digital identity, and applied systems design.
+Corporate website for Polymath Sphere LLC, a privately held digital firm that owns, develops, and selectively delivers software and design systems.
+
+**Domain:** polymathsphere.com
 
 ## Setup for GitHub Pages
 
-1. Create a new repository on GitHub (e.g., `polymath-sphere` or `polymathsphere.github.io`)
+1. Create a new repository on GitHub (e.g., `polymathsphere.github.io` for a custom domain)
 2. Push all files to the repository
 3. Go to Settings > Pages in your GitHub repository
 4. Select the main branch as the source
-5. The site will be available at `https://[username].github.io/[repository-name]` or `https://[username].github.io` if the repository is named `[username].github.io`
+5. Configure your custom domain `polymathsphere.com` in the Pages settings
+6. Add a `CNAME` file with `polymathsphere.com` if using a custom domain
+
+The site will be available at `https://polymathsphere.com` once DNS is configured.
 
 ## Local Development
 
@@ -27,8 +32,8 @@ Then visit `http://localhost:8000`
 ## Structure
 
 - `index.html` - Homepage
-- `about.html` - About page
-- `ventures.html` - Ventures detail page
+- `company.html` - Company information
+- `studio.html` - Studio capabilities and process
 - `legal.html` - Legal and trust information
 - `styles.css` - Main stylesheet
 - `README.md` - This file
@@ -37,4 +42,12 @@ Then visit `http://localhost:8000`
 
 - **Colors**: Deep charcoal (#1A1A1A), Off-white (#F4F4F2), Muted gold accent (#D4AF37)
 - **Typography**: Playfair Display (headlines), Inter (body)
-- **Tone**: Calm, minimal, confident, non-salesy
+- **Tone**: Calm, minimal, confident, institutional
+
+## Positioning
+
+Polymath Sphere LLC is positioned as a privately held digital firm that:
+- Owns and develops digital assets
+- Maintains an internal studio
+- Undertakes a limited number of external engagements
+- Operates without external investment pressure
