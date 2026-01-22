@@ -1,5 +1,21 @@
 // Enhanced interactions and animations
 document.addEventListener('DOMContentLoaded', function() {
+    // Navbar scroll effect
+    const nav = document.querySelector('.nav');
+    let lastScroll = 0;
+    
+    if (nav) {
+        window.addEventListener('scroll', () => {
+            const currentScroll = window.pageYOffset;
+            if (currentScroll > 50) {
+                nav.classList.add('scrolled');
+            } else {
+                nav.classList.remove('scrolled');
+            }
+            lastScroll = currentScroll;
+        });
+    }
+
     // Intersection Observer for scroll animations
     const observerOptions = {
         threshold: 0.15,
@@ -30,15 +46,15 @@ document.addEventListener('DOMContentLoaded', function() {
                 setTimeout(() => {
                     entry.target.style.opacity = '1';
                     entry.target.style.transform = 'translateX(0)';
-                }, index * 100);
+                }, index * 120);
             }
         });
     }, observerOptions);
 
     capabilityItems.forEach((item, index) => {
         item.style.opacity = '0';
-        item.style.transform = 'translateX(-20px)';
-        item.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+        item.style.transform = 'translateX(-30px)';
+        item.style.transition = 'opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1), transform 0.8s cubic-bezier(0.4, 0, 0.2, 1)';
         capabilityObserver.observe(item);
     });
 
@@ -49,7 +65,7 @@ document.addEventListener('DOMContentLoaded', function() {
             if (entry.isIntersecting) {
                 setTimeout(() => {
                     entry.target.style.opacity = '1';
-                    entry.target.style.transform = 'translateY(0)';
+                    entry.target.style.transform = 'translateY(0) scale(1)';
                 }, index * 150);
             }
         });
@@ -57,8 +73,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
     processItems.forEach((item, index) => {
         item.style.opacity = '0';
-        item.style.transform = 'translateY(30px)';
-        item.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+        item.style.transform = 'translateY(40px) scale(0.95)';
+        item.style.transition = 'opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1), transform 0.8s cubic-bezier(0.4, 0, 0.2, 1)';
         processObserver.observe(item);
     });
 
@@ -81,41 +97,56 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // Parallax effect for hero background orbs
-    let ticking = false;
-    function updateParallax() {
-        const scrolled = window.pageYOffset;
-        const hero = document.querySelector('.hero');
-        if (hero) {
-            const heroBefore = hero.querySelector('::before');
-            const rate = scrolled * 0.3;
-            hero.style.setProperty('--scroll', rate + 'px');
-        }
-        ticking = false;
-    }
-
-    function requestTick() {
-        if (!ticking) {
-            window.requestAnimationFrame(updateParallax);
-            ticking = true;
-        }
-    }
-
-    window.addEventListener('scroll', requestTick);
-
-    // Mouse move parallax for hero section
+    // Enhanced mouse move parallax for hero section
     const hero = document.querySelector('.hero');
     if (hero) {
+        let mouseX = 0;
+        let mouseY = 0;
+        let currentX = 0;
+        let currentY = 0;
+        
         hero.addEventListener('mousemove', (e) => {
             const { clientX, clientY } = e;
             const { width, height, left, top } = hero.getBoundingClientRect();
-            const x = ((clientX - left) / width - 0.5) * 20;
-            const y = ((clientY - top) / height - 0.5) * 20;
-            
-            hero.style.setProperty('--mouse-x', x + 'px');
-            hero.style.setProperty('--mouse-y', y + 'px');
+            mouseX = ((clientX - left) / width - 0.5) * 30;
+            mouseY = ((clientY - top) / height - 0.5) * 30;
         });
+        
+        function animateParallax() {
+            currentX += (mouseX - currentX) * 0.1;
+            currentY += (mouseY - currentY) * 0.1;
+            
+            hero.style.setProperty('--mouse-x', currentX + 'px');
+            hero.style.setProperty('--mouse-y', currentY + 'px');
+            
+            requestAnimationFrame(animateParallax);
+        }
+        
+        animateParallax();
     }
+
+    // Add ripple effect to buttons
+    const buttons = document.querySelectorAll('.btn-text, .contact-email, .nav-contact');
+    buttons.forEach(button => {
+        button.addEventListener('click', function(e) {
+            const ripple = document.createElement('span');
+            const rect = this.getBoundingClientRect();
+            const size = Math.max(rect.width, rect.height);
+            const x = e.clientX - rect.left - size / 2;
+            const y = e.clientY - rect.top - size / 2;
+            
+            ripple.style.width = ripple.style.height = size + 'px';
+            ripple.style.left = x + 'px';
+            ripple.style.top = y + 'px';
+            ripple.classList.add('ripple');
+            
+            this.appendChild(ripple);
+            
+            setTimeout(() => {
+                ripple.remove();
+            }, 600);
+        });
+    });
 
     // Add cursor effect for interactive elements
     const interactiveElements = document.querySelectorAll('a, button, .capability-item, .process-item');
@@ -128,29 +159,34 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // Navbar scroll effect
-    let lastScroll = 0;
-    const nav = document.querySelector('.nav');
-    if (nav) {
-        window.addEventListener('scroll', () => {
-            const currentScroll = window.pageYOffset;
-            if (currentScroll > 100) {
-                nav.style.boxShadow = '0 4px 6px -1px rgba(10, 14, 39, 0.1), 0 2px 4px -1px rgba(10, 14, 39, 0.06)';
-                nav.style.background = 'rgba(248, 247, 244, 0.9)';
-            } else {
-                nav.style.boxShadow = '0 1px 2px 0 rgba(10, 14, 39, 0.05)';
-                nav.style.background = 'rgba(248, 247, 244, 0.75)';
-            }
-            lastScroll = currentScroll;
-        });
-    }
-
-    // Text reveal animation for hero
+    // Text reveal animation for hero title (optional enhancement)
     const heroTitle = document.querySelector('.hero-title');
-    if (heroTitle) {
+    if (heroTitle && window.innerWidth > 768) {
         const text = heroTitle.textContent;
-        heroTitle.innerHTML = text.split('').map((char, index) => 
-            `<span style="animation-delay: ${index * 0.03}s">${char === ' ' ? '&nbsp;' : char}</span>`
-        ).join('');
+        const words = text.split(' ');
+        heroTitle.innerHTML = words.map((word, index) => 
+            `<span style="display: inline-block; animation: fadeInUp 0.8s ease-out ${0.2 + index * 0.1}s both;">${word}</span>`
+        ).join(' ');
     }
 });
+
+// Add ripple effect styles dynamically
+const style = document.createElement('style');
+style.textContent = `
+    .ripple {
+        position: absolute;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.6);
+        transform: scale(0);
+        animation: ripple-animation 0.6s ease-out;
+        pointer-events: none;
+    }
+    
+    @keyframes ripple-animation {
+        to {
+            transform: scale(4);
+            opacity: 0;
+        }
+    }
+`;
+document.head.appendChild(style);
