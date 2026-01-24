@@ -312,7 +312,7 @@ body::after {
 }
 
 .nav-contact {
-    padding: 0.625rem 1.75rem;
+    padding: 0.75rem 2.5rem;
     background: var(--color-accent);
     color: white;
     border-radius: 6px;
@@ -321,6 +321,8 @@ body::after {
     box-shadow: var(--shadow-sm);
     transition: var(--transition-smooth);
     white-space: nowrap;
+    display: inline-block;
+    box-sizing: border-box;
 }
 
 .nav-contact:hover {
