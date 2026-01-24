@@ -1,8 +1,7 @@
-// Enhanced interactions and animations
+// High-Tech Enhanced Interactions
 document.addEventListener('DOMContentLoaded', function() {
     // Navbar scroll effect
     const nav = document.querySelector('.nav');
-    let lastScroll = 0;
     
     if (nav) {
         window.addEventListener('scroll', () => {
@@ -12,7 +11,6 @@ document.addEventListener('DOMContentLoaded', function() {
             } else {
                 nav.classList.remove('scrolled');
             }
-            lastScroll = currentScroll;
         });
     }
 
@@ -159,15 +157,20 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // Text reveal animation for hero title (optional enhancement)
-    const heroTitle = document.querySelector('.hero-title');
-    if (heroTitle && window.innerWidth > 768) {
-        const text = heroTitle.textContent;
-        const words = text.split(' ');
-        heroTitle.innerHTML = words.map((word, index) => 
-            `<span style="display: inline-block; animation: fadeInUp 0.8s ease-out ${0.2 + index * 0.1}s both;">${word}</span>`
-        ).join(' ');
-    }
+    // Tech grid animation on scroll
+    let gridAnimation = false;
+    const gridOverlay = document.querySelector('body::after');
+    
+    window.addEventListener('scroll', () => {
+        if (!gridAnimation) {
+            gridAnimation = true;
+            requestAnimationFrame(() => {
+                const scrolled = window.pageYOffset;
+                document.body.style.setProperty('--grid-offset', scrolled * 0.1 + 'px');
+                gridAnimation = false;
+            });
+        }
+    });
 });
 
 // Add ripple effect styles dynamically
@@ -176,7 +179,7 @@ style.textContent = `
     .ripple {
         position: absolute;
         border-radius: 50%;
-        background: rgba(255, 255, 255, 0.6);
+        background: rgba(75, 0, 0, 0.4);
         transform: scale(0);
         animation: ripple-animation 0.6s ease-out;
         pointer-events: none;
@@ -185,6 +188,21 @@ style.textContent = `
     @keyframes ripple-animation {
         to {
             transform: scale(4);
+            opacity: 0;
+        }
+    }
+    
+    /* Tech scan line effect */
+    @keyframes techScan {
+        0% {
+            transform: translateY(-100%);
+            opacity: 0;
+        }
+        50% {
+            opacity: 1;
+        }
+        100% {
+            transform: translateY(100vh);
             opacity: 0;
         }
     }
