@@ -98,22 +98,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Blur on scroll effect
-    let lastScroll = 0;
-    window.addEventListener('scroll', () => {
-        const currentScroll = window.pageYOffset;
-        const body = document.body;
-        
-        if (currentScroll > 100 && currentScroll > lastScroll) {
-            // Scrolling down
-            body.classList.add('scrolled');
-        } else {
-            // Scrolling up or at top
-            body.classList.remove('scrolled');
-        }
-        
-        lastScroll = currentScroll;
-    });
 
     // Intersection Observer for scroll animations
     const observerOptions = {
@@ -137,7 +121,7 @@ document.addEventListener('DOMContentLoaded', function() {
         observer.observe(section);
     });
 
-    // Staggered animation for capability items with 3D tilt
+    // Staggered animation for capability items
     const capabilityItems = document.querySelectorAll('.capability-item');
     const capabilityObserver = new IntersectionObserver(function(entries) {
         entries.forEach((entry, index) => {
@@ -155,28 +139,9 @@ document.addEventListener('DOMContentLoaded', function() {
         item.style.transform = 'translateX(-20px)';
         item.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
         capabilityObserver.observe(item);
-        
-        // 3D Tilt Effect
-        item.addEventListener('mousemove', function(e) {
-            const rect = this.getBoundingClientRect();
-            const x = e.clientX - rect.left;
-            const y = e.clientY - rect.top;
-            
-            const centerX = rect.width / 2;
-            const centerY = rect.height / 2;
-            
-            const rotateX = (y - centerY) / 10;
-            const rotateY = (centerX - x) / 10;
-            
-            this.style.transform = `translateX(4px) translateY(-2px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
-        });
-        
-        item.addEventListener('mouseleave', function() {
-            this.style.transform = 'translateX(0) translateY(0) rotateX(0) rotateY(0)';
-        });
     });
 
-    // Staggered animation for process items with 3D tilt
+    // Staggered animation for process items
     const processItems = document.querySelectorAll('.process-item');
     const processObserver = new IntersectionObserver(function(entries) {
         entries.forEach((entry, index) => {
@@ -194,25 +159,6 @@ document.addEventListener('DOMContentLoaded', function() {
         item.style.transform = 'translateY(20px) scale(0.98)';
         item.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
         processObserver.observe(item);
-        
-        // 3D Tilt Effect
-        item.addEventListener('mousemove', function(e) {
-            const rect = this.getBoundingClientRect();
-            const x = e.clientX - rect.left;
-            const y = e.clientY - rect.top;
-            
-            const centerX = rect.width / 2;
-            const centerY = rect.height / 2;
-            
-            const rotateX = (y - centerY) / 12;
-            const rotateY = (centerX - x) / 12;
-            
-            this.style.transform = `translateY(-4px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.02)`;
-        });
-        
-        item.addEventListener('mouseleave', function() {
-            this.style.transform = 'translateY(0) rotateX(0) rotateY(0) scale(1)';
-        });
     });
 
     // Smooth scroll for anchor links

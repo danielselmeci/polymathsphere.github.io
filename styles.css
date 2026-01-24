@@ -83,18 +83,6 @@ body {
     overflow-x: hidden;
     position: relative;
     transition: background-color 0.3s ease, color 0.3s ease;
-    filter: blur(0px);
-    transition: filter 0.3s ease;
-}
-
-body.scrolled {
-    filter: blur(2px);
-}
-
-body.scrolled .nav,
-body.scrolled .section,
-body.scrolled .hero {
-    filter: blur(0px);
 }
 
 /* Grid Pattern Overlay */
@@ -324,7 +312,7 @@ body::after {
 }
 
 .nav-contact {
-    padding: 0.5rem 1.25rem;
+    padding: 0.625rem 1.75rem;
     background: var(--color-accent);
     color: white;
     border-radius: 6px;
@@ -332,6 +320,7 @@ body::after {
     font-size: 0.875rem;
     box-shadow: var(--shadow-sm);
     transition: var(--transition-smooth);
+    white-space: nowrap;
 }
 
 .nav-contact:hover {
@@ -588,9 +577,6 @@ body::after {
     border: 1px solid var(--color-border);
     box-shadow: var(--shadow-sm);
     overflow: hidden;
-    transform-style: preserve-3d;
-    perspective: 1000px;
-    will-change: transform;
 }
 
 .capability-item::before {
@@ -605,7 +591,7 @@ body::after {
 }
 
 .capability-item:hover {
-    transform: translateX(4px) translateY(-2px) rotateX(2deg) rotateY(-2deg);
+    transform: translateX(4px) translateY(-2px);
     box-shadow: var(--shadow-md);
     border-color: var(--color-accent);
 }
@@ -652,9 +638,6 @@ body::after {
     border: 1px solid var(--color-border);
     box-shadow: var(--shadow-sm);
     overflow: hidden;
-    transform-style: preserve-3d;
-    perspective: 1000px;
-    will-change: transform;
 }
 
 .process-item::before {
@@ -670,7 +653,7 @@ body::after {
 }
 
 .process-item:hover {
-    transform: translateY(-4px) rotateX(3deg) rotateY(1deg);
+    transform: translateY(-4px);
     box-shadow: var(--shadow-lg);
     border-color: var(--color-accent);
 }
@@ -968,18 +951,32 @@ a:hover {
 }
 
 /* Number Counter Styles */
+.stats-row {
+    display: flex;
+    gap: var(--spacing-xl);
+    margin-bottom: var(--spacing-lg);
+    flex-wrap: wrap;
+}
+
+.stat-item {
+    display: flex;
+    align-items: baseline;
+    gap: var(--spacing-sm);
+}
+
 .counter-number {
     font-family: var(--font-headline);
     font-weight: 600;
     color: var(--color-accent);
-    font-size: 2rem;
+    font-size: 2.5rem;
     display: inline-block;
+    line-height: 1;
 }
 
 .counter-label {
     color: var(--color-text-secondary);
-    font-size: 0.875rem;
-    margin-left: 0.5rem;
+    font-size: 0.9375rem;
+    font-weight: 400;
 }
 
 /* Selection */
