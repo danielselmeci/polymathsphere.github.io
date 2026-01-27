@@ -209,7 +209,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // Ripple effect on buttons
-    const buttons = document.querySelectorAll('.btn-text, .contact-email, .nav-contact');
+    const buttons = document.querySelectorAll('.btn-text, .btn-submit, .nav-contact');
     buttons.forEach(button => {
         button.addEventListener('click', function(e) {
             const ripple = document.createElement('span');
@@ -298,6 +298,86 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     });
+
+    // Contact Form Handler
+    const contactForm = document.getElementById('contactForm');
+    if (contactForm) {
+        contactForm.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const formMessage = document.getElementById('formMessage');
+            const submitButton = contactForm.querySelector('.btn-submit');
+            const originalText = submitButton.textContent;
+            
+            // Disable button and show loading state
+            submitButton.disabled = true;
+            submitButton.textContent = 'Sending...';
+            formMessage.style.display = 'none';
+            
+            // Get form data
+            const formData = new FormData(contactForm);
+            const data = {
+                name: formData.get('name'),
+                email: formData.get('email'),
+                message: formData.get('message')
+            };
+            
+            // Simple validation
+            if (!data.name || !data.email || !data.message) {
+                formMessage.className = 'form-message error';
+                formMessage.textContent = 'Please fill in all fields.';
+                formMessage.style.display = 'block';
+                submitButton.disabled = false;
+                submitButton.textContent = originalText;
+                return;
+            }
+            
+            // Email validation
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(data.email)) {
+                formMessage.className = 'form-message error';
+                formMessage.textContent = 'Please enter a valid email address.';
+                formMessage.style.display = 'block';
+                submitButton.disabled = false;
+                submitButton.textContent = originalText;
+                return;
+            }
+            
+            try {
+                // Use mailto as fallback (you can replace this with a form service)
+                const subject = encodeURIComponent(`Contact from ${data.name}`);
+                const body = encodeURIComponent(`Name: ${data.name}\nEmail: ${data.email}\n\nMessage:\n${data.message}`);
+                const mailtoLink = `mailto:contact@polymathsphere.com?subject=${subject}&body=${body}`;
+                
+                // Open mailto (this will use user's default email client)
+                window.location.href = mailtoLink;
+                
+                // Show success message
+                formMessage.className = 'form-message success';
+                formMessage.textContent = 'Thank you! Your email client should open shortly.';
+                formMessage.style.display = 'block';
+                
+                // Reset form
+                contactForm.reset();
+                
+                // Re-enable button
+                submitButton.disabled = false;
+                submitButton.textContent = originalText;
+                
+                // Hide message after 5 seconds
+                setTimeout(() => {
+                    formMessage.style.display = 'none';
+                }, 5000);
+                
+            } catch (error) {
+                formMessage.className = 'form-message error';
+                formMessage.textContent = 'An error occurred. Please try again or email us directly.';
+                formMessage.style.display = 'block';
+                submitButton.disabled = false;
+                submitButton.textContent = originalText;
+            }
+        });
+    }
 });
 
 // Add dynamic styles
