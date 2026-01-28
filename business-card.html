@@ -273,7 +273,8 @@
         .card-header {
             margin-bottom: auto;
             overflow: hidden;
-            flex-shrink: 0;
+            flex-shrink: 1;
+            min-height: 0;
         }
 
         .company-name {
@@ -286,6 +287,8 @@
             line-height: 1.2;
             word-wrap: break-word;
             overflow-wrap: break-word;
+            max-width: 100%;
+            display: block;
         }
 
         .person-name {
@@ -297,6 +300,8 @@
             line-height: 1.3;
             word-wrap: break-word;
             overflow-wrap: break-word;
+            max-width: 100%;
+            display: block;
         }
 
         .person-title {
@@ -307,6 +312,8 @@
             line-height: 1.3;
             word-wrap: break-word;
             overflow-wrap: break-word;
+            max-width: 100%;
+            display: block;
         }
 
         .company-tagline {
@@ -322,7 +329,8 @@
             margin-top: auto;
             padding-top: 8px;
             overflow: hidden;
-            flex-shrink: 0;
+            flex-shrink: 1;
+            min-height: 0;
         }
 
         .card-info {
@@ -332,6 +340,8 @@
             margin-bottom: 3px;
             word-wrap: break-word;
             overflow-wrap: break-word;
+            max-width: 100%;
+            display: block;
         }
 
         .card-info strong {
@@ -363,13 +373,13 @@
             background: linear-gradient(90deg, #6366F1, #818CF8);
         }
 
-        /* NFC Logo - Real NFC Symbol */
+        /* NFC Logo - Official NFC Forum Logo */
         .nfc-logo {
             position: absolute;
             top: 6px;
             right: 6px;
-            width: 28px;
-            height: 28px;
+            width: 30px;
+            height: 30px;
             z-index: 10;
         }
 
@@ -1063,16 +1073,25 @@
                 <h3>Front Side</h3>
                 <div class="card-container">
                     <div class="business-card design-1" id="cardFront">
-                        <!-- NFC Logo - Real NFC Symbol -->
+                        <!-- NFC Logo - Official NFC Forum Logo -->
                         <div class="nfc-logo">
-                            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                <!-- NFC Symbol - Standard NFC logo design -->
-                                <rect class="nfc-symbol" x="3" y="3" width="18" height="18" rx="2" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
-                                <rect class="nfc-symbol" x="6" y="6" width="12" height="12" rx="1" fill="none" stroke-width="1.4"/>
-                                <rect class="nfc-symbol" x="8.5" y="8.5" width="7" height="7" rx="0.5" fill="none" stroke-width="1.2"/>
-                                <circle class="nfc-symbol" cx="12" cy="12" r="1.8" fill="currentColor"/>
-                                <!-- NFC waves -->
-                                <path class="nfc-symbol" d="M5 12 Q7 10, 9 12 T13 12 T17 12" fill="none" stroke-width="1" stroke-linecap="round"/>
+                            <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                                <!-- Official NFC Forum Logo - Standard Design -->
+                                <g class="nfc-symbol">
+                                    <!-- Outer rounded rectangle frame -->
+                                    <rect x="8" y="8" width="84" height="84" rx="10" fill="none" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <!-- Middle rounded rectangle -->
+                                    <rect x="18" y="18" width="64" height="64" rx="6" fill="none" stroke-width="4"/>
+                                    <!-- Inner rounded rectangle -->
+                                    <rect x="28" y="28" width="44" height="44" rx="4" fill="none" stroke-width="3"/>
+                                    <!-- Center dot -->
+                                    <circle cx="50" cy="50" r="6" fill="currentColor"/>
+                                    <!-- NFC signal waves (curved lines representing radio waves) -->
+                                    <path d="M30 50 Q35 45, 40 50" fill="none" stroke-width="3" stroke-linecap="round"/>
+                                    <path d="M42 50 Q47 45, 52 50" fill="none" stroke-width="3" stroke-linecap="round"/>
+                                    <path d="M48 50 Q53 45, 58 50" fill="none" stroke-width="3" stroke-linecap="round"/>
+                                    <path d="M60 50 Q65 45, 70 50" fill="none" stroke-width="3" stroke-linecap="round"/>
+                                </g>
                             </svg>
                         </div>
 
@@ -1163,11 +1182,63 @@
         const personNameDisplay = document.getElementById('personNameDisplay');
         const personTitleDisplay = document.getElementById('personTitleDisplay');
 
+        // Adaptive text sizing function - checks actual overflow
+        function adjustTextSize(element, baseSize, minSize, maxSize) {
+            if (!element || !element.textContent) return;
+            
+            // Reset to base size first
+            element.style.fontSize = baseSize + 'px';
+            element.style.lineHeight = '1.3';
+            
+            // Check if text overflows
+            const checkOverflow = () => {
+                const parent = element.parentElement;
+                if (!parent) return;
+                
+                const elementRect = element.getBoundingClientRect();
+                const parentRect = parent.getBoundingClientRect();
+                
+                // Check if text overflows horizontally or vertically
+                const overflowsHorizontally = elementRect.width > parentRect.width * 0.95;
+                const overflowsVertically = elementRect.bottom > parentRect.bottom - 5;
+                
+                if ((overflowsHorizontally || overflowsVertically) && parseFloat(element.style.fontSize) > minSize) {
+                    const currentSize = parseFloat(element.style.fontSize);
+                    const newSize = Math.max(minSize, currentSize - 0.5);
+                    element.style.fontSize = newSize + 'px';
+                    // Check again after adjustment
+                    setTimeout(checkOverflow, 10);
+                }
+            };
+            
+            // Wait for render then check
+            setTimeout(checkOverflow, 50);
+        }
+        
+        // Also adjust based on text length as fallback
+        function adjustTextByLength(element, baseSize, minSize, maxSize) {
+            const text = element.textContent;
+            if (!text) return;
+            
+            const length = text.length;
+            let newSize = baseSize;
+            
+            if (length > 30) {
+                newSize = Math.max(minSize, baseSize - (length - 30) * 0.4);
+            } else if (length > 20) {
+                newSize = Math.max(minSize, baseSize - (length - 20) * 0.2);
+            }
+            
+            element.style.fontSize = newSize + 'px';
+            adjustTextSize(element, newSize, minSize, maxSize);
+        }
+
         personNameInput.addEventListener('input', function() {
             const value = this.value.trim();
             if (value) {
                 personNameDisplay.textContent = value;
                 personNameDisplay.style.display = 'block';
+                adjustTextByLength(personNameDisplay, 13, 9, 15);
             } else {
                 personNameDisplay.style.display = 'none';
             }
@@ -1178,6 +1249,7 @@
             if (value) {
                 personTitleDisplay.textContent = value;
                 personTitleDisplay.style.display = 'block';
+                adjustTextByLength(personTitleDisplay, 8, 6, 10);
             } else {
                 personTitleDisplay.style.display = 'none';
             }
@@ -1263,10 +1335,20 @@
             
             try {
                 // Calculate scale for 600 DPI
-                // Business card is 3.5in x 2in
-                // At 96 DPI (screen), that's 336px x 192px
-                // For 600 DPI output: 3.5in * 600 = 2100px, so scale = 2100/336 = 6.25
-                const scale = 6.25; // 600 DPI equivalent
+                // Business card physical size: 3.5in x 2in
+                // Card rendered size on screen (CSS: 3.5in = 336px at 96 DPI)
+                // Target: 600 DPI output
+                // Required pixel width: 3.5in * 600 DPI = 2100px
+                // Current pixel width: card.offsetWidth (should be ~336px)
+                // Scale needed: 2100 / 336 = 6.25
+                // html2canvas scale is relative to device pixels, so we calculate directly
+                const cardWidthInches = 3.5;
+                const targetDPI = 600;
+                const currentWidthPx = card.offsetWidth;
+                const targetWidthPx = cardWidthInches * targetDPI;
+                const scale = targetWidthPx / currentWidthPx;
+                
+                console.log(`Card width: ${currentWidthPx}px, Target: ${targetWidthPx}px, Scale: ${scale.toFixed(2)}`);
                 
                 const canvas = await html2canvas(card, {
                     scale: scale,
@@ -1276,9 +1358,20 @@
                     allowTaint: false,
                     windowWidth: card.offsetWidth,
                     windowHeight: card.offsetHeight,
-                    dpi: 600,
-                    letterRendering: true
+                    letterRendering: true,
+                    onclone: function(clonedDoc) {
+                        // Ensure fonts are loaded in cloned document
+                        const clonedCard = clonedDoc.getElementById(cardId);
+                        if (clonedCard) {
+                            clonedCard.style.fontFamily = getComputedStyle(card).fontFamily;
+                        }
+                    }
                 });
+                
+                // Verify DPI: canvas width should be ~2100px for 3.5in at 600 DPI
+                // canvas.width / 3.5 = actual DPI
+                const actualDPI = Math.round(canvas.width / 3.5);
+                console.log(`Generated at ${actualDPI} DPI (target: 600 DPI)`);
                 
                 const link = document.createElement('a');
                 const designName = currentDesign.replace('design-', '');
