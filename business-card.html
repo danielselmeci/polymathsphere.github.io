@@ -355,7 +355,7 @@
             right: 8px;
             width: 24px;
             height: 24px;
-            z-index: 2;
+            z-index: 10;
             opacity: 0.6;
         }
 
@@ -364,71 +364,154 @@
             height: 100%;
         }
 
+        /* NFC Logo adjustments for different designs */
+        .design-2 .nfc-logo {
+            top: 8px;
+            right: 8px;
+        }
+
+        .design-4 .nfc-logo {
+            top: 8px;
+            right: 8px;
+            z-index: 10;
+        }
+
         /* DESIGN 1: Classic (Default) - Left-aligned, grid pattern */
         .design-1 .card-content {
             text-align: left;
         }
 
-        /* DESIGN 2: Centered - Balanced, centered layout */
-        .design-2 .card-content {
-            text-align: center;
-            justify-content: center;
-        }
-
-        .design-2 .card-header {
-            margin-bottom: 16px;
-        }
-
-        .design-2 .card-body {
-            margin-top: 16px;
-            padding-top: 0;
-        }
-
-        .design-2 .company-name {
-            font-size: 22px;
+        /* DESIGN 2: Asymmetric Bold - Bold left column, minimal right */
+        .design-2 {
+            padding: 0;
         }
 
         .design-2::before {
-            opacity: 0.3;
-            background-size: 25px 25px;
+            display: none;
         }
 
-        /* DESIGN 3: Split - Left company, right contact */
-        .design-3 .card-content {
+        .design-2 .card-content {
             flex-direction: row;
+            height: 100%;
+            padding: 0;
+        }
+
+        .design-2 .card-header {
+            background: linear-gradient(135deg, #6366F1 0%, #818CF8 100%);
+            color: white;
+            padding: 0.4in;
+            width: 45%;
+            display: flex;
+            flex-direction: column;
             justify-content: space-between;
-            align-items: flex-start;
+            margin: 0;
+        }
+
+        .design-2 .card-header .company-name,
+        .design-2 .card-header .person-name {
+            color: white;
+        }
+
+        .design-2 .card-header .company-tagline,
+        .design-2 .card-header .person-title {
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .design-2 .card-body {
+            padding: 0.4in;
+            width: 55%;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            text-align: left;
+        }
+
+        .design-2 .card-accent {
+            display: none;
+        }
+
+        .design-2.dark .card-header {
+            background: linear-gradient(135deg, #818CF8 0%, #A5B4FC 100%);
+        }
+
+        /* DESIGN 3: Diagonal Split - Diagonal divider */
+        .design-3 {
+            padding: 0;
+            overflow: visible;
+        }
+
+        .design-3::before {
+            opacity: 0.2;
+        }
+
+        .design-3 .card-content {
+            position: relative;
+            padding: 0.4in;
+            height: 100%;
+        }
+
+        .design-3 .card-content::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 2px;
+            height: 140%;
+            background: linear-gradient(135deg, #6366F1, #818CF8);
+            transform: rotate(15deg) translateX(-50%);
+            transform-origin: top right;
         }
 
         .design-3 .card-header {
-            flex: 1;
+            width: 60%;
             margin-bottom: 0;
         }
 
         .design-3 .card-body {
+            position: absolute;
+            right: 0.4in;
+            top: 50%;
+            transform: translateY(-50%);
             text-align: right;
-            margin-top: 0;
-            padding-top: 0;
-            flex: 0 0 auto;
+            width: 35%;
+            margin: 0;
+            padding: 0;
         }
 
         .design-3 .card-accent {
-            width: 1px;
-            height: 100%;
-            left: 50%;
-            top: 0;
-            bottom: 0;
-            background: linear-gradient(180deg, transparent, #6366F1, transparent);
+            display: none;
         }
 
-        /* DESIGN 4: Vertical - Vertical emphasis, more spacing */
+        /* DESIGN 4: Corner Accent - Bold corner element */
+        .design-4 {
+            padding: 0.4in;
+        }
+
+        .design-4::before {
+            opacity: 0.2;
+        }
+
+        .design-4::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 0;
+            height: 0;
+            border-style: solid;
+            border-width: 0 80px 80px 0;
+            border-color: transparent #6366F1 transparent transparent;
+            z-index: 1;
+        }
+
         .design-4 .card-content {
-            justify-content: flex-start;
-            gap: 12px;
+            position: relative;
+            z-index: 2;
         }
 
         .design-4 .card-header {
-            margin-bottom: 0;
+            margin-bottom: 12px;
         }
 
         .design-4 .card-body {
@@ -436,51 +519,78 @@
             padding-top: 0;
         }
 
-        .design-4 .company-name {
-            font-size: 18px;
-            margin-bottom: 8px;
+        .design-4 .card-accent {
+            display: none;
         }
 
-        .design-4 .person-name {
-            font-size: 13px;
-            margin-bottom: 4px;
+        .design-4.dark::after {
+            border-color: transparent #818CF8 transparent transparent;
         }
 
-        .design-4::before {
-            opacity: 0.25;
+        /* DESIGN 5: Typography Hero - Massive name, minimal everything */
+        .design-5 {
+            padding: 0.35in;
         }
 
-        /* DESIGN 5: Minimal - Ultra-minimal, less grid, more white space */
         .design-5::before {
-            opacity: 0.15;
-            background-size: 30px 30px;
+            display: none;
         }
 
         .design-5 .card-content {
             justify-content: center;
-            gap: 16px;
+            align-items: center;
+            text-align: center;
         }
 
         .design-5 .card-header {
-            margin-bottom: 0;
-        }
-
-        .design-5 .card-body {
-            margin-top: 0;
-            padding-top: 0;
+            margin-bottom: 20px;
         }
 
         .design-5 .company-name {
-            font-size: 21px;
-            margin-bottom: 6px;
+            font-size: 32px;
+            font-weight: 700;
+            letter-spacing: -0.03em;
+            margin-bottom: 8px;
+            line-height: 1.1;
+        }
+
+        .design-5 .person-name {
+            font-size: 16px;
+            margin-bottom: 4px;
+        }
+
+        .design-5 .company-tagline {
+            font-size: 7px;
+            letter-spacing: 0.2em;
+            margin-top: 6px;
+        }
+
+        .design-5 .card-body {
+            margin-top: 16px;
+            padding-top: 0;
+        }
+
+        .design-5 .card-info {
+            font-size: 8px;
+            margin-bottom: 3px;
+        }
+
+        .design-5 .card-projects {
+            font-size: 7px;
+            margin-top: 8px;
+        }
+
+        .design-5 .card-contact {
+            font-size: 7px;
+            margin-top: 6px;
         }
 
         .design-5 .card-accent {
+            width: 80px;
             height: 1px;
-            width: 60px;
             left: 50%;
             transform: translateX(-50%);
-            bottom: 20px;
+            bottom: 25px;
         }
 
         /* Backside Styles */
@@ -565,6 +675,11 @@
                 linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
         }
 
+        /* Dark mode for Design 3 diagonal line */
+        .design-3.dark .card-content::before {
+            background: linear-gradient(135deg, #818CF8, #A5B4FC);
+        }
+
         /* Print styles */
         @media print {
             body {
@@ -615,10 +730,10 @@
                 <label for="designSelect">Design Style</label>
                 <select id="designSelect" onchange="changeDesign(this.value)">
                     <option value="design-1">Design 1: Classic</option>
-                    <option value="design-2">Design 2: Centered</option>
-                    <option value="design-3">Design 3: Split</option>
-                    <option value="design-4">Design 4: Vertical</option>
-                    <option value="design-5">Design 5: Minimal</option>
+                    <option value="design-2">Design 2: Asymmetric Bold</option>
+                    <option value="design-3">Design 3: Diagonal Split</option>
+                    <option value="design-4">Design 4: Corner Accent</option>
+                    <option value="design-5">Design 5: Typography Hero</option>
                 </select>
             </div>
             
@@ -862,7 +977,7 @@
             changeDesign('design-1');
         }
 
-        // Download as PNG - HIGH RESOLUTION
+        // Download as PNG - 600 DPI
         async function downloadCard(side) {
             const cardId = side === 'front' ? 'cardFront' : 'cardBack';
             const card = document.getElementById(cardId);
@@ -871,19 +986,27 @@
             card.classList.add('loading');
             
             try {
+                // Calculate scale for 600 DPI
+                // Business card is 3.5in x 2in
+                // At 96 DPI (screen), that's 336px x 192px
+                // For 600 DPI output: 3.5in * 600 = 2100px, so scale = 2100/336 = 6.25
+                const scale = 6.25; // 600 DPI equivalent
+                
                 const canvas = await html2canvas(card, {
-                    scale: 5, // Increased from 3 to 5 for ultra-high resolution
+                    scale: scale,
                     backgroundColor: card.classList.contains('dark') ? '#14141A' : '#FFFFFF',
                     useCORS: true,
                     logging: false,
                     allowTaint: false,
                     windowWidth: card.offsetWidth,
-                    windowHeight: card.offsetHeight
+                    windowHeight: card.offsetHeight,
+                    dpi: 600,
+                    letterRendering: true
                 });
                 
                 const link = document.createElement('a');
                 const designName = currentDesign.replace('design-', '');
-                link.download = `polymath-sphere-${side}-side-design-${designName}.png`;
+                link.download = `polymath-sphere-${side}-side-design-${designName}-600dpi.png`;
                 link.href = canvas.toDataURL('image/png', 1.0); // Maximum quality
                 link.click();
             } catch (error) {
