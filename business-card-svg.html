@@ -295,73 +295,40 @@
             if (cardData.frontEmail) {
                 const emailParts = cardData.frontEmail.split('@');
                 if (emailParts.length === 2) {
-                    emailHTML = `<tspan fill="${secondaryColor}">${emailParts[0]}</tspan><tspan fill="${accentColor}">@${emailParts[1]}</tspan>`;
+                    emailHTML = '<tspan fill="' + escapeXMLAttribute(secondaryColor) + '">' + escapeXML(emailParts[0]) + '</tspan><tspan fill="' + escapeXMLAttribute(accentColor) + '">@' + escapeXML(emailParts[1]) + '</tspan>';
                 } else {
-                    emailHTML = cardData.frontEmail;
+                    emailHTML = escapeXML(cardData.frontEmail);
                 }
             }
 
-            const svg = `
-<svg xmlns="http://www.w3.org/2000/svg" width="3.5in" height="2in" viewBox="0 0 336 192">
-    <defs>
-        <style>
-            @import url('https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600&family=Inter:wght@300;400;500&display=swap');
-        </style>
-        <!-- Grid pattern -->
-        <pattern id="grid" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse">
-            <path d="M 20 0 L 0 0 0 20" fill="none" stroke="${gridColor}" stroke-width="1" opacity="0.7"/>
-        </pattern>
-        <!-- Blur filter -->
-        <filter id="blur">
-            <feGaussianBlur in="SourceGraphic" stdDeviation="20"/>
-        </filter>
-        <!-- Gradient for accent line -->
-        <linearGradient id="accentGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%" style="stop-color:${accentColor};stop-opacity:1" />
-            <stop offset="100%" style="stop-color:${isDarkMode ? '#A5B4FC' : '#818CF8'};stop-opacity:1" />
-        </linearGradient>
-    </defs>
-    
-    <!-- Background -->
-    <rect width="336" height="192" fill="${bgColor}"/>
-    
-    <!-- Grid pattern -->
-    <rect width="336" height="192" fill="url(#grid)"/>
-    
-    <!-- Blurred purple shape -->
-    <ellipse cx="290" cy="40" rx="60" ry="80" fill="${blurColor}" filter="url(#blur)" opacity="0.8"/>
-    
-    <!-- Content -->
-    <g font-family="Inter Tight, Inter, sans-serif">
-        ${cardData.name ? `
-        <!-- Name -->
-        <text x="43.2" y="50" font-size="24" font-weight="600" fill="${textColor}" letter-spacing="-0.03em">${escapeXML(cardData.name)}</text>
-        ` : ''}
-        
-        ${cardData.title ? `
-        <!-- Title -->
-        <text x="43.2" y="68" font-size="10" font-weight="400" fill="${accentColor}" letter-spacing="0.05em" text-transform="uppercase">${escapeXML(cardData.title)}</text>
-        ` : ''}
-        
-        ${cardData.frontEmail ? `
-        <!-- Email -->
-        <text x="43.2" y="88" font-size="9" font-weight="400" fill="${secondaryColor}" letter-spacing="0.01em">
-            ${emailHTML || escapeXML(cardData.frontEmail)}
-        </text>
-        ` : ''}
-        
-        ${cardData.frontPhone ? `
-        <!-- Phone -->
-        <text x="43.2" y="103" font-size="9" font-weight="400" fill="${secondaryColor}" letter-spacing="0.01em">${escapeXML(cardData.frontPhone)}</text>
-        ` : ''}
-        
-        <!-- Location at bottom -->
-        <text x="168" y="175" font-size="6.5" font-weight="300" fill="${locationColor}" letter-spacing="0.05em" text-anchor="middle">With love from Rogers, AR</text>
-    </g>
-    
-    <!-- Accent line at bottom -->
-    <rect x="0" y="190" width="336" height="3" fill="url(#accentGradient)"/>
-</svg>`;
+            const svg = '<svg xmlns="http://www.w3.org/2000/svg" width="3.5in" height="2in" viewBox="0 0 336 192">' +
+    '<defs>' +
+        '<style type="text/css"><![CDATA[' +
+            '@import url("https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600&amp;family=Inter:wght@300;400;500&amp;display=swap");' +
+        ']]></style>' +
+        '<pattern id="grid" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse">' +
+            '<path d="M 20 0 L 0 0 0 20" fill="none" stroke="' + escapeXMLAttribute(gridColor) + '" stroke-width="1" opacity="0.7"/>' +
+        '</pattern>' +
+        '<filter id="blur">' +
+            '<feGaussianBlur in="SourceGraphic" stdDeviation="20"/>' +
+        '</filter>' +
+        '<linearGradient id="accentGradient" x1="0%" y1="0%" x2="100%" y2="0%">' +
+            '<stop offset="0%" style="stop-color:' + escapeXMLAttribute(accentColor) + ';stop-opacity:1" />' +
+            '<stop offset="100%" style="stop-color:' + escapeXMLAttribute(isDarkMode ? '#A5B4FC' : '#818CF8') + ';stop-opacity:1" />' +
+        '</linearGradient>' +
+    '</defs>' +
+    '<rect width="336" height="192" fill="' + escapeXMLAttribute(bgColor) + '"/>' +
+    '<rect width="336" height="192" fill="url(#grid)"/>' +
+    '<ellipse cx="290" cy="40" rx="60" ry="80" fill="' + escapeXMLAttribute(blurColor) + '" filter="url(#blur)" opacity="0.8"/>' +
+    '<g font-family="Inter Tight, Inter, sans-serif">' +
+        (cardData.name ? '<text x="43.2" y="50" font-size="24" font-weight="600" fill="' + escapeXMLAttribute(textColor) + '" letter-spacing="-0.03em">' + escapeXML(cardData.name) + '</text>' : '') +
+        (cardData.title ? '<text x="43.2" y="68" font-size="10" font-weight="400" fill="' + escapeXMLAttribute(accentColor) + '" letter-spacing="0.05em" text-transform="uppercase">' + escapeXML(cardData.title) + '</text>' : '') +
+        (cardData.frontEmail ? '<text x="43.2" y="88" font-size="9" font-weight="400" fill="' + escapeXMLAttribute(secondaryColor) + '" letter-spacing="0.01em">' + (emailHTML || escapeXML(cardData.frontEmail)) + '</text>' : '') +
+        (cardData.frontPhone ? '<text x="43.2" y="103" font-size="9" font-weight="400" fill="' + escapeXMLAttribute(secondaryColor) + '" letter-spacing="0.01em">' + escapeXML(cardData.frontPhone) + '</text>' : '') +
+        '<text x="168" y="175" font-size="6.5" font-weight="300" fill="' + escapeXMLAttribute(locationColor) + '" letter-spacing="0.05em" text-anchor="middle">With love from Rogers, AR</text>' +
+    '</g>' +
+    '<rect x="0" y="190" width="336" height="3" fill="url(#accentGradient)"/>' +
+'</svg>';
 
             return svg;
         }
@@ -374,66 +341,53 @@
             const boxColor = isDarkMode ? '#71717A' : '#9CA3AF';
             const borderColor = isDarkMode ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.08)';
 
-            const svg = `
-<svg xmlns="http://www.w3.org/2000/svg" width="3.5in" height="2in" viewBox="0 0 336 192">
-    <defs>
-        <style>
-            @import url('https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600&family=Inter:wght@300;400;500&display=swap');
-        </style>
-        <!-- Gradient for accent line -->
-        <linearGradient id="accentGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%" style="stop-color:${accentColor};stop-opacity:1" />
-            <stop offset="100%" style="stop-color:${isDarkMode ? '#A5B4FC' : '#818CF8'};stop-opacity:1" />
-        </linearGradient>
-    </defs>
-    
-    <!-- Background -->
-    <rect width="336" height="192" fill="${bgColor}"/>
-    
-    <!-- Content -->
-    <g font-family="Inter Tight, Inter, sans-serif" text-anchor="middle">
-        <!-- Company Name -->
-        <text x="168" y="60" font-size="24" font-weight="600" fill="${textColor}" letter-spacing="-0.02em">Polymath Sphere LLC</text>
-        
-        <!-- Tagline -->
-        <text x="168" y="78" font-size="9" font-weight="300" fill="${secondaryColor}" letter-spacing="0.15em" text-transform="uppercase">A privately held digital firm</text>
-        
-        <!-- Divider -->
-        <line x1="148" y1="88" x2="188" y2="88" stroke="${accentColor}" stroke-width="1"/>
-        
-        <!-- Services Box -->
-        <rect x="98" y="100" width="140" height="24" rx="4" fill="none" stroke="${borderColor}" stroke-width="1"/>
-        <text x="168" y="116" font-size="7" font-weight="400" fill="${boxColor}" letter-spacing="0.1em" text-transform="uppercase">SOFTWARE · WEB · DESIGN</text>
-        
-        <!-- Contact Info -->
-        <g font-size="8" font-weight="400" fill="${secondaryColor}" letter-spacing="0.01em">
-            ${cardData.backEmail ? `<text x="168" y="140">${escapeXML(cardData.backEmail)}</text>` : ''}
-            ${cardData.backPhone ? `<text x="168" y="152">${escapeXML(cardData.backPhone)}</text>` : ''}
-        </g>
-        
-        <!-- Projects text -->
-        <text x="168" y="165" font-size="7" font-weight="400" fill="${secondaryColor}" font-style="italic">Our projects at:</text>
-        
-        <!-- Website -->
-        <text x="168" y="178" font-size="7" font-weight="500" fill="${accentColor}" letter-spacing="0.01em">
-            <a href="https://polymathsphere.com" fill="${accentColor}">https://polymathsphere.com</a>
-        </text>
-    </g>
-    
-    <!-- Accent line at bottom -->
-    <rect x="0" y="190" width="336" height="3" fill="url(#accentGradient)"/>
-</svg>`;
+            const svg = '<svg xmlns="http://www.w3.org/2000/svg" width="3.5in" height="2in" viewBox="0 0 336 192">' +
+    '<defs>' +
+        '<style type="text/css"><![CDATA[' +
+            '@import url("https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600&amp;family=Inter:wght@300;400;500&amp;display=swap");' +
+        ']]></style>' +
+        '<linearGradient id="accentGradient" x1="0%" y1="0%" x2="100%" y2="0%">' +
+            '<stop offset="0%" style="stop-color:' + escapeXMLAttribute(accentColor) + ';stop-opacity:1" />' +
+            '<stop offset="100%" style="stop-color:' + escapeXMLAttribute(isDarkMode ? '#A5B4FC' : '#818CF8') + ';stop-opacity:1" />' +
+        '</linearGradient>' +
+    '</defs>' +
+    '<rect width="336" height="192" fill="' + escapeXMLAttribute(bgColor) + '"/>' +
+    '<g font-family="Inter Tight, Inter, sans-serif" text-anchor="middle">' +
+        '<text x="168" y="60" font-size="24" font-weight="600" fill="' + escapeXMLAttribute(textColor) + '" letter-spacing="-0.02em">Polymath Sphere LLC</text>' +
+        '<text x="168" y="78" font-size="9" font-weight="300" fill="' + escapeXMLAttribute(secondaryColor) + '" letter-spacing="0.15em" text-transform="uppercase">A privately held digital firm</text>' +
+        '<line x1="148" y1="88" x2="188" y2="88" stroke="' + escapeXMLAttribute(accentColor) + '" stroke-width="1"/>' +
+        '<rect x="98" y="100" width="140" height="24" rx="4" fill="none" stroke="' + escapeXMLAttribute(borderColor) + '" stroke-width="1"/>' +
+        '<text x="168" y="116" font-size="7" font-weight="400" fill="' + escapeXMLAttribute(boxColor) + '" letter-spacing="0.1em" text-transform="uppercase">SOFTWARE · WEB · DESIGN</text>' +
+        '<g font-size="8" font-weight="400" fill="' + escapeXMLAttribute(secondaryColor) + '" letter-spacing="0.01em">' +
+            (cardData.backEmail ? '<text x="168" y="140">' + escapeXML(cardData.backEmail) + '</text>' : '') +
+            (cardData.backPhone ? '<text x="168" y="152">' + escapeXML(cardData.backPhone) + '</text>' : '') +
+        '</g>' +
+        '<text x="168" y="165" font-size="7" font-weight="400" fill="' + escapeXMLAttribute(secondaryColor) + '" font-style="italic">Our projects at:</text>' +
+        '<text x="168" y="178" font-size="7" font-weight="500" fill="' + escapeXMLAttribute(accentColor) + '" letter-spacing="0.01em">https://polymathsphere.com</text>' +
+    '</g>' +
+    '<rect x="0" y="190" width="336" height="3" fill="url(#accentGradient)"/>' +
+'</svg>';
 
             return svg;
         }
 
         function escapeXML(str) {
             if (!str) return '';
-            return str.replace(/&/g, '&amp;')
+            return String(str)
+                     .replace(/&/g, '&amp;')
                      .replace(/</g, '&lt;')
                      .replace(/>/g, '&gt;')
                      .replace(/"/g, '&quot;')
                      .replace(/'/g, '&apos;');
+        }
+        
+        function escapeXMLAttribute(str) {
+            if (!str) return '';
+            return String(str)
+                     .replace(/&/g, '&amp;')
+                     .replace(/</g, '&lt;')
+                     .replace(/>/g, '&gt;')
+                     .replace(/"/g, '&quot;');
         }
 
         function updatePreviews() {
