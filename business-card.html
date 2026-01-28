@@ -391,6 +391,45 @@
                 linear-gradient(90deg, rgba(255, 255, 255, 0.1) 1px, transparent 1px);
         }
 
+        /* Purple blur morphing shapes for design 1 */
+        .design-1::after {
+            content: '';
+            position: absolute;
+            top: -20%;
+            right: -15%;
+            width: 120px;
+            height: 120px;
+            border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+            background: rgba(99, 102, 241, 0.15);
+            filter: blur(40px);
+            animation: morph 20s ease-in-out infinite;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .design-1.dark::after {
+            background: rgba(129, 140, 248, 0.2);
+        }
+
+        @keyframes morph {
+            0%, 100% {
+                border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+                transform: translate(0, 0) rotate(0deg);
+            }
+            25% {
+                border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+                transform: translate(10px, -5px) rotate(90deg);
+            }
+            50% {
+                border-radius: 40% 60% 70% 30% / 40% 70% 30% 60%;
+                transform: translate(-5px, 10px) rotate(180deg);
+            }
+            75% {
+                border-radius: 70% 30% 50% 50% / 30% 50% 50% 70%;
+                transform: translate(5px, 5px) rotate(270deg);
+            }
+        }
+
         /* DESIGN 2: Asymmetric Bold - Bold left column, minimal right */
         .design-2 {
             padding: 0;
@@ -1013,6 +1052,16 @@
                     <input type="text" id="personTitle" placeholder="e.g., Founder, Principal, Director" value="">
                     <small>Optional - leave empty if not needed</small>
                 </div>
+                <div class="form-group">
+                    <label for="frontEmail">Email (Front Side)</label>
+                    <input type="email" id="frontEmail" placeholder="your@email.com" value="">
+                    <small>For front side only</small>
+                </div>
+                <div class="form-group">
+                    <label for="frontPhone">Phone (Front Side)</label>
+                    <input type="tel" id="frontPhone" placeholder="+1 (555) 123-4567" value="">
+                    <small>For front side only</small>
+                </div>
             </div>
 
             <!-- Back Tab Content -->
@@ -1053,13 +1102,13 @@
                                 <div id="frontEmailDisplay" class="card-info" style="display: none; margin-bottom: 3px;"></div>
                                 <div id="frontPhoneDisplay" class="card-info" style="display: none; margin-bottom: 3px;"></div>
                                 <div class="card-info" style="margin-top: 6px;">
-                                    <strong>Arkansas, United States</strong>
+                                    Arkansas, United States
                                 </div>
                                 <div class="card-info">
                                     Software · Web · Design
                                 </div>
                                 <div class="card-projects" style="margin-top: 6px;">
-                                    View our work online
+                                    Explore our work
                                 </div>
                                 <a href="https://polymathsphere.com" class="card-contact">polymathsphere.com</a>
                             </div>
@@ -1108,25 +1157,6 @@
             // Add new design class
             frontCard.classList.add(design);
             backCard.classList.add(design);
-            
-            // Sync email/phone to front for design 1
-            if (design === 'design-1') {
-                if (backEmailInput.value.trim()) {
-                    frontEmailDisplay.textContent = backEmailInput.value.trim();
-                    frontEmailDisplay.style.display = 'block';
-                } else {
-                    frontEmailDisplay.style.display = 'none';
-                }
-                if (backPhoneInput.value.trim()) {
-                    frontPhoneDisplay.textContent = backPhoneInput.value.trim();
-                    frontPhoneDisplay.style.display = 'block';
-                } else {
-                    frontPhoneDisplay.style.display = 'none';
-                }
-            } else {
-                frontEmailDisplay.style.display = 'none';
-                frontPhoneDisplay.style.display = 'none';
-            }
         }
 
         // Tab switching
@@ -1146,6 +1176,8 @@
         // Front side updates
         const personNameInput = document.getElementById('personName');
         const personTitleInput = document.getElementById('personTitle');
+        const frontEmailInput = document.getElementById('frontEmail');
+        const frontPhoneInput = document.getElementById('frontPhone');
         const personNameDisplay = document.getElementById('personNameDisplay');
         const personTitleDisplay = document.getElementById('personTitleDisplay');
         const frontEmailDisplay = document.getElementById('frontEmailDisplay');
@@ -1224,6 +1256,26 @@
             }
         });
 
+        frontEmailInput.addEventListener('input', function() {
+            const value = this.value.trim();
+            if (value) {
+                frontEmailDisplay.textContent = value;
+                frontEmailDisplay.style.display = 'block';
+            } else {
+                frontEmailDisplay.style.display = 'none';
+            }
+        });
+
+        frontPhoneInput.addEventListener('input', function() {
+            const value = this.value.trim();
+            if (value) {
+                frontPhoneDisplay.textContent = value;
+                frontPhoneDisplay.style.display = 'block';
+            } else {
+                frontPhoneDisplay.style.display = 'none';
+            }
+        });
+
         // Back side updates
         const backEmailInput = document.getElementById('backEmail');
         const backPhoneInput = document.getElementById('backPhone');
@@ -1235,16 +1287,8 @@
             if (value) {
                 backEmailDisplay.textContent = value;
                 backEmailDisplay.style.display = 'block';
-                // Also update front for design 1
-                if (currentDesign === 'design-1') {
-                    frontEmailDisplay.textContent = value;
-                    frontEmailDisplay.style.display = 'block';
-                }
             } else {
                 backEmailDisplay.style.display = 'none';
-                if (currentDesign === 'design-1') {
-                    frontEmailDisplay.style.display = 'none';
-                }
             }
         });
 
@@ -1253,16 +1297,8 @@
             if (value) {
                 backPhoneDisplay.textContent = value;
                 backPhoneDisplay.style.display = 'block';
-                // Also update front for design 1
-                if (currentDesign === 'design-1') {
-                    frontPhoneDisplay.textContent = value;
-                    frontPhoneDisplay.style.display = 'block';
-                }
             } else {
                 backPhoneDisplay.style.display = 'none';
-                if (currentDesign === 'design-1') {
-                    frontPhoneDisplay.style.display = 'none';
-                }
             }
         });
 
@@ -1278,16 +1314,22 @@
         function resetCard() {
             personNameInput.value = '';
             personTitleInput.value = '';
+            frontEmailInput.value = '';
+            frontPhoneInput.value = '';
             backEmailInput.value = '';
             backPhoneInput.value = '';
             
             personNameDisplay.textContent = '';
             personTitleDisplay.textContent = '';
+            frontEmailDisplay.textContent = '';
+            frontPhoneDisplay.textContent = '';
             backEmailDisplay.textContent = '';
             backPhoneDisplay.textContent = '';
             
             personNameDisplay.style.display = 'none';
             personTitleDisplay.style.display = 'none';
+            frontEmailDisplay.style.display = 'none';
+            frontPhoneDisplay.style.display = 'none';
             backEmailDisplay.style.display = 'none';
             backPhoneDisplay.style.display = 'none';
             
