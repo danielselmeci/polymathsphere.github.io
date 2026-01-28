@@ -8,6 +8,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <style>
         * {
             margin: 0;
@@ -410,9 +411,13 @@
         .design-1 #frontPhoneDisplay {
             font-size: 8px;
             color: #6B7280;
-            margin-bottom: 5px;
+            margin-bottom: 4px;
             line-height: 1.5;
             letter-spacing: 0.01em;
+        }
+
+        .design-1 #frontEmailDisplay {
+            margin-top: 8px;
         }
 
         /* Style email domain in purple */
@@ -451,8 +456,8 @@
             letter-spacing: 0.1em;
             text-transform: uppercase;
             text-align: center;
-            margin: 16px auto;
-            padding: 8px 12px;
+            margin: 12px auto;
+            padding: 6px 10px;
             border: 1px solid rgba(0, 0, 0, 0.08);
             border-radius: 4px;
             display: block;
@@ -1211,8 +1216,12 @@
 
             <div class="controls">
                 <div class="button-group">
-                    <button class="download" onclick="downloadCard('front')">Download Front (PNG)</button>
-                    <button class="download" onclick="downloadCard('back')">Download Back (PNG)</button>
+                    <button class="download" onclick="downloadCard('front', 'png')">Download Front (PNG)</button>
+                    <button class="download" onclick="downloadCard('back', 'png')">Download Back (PNG)</button>
+                </div>
+                <div class="button-group">
+                    <button class="download" onclick="downloadCard('front', 'pdf')" style="background: #EF4444;">Download Front (PDF)</button>
+                    <button class="download" onclick="downloadCard('back', 'pdf')" style="background: #EF4444;">Download Back (PDF)</button>
                 </div>
                 <button onclick="window.print()">Print Both Sides</button>
                 <button onclick="toggleDarkMode()" class="secondary">Toggle Dark Mode</button>
@@ -1230,10 +1239,10 @@
                             <div class="card-header">
                                 <div id="personNameDisplay" class="person-name" style="display: none;"></div>
                                 <div id="personTitleDisplay" class="person-title" style="display: none;"></div>
+                                <div id="frontEmailDisplay" class="card-info" style="display: none; margin-top: 8px;"></div>
+                                <div id="frontPhoneDisplay" class="card-info" style="display: none;"></div>
                             </div>
                             <div class="card-body">
-                                <div id="frontEmailDisplay" class="card-info" style="display: none;"></div>
-                                <div id="frontPhoneDisplay" class="card-info" style="display: none;"></div>
                             </div>
                             <div class="card-location">
                                 With love from Rogers, AR
@@ -1253,7 +1262,7 @@
                             <div class="back-tagline">A privately held digital firm</div>
                             <div class="back-divider"></div>
                             <div class="back-services-box">
-                                Digital Products · Web Development · Design Systems
+                                SOFTWARE · WEB · DESIGN
                             </div>
                             <div class="back-info" id="backInfoDisplay">
                                 <div id="backEmailDisplay" style="display: none; margin-bottom: 4px;"></div>
@@ -1496,8 +1505,8 @@
             changeDesign('design-1');
         }
 
-        // Download as PNG - 1200 DPI
-        async function downloadCard(side) {
+        // Download as PNG or PDF - 1200 DPI
+        async function downloadCard(side, format = 'png') {
             const cardId = side === 'front' ? 'cardFront' : 'cardBack';
             const card = document.getElementById(cardId);
             
@@ -1570,18 +1579,37 @@
                 console.log(`Final DPI (width): ${finalDPI}`);
                 console.log(`Final DPI (height): ${finalHeightDPI}`);
                 
-                // Download the final canvas
-                const link = document.createElement('a');
+                // Download based on format
                 const designName = currentDesign.replace('design-', '');
-                link.download = `polymath-sphere-${side}-side-design-${designName}-1200dpi.png`;
-                link.href = finalCanvas.toDataURL('image/png', 1.0);
-                link.click();
                 
-                // Verify in console
-                if (finalDPI === 1200 && finalHeightDPI === 1200) {
-                    console.log('✅ Successfully exported at 1200 DPI');
+                if (format === 'pdf') {
+                    // Export as PDF
+                    const { jsPDF } = window.jspdf;
+                    const pdf = new jsPDF({
+                        unit: 'in',
+                        format: [3.5, 2],
+                        precision: 16
+                    });
+                    
+                    // Add image to PDF at exact dimensions
+                    const imgData = finalCanvas.toDataURL('image/png', 1.0);
+                    pdf.addImage(imgData, 'PNG', 0, 0, 3.5, 2, undefined, 'FAST');
+                    
+                    pdf.save(`polymath-sphere-${side}-side-design-${designName}-1200dpi.pdf`);
+                    console.log('✅ Successfully exported as PDF at 1200 DPI');
                 } else {
-                    console.warn(`⚠️ DPI mismatch: ${finalDPI}x${finalHeightDPI} (expected 1200x1200)`);
+                    // Export as PNG
+                    const link = document.createElement('a');
+                    link.download = `polymath-sphere-${side}-side-design-${designName}-1200dpi.png`;
+                    link.href = finalCanvas.toDataURL('image/png', 1.0);
+                    link.click();
+                    
+                    // Verify in console
+                    if (finalDPI === 1200 && finalHeightDPI === 1200) {
+                        console.log('✅ Successfully exported at 1200 DPI');
+                    } else {
+                        console.warn(`⚠️ DPI mismatch: ${finalDPI}x${finalHeightDPI} (expected 1200x1200)`);
+                    }
                 }
             } catch (error) {
                 console.error('Error generating PNG:', error);
