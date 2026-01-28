@@ -377,6 +377,20 @@
             text-align: left;
         }
 
+        /* Stronger grid for design 1 */
+        .design-1::before {
+            opacity: 0.7;
+            background-image: 
+                linear-gradient(rgba(0, 0, 0, 0.06) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 0, 0, 0.06) 1px, transparent 1px);
+        }
+
+        .design-1.dark::before {
+            background-image: 
+                linear-gradient(rgba(255, 255, 255, 0.1) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.1) 1px, transparent 1px);
+        }
+
         /* DESIGN 2: Asymmetric Bold - Bold left column, minimal right */
         .design-2 {
             padding: 0;
@@ -1032,20 +1046,20 @@
                     <div class="business-card design-1" id="cardFront">
                         <div class="card-content">
                             <div class="card-header">
-                                <div class="company-name">Polymath Sphere LLC</div>
                                 <div id="personNameDisplay" class="person-name" style="display: none;"></div>
                                 <div id="personTitleDisplay" class="person-title" style="display: none;"></div>
-                                <div class="company-tagline">A privately held digital firm</div>
                             </div>
                             <div class="card-body">
-                                <div class="card-info">
+                                <div id="frontEmailDisplay" class="card-info" style="display: none; margin-bottom: 3px;"></div>
+                                <div id="frontPhoneDisplay" class="card-info" style="display: none; margin-bottom: 3px;"></div>
+                                <div class="card-info" style="margin-top: 6px;">
                                     <strong>Arkansas, United States</strong>
                                 </div>
                                 <div class="card-info">
                                     Software · Web · Design
                                 </div>
-                                <div class="card-projects">
-                                    For projects, visit our website
+                                <div class="card-projects" style="margin-top: 6px;">
+                                    View our work online
                                 </div>
                                 <a href="https://polymathsphere.com" class="card-contact">polymathsphere.com</a>
                             </div>
@@ -1094,6 +1108,25 @@
             // Add new design class
             frontCard.classList.add(design);
             backCard.classList.add(design);
+            
+            // Sync email/phone to front for design 1
+            if (design === 'design-1') {
+                if (backEmailInput.value.trim()) {
+                    frontEmailDisplay.textContent = backEmailInput.value.trim();
+                    frontEmailDisplay.style.display = 'block';
+                } else {
+                    frontEmailDisplay.style.display = 'none';
+                }
+                if (backPhoneInput.value.trim()) {
+                    frontPhoneDisplay.textContent = backPhoneInput.value.trim();
+                    frontPhoneDisplay.style.display = 'block';
+                } else {
+                    frontPhoneDisplay.style.display = 'none';
+                }
+            } else {
+                frontEmailDisplay.style.display = 'none';
+                frontPhoneDisplay.style.display = 'none';
+            }
         }
 
         // Tab switching
@@ -1115,6 +1148,8 @@
         const personTitleInput = document.getElementById('personTitle');
         const personNameDisplay = document.getElementById('personNameDisplay');
         const personTitleDisplay = document.getElementById('personTitleDisplay');
+        const frontEmailDisplay = document.getElementById('frontEmailDisplay');
+        const frontPhoneDisplay = document.getElementById('frontPhoneDisplay');
 
         // Adaptive text sizing function - checks actual overflow
         function adjustTextSize(element, baseSize, minSize, maxSize) {
@@ -1200,8 +1235,16 @@
             if (value) {
                 backEmailDisplay.textContent = value;
                 backEmailDisplay.style.display = 'block';
+                // Also update front for design 1
+                if (currentDesign === 'design-1') {
+                    frontEmailDisplay.textContent = value;
+                    frontEmailDisplay.style.display = 'block';
+                }
             } else {
                 backEmailDisplay.style.display = 'none';
+                if (currentDesign === 'design-1') {
+                    frontEmailDisplay.style.display = 'none';
+                }
             }
         });
 
@@ -1210,10 +1253,19 @@
             if (value) {
                 backPhoneDisplay.textContent = value;
                 backPhoneDisplay.style.display = 'block';
+                // Also update front for design 1
+                if (currentDesign === 'design-1') {
+                    frontPhoneDisplay.textContent = value;
+                    frontPhoneDisplay.style.display = 'block';
+                }
             } else {
                 backPhoneDisplay.style.display = 'none';
+                if (currentDesign === 'design-1') {
+                    frontPhoneDisplay.style.display = 'none';
+                }
             }
         });
+
 
 
         // Dark mode toggle
@@ -1255,60 +1307,80 @@
             
             try {
                 // Calculate scale for 600 DPI
-                // Business card: 3.5 inches wide
-                // At 96 DPI (standard screen): 3.5 * 96 = 336px
-                // For 600 DPI output: 3.5 * 600 = 2100px
-                // Scale = 2100 / 336 = 6.25
+                // Business card: 3.5 inches wide, 2 inches tall
+                // Target: 600 DPI
+                // Required dimensions: 2100px x 1200px (3.5*600 x 2*600)
                 const cardWidthInches = 3.5;
-                const screenDPI = 96;
+                const cardHeightInches = 2;
                 const targetDPI = 600;
                 
-                // Get actual rendered width in pixels
+                // Get actual rendered dimensions
                 const renderedWidthPx = card.offsetWidth;
                 const renderedHeightPx = card.offsetHeight;
                 
-                // Calculate target dimensions at 600 DPI
+                // Calculate target pixel dimensions at 600 DPI
                 const targetWidthPx = cardWidthInches * targetDPI;
-                const targetHeightPx = (cardWidthInches * 2 / 3.5) * targetDPI; // Maintain aspect ratio
+                const targetHeightPx = cardHeightInches * targetDPI;
                 
-                // Calculate scale factor
+                // Calculate scale - ensure we get exactly 600 DPI
+                // html2canvas scale multiplies the rendered size
                 const scale = targetWidthPx / renderedWidthPx;
                 
-                console.log(`Rendered: ${renderedWidthPx}x${renderedHeightPx}px`);
-                console.log(`Target (600 DPI): ${targetWidthPx}x${targetHeightPx}px`);
-                console.log(`Scale: ${scale.toFixed(2)}`);
+                console.log(`Rendered size: ${renderedWidthPx}x${renderedHeightPx}px`);
+                console.log(`Target size (600 DPI): ${targetWidthPx}x${targetHeightPx}px`);
+                console.log(`Calculated scale: ${scale.toFixed(3)}`);
                 
+                // Create canvas with proper DPI
                 const canvas = await html2canvas(card, {
                     scale: scale,
                     backgroundColor: card.classList.contains('dark') ? '#14141A' : '#FFFFFF',
                     useCORS: true,
                     logging: false,
                     allowTaint: false,
-                    width: renderedWidthPx,
-                    height: renderedHeightPx,
                     letterRendering: true,
+                    pixelRatio: 1, // Force pixel ratio to 1 for consistent scaling
                     onclone: function(clonedDoc) {
                         const clonedCard = clonedDoc.getElementById(cardId);
                         if (clonedCard) {
                             clonedCard.style.fontFamily = getComputedStyle(card).fontFamily;
+                            // Ensure exact dimensions in cloned document
+                            clonedCard.style.width = renderedWidthPx + 'px';
+                            clonedCard.style.height = renderedHeightPx + 'px';
                         }
                     }
                 });
                 
                 // Verify actual DPI
                 const actualDPI = Math.round(canvas.width / cardWidthInches);
+                const actualHeightDPI = Math.round(canvas.height / cardHeightInches);
+                
                 console.log(`Canvas size: ${canvas.width}x${canvas.height}px`);
-                console.log(`Actual DPI: ${actualDPI} (target: 600)`);
+                console.log(`Actual DPI (width): ${actualDPI}`);
+                console.log(`Actual DPI (height): ${actualHeightDPI}`);
                 
-                if (actualDPI < 550) {
-                    console.warn('DPI is lower than target. Adjusting...');
+                // If DPI is still too low, create a new canvas at the exact size
+                if (actualDPI < 580) {
+                    console.warn('DPI too low, creating resized canvas...');
+                    const resizedCanvas = document.createElement('canvas');
+                    resizedCanvas.width = targetWidthPx;
+                    resizedCanvas.height = targetHeightPx;
+                    const ctx = resizedCanvas.getContext('2d');
+                    ctx.imageSmoothingEnabled = true;
+                    ctx.imageSmoothingQuality = 'high';
+                    ctx.drawImage(canvas, 0, 0, targetWidthPx, targetHeightPx);
+                    
+                    const link = document.createElement('a');
+                    const designName = currentDesign.replace('design-', '');
+                    link.download = `polymath-sphere-${side}-side-design-${designName}-600dpi.png`;
+                    link.href = resizedCanvas.toDataURL('image/png', 1.0);
+                    link.click();
+                } else {
+                    const link = document.createElement('a');
+                    const designName = currentDesign.replace('design-', '');
+                    link.download = `polymath-sphere-${side}-side-design-${designName}-600dpi.png`;
+                    link.href = canvas.toDataURL('image/png', 1.0);
+                    link.click();
                 }
-                
-                const link = document.createElement('a');
-                const designName = currentDesign.replace('design-', '');
-                link.download = `polymath-sphere-${side}-side-design-${designName}-600dpi.png`;
-                link.href = canvas.toDataURL('image/png', 1.0);
-                link.click();
             } catch (error) {
                 console.error('Error generating PNG:', error);
                 alert('Error generating PNG. Please try again.');
