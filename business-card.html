@@ -428,7 +428,7 @@
         /* Card location at bottom */
         .card-location {
             position: absolute;
-            bottom: 0.35in;
+            bottom: 0.25in;
             left: 50%;
             transform: translateX(-50%);
             font-size: 6.5px;
@@ -441,6 +441,38 @@
 
         .design-1.dark .card-location {
             color: #71717A;
+        }
+
+        /* Back services box - styled like hero-tagline */
+        .back-services-box {
+            font-size: 7px;
+            color: #9CA3AF;
+            font-weight: 400;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            text-align: center;
+            margin: 16px auto;
+            padding: 8px 12px;
+            border: 1px solid rgba(0, 0, 0, 0.08);
+            border-radius: 4px;
+            display: block;
+            width: fit-content;
+            max-width: 85%;
+        }
+
+        .design-1.dark .back-services-box {
+            color: #71717A;
+            border-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .back-projects {
+            font-size: 7px;
+            color: #6B7280;
+            font-style: italic;
+        }
+
+        .design-1.dark .back-projects {
+            color: #A1A1AA;
         }
 
         .design-1 .card-body .card-info {
@@ -1025,6 +1057,7 @@
             color: #6B7280;
             line-height: 1.8;
             max-width: 80%;
+            text-align: center;
         }
 
         .back-info a {
@@ -1201,12 +1234,6 @@
                             <div class="card-body">
                                 <div id="frontEmailDisplay" class="card-info" style="display: none;"></div>
                                 <div id="frontPhoneDisplay" class="card-info" style="display: none;"></div>
-                                <div class="card-info" style="margin-top: 10px;">
-                                    Digital Products · Web Development · Design Systems
-                                </div>
-                                <div class="card-projects">
-                                    View our portfolio
-                                </div>
                             </div>
                             <div class="card-location">
                                 With love from Rogers, AR
@@ -1225,11 +1252,17 @@
                             <div class="back-logo">Polymath Sphere LLC</div>
                             <div class="back-tagline">A privately held digital firm</div>
                             <div class="back-divider"></div>
+                            <div class="back-services-box">
+                                Digital Products · Web Development · Design Systems
+                            </div>
                             <div class="back-info" id="backInfoDisplay">
                                 <div id="backEmailDisplay" style="display: none; margin-bottom: 4px;"></div>
                                 <div id="backPhoneDisplay" style="display: none; margin-bottom: 4px;"></div>
-                                <div style="margin-top: 12px;">
-                                    <a href="https://polymathsphere.com">polymathsphere.com</a>
+                                <div class="back-projects" style="margin-top: 12px; margin-bottom: 4px;">
+                                    Our projects at:
+                                </div>
+                                <div style="margin-top: 4px;">
+                                    <a href="https://polymathsphere.com">https://polymathsphere.com</a>
                                 </div>
                             </div>
                         </div>
@@ -1463,7 +1496,7 @@
             changeDesign('design-1');
         }
 
-        // Download as PNG - 300 DPI
+        // Download as PNG - 1200 DPI
         async function downloadCard(side) {
             const cardId = side === 'front' ? 'cardFront' : 'cardBack';
             const card = document.getElementById(cardId);
@@ -1472,26 +1505,26 @@
             card.classList.add('loading');
             
             try {
-                // Target: 300 DPI
+                // Target: 1200 DPI
                 // Business card: 3.5" x 2"
-                // Required pixel dimensions: 1050px x 600px (3.5*300 x 2*300)
+                // Required pixel dimensions: 4200px x 2400px (3.5*1200 x 2*1200)
                 const cardWidthInches = 3.5;
                 const cardHeightInches = 2;
-                const targetDPI = 300;
-                const targetWidthPx = cardWidthInches * targetDPI;  // 1050px
-                const targetHeightPx = cardHeightInches * targetDPI; // 600px
+                const targetDPI = 1200;
+                const targetWidthPx = cardWidthInches * targetDPI;  // 4200px
+                const targetHeightPx = cardHeightInches * targetDPI; // 2400px
                 
                 // Get rendered dimensions
                 const renderedWidthPx = card.offsetWidth;
                 const renderedHeightPx = card.offsetHeight;
                 
                 // Calculate scale needed
-                // We need to render at a scale that will give us at least 300 DPI
+                // We need to render at a scale that will give us at least 1200 DPI
                 // Scale = target pixels / rendered pixels
                 const scale = targetWidthPx / renderedWidthPx;
                 
                 console.log(`Rendered: ${renderedWidthPx}x${renderedHeightPx}px`);
-                console.log(`Target (300 DPI): ${targetWidthPx}x${targetHeightPx}px`);
+                console.log(`Target (1200 DPI): ${targetWidthPx}x${targetHeightPx}px`);
                 console.log(`Calculated scale: ${scale.toFixed(2)}`);
                 
                 // Render at calculated scale
@@ -1516,7 +1549,7 @@
                 
                 console.log(`Source canvas: ${sourceCanvas.width}x${sourceCanvas.height}px`);
                 
-                // Create final canvas at exactly 300 DPI (1050x600)
+                // Create final canvas at exactly 1200 DPI (4200x2400)
                 const finalCanvas = document.createElement('canvas');
                 finalCanvas.width = targetWidthPx;
                 finalCanvas.height = targetHeightPx;
@@ -1526,7 +1559,7 @@
                 ctx.imageSmoothingEnabled = true;
                 ctx.imageSmoothingQuality = 'high';
                 
-                // Draw the source canvas into the final canvas at exact 300 DPI size
+                // Draw the source canvas into the final canvas at exact 1200 DPI size
                 ctx.drawImage(sourceCanvas, 0, 0, targetWidthPx, targetHeightPx);
                 
                 // Verify final DPI
@@ -1540,15 +1573,15 @@
                 // Download the final canvas
                 const link = document.createElement('a');
                 const designName = currentDesign.replace('design-', '');
-                link.download = `polymath-sphere-${side}-side-design-${designName}-300dpi.png`;
+                link.download = `polymath-sphere-${side}-side-design-${designName}-1200dpi.png`;
                 link.href = finalCanvas.toDataURL('image/png', 1.0);
                 link.click();
                 
                 // Verify in console
-                if (finalDPI === 300 && finalHeightDPI === 300) {
-                    console.log('✅ Successfully exported at 300 DPI');
+                if (finalDPI === 1200 && finalHeightDPI === 1200) {
+                    console.log('✅ Successfully exported at 1200 DPI');
                 } else {
-                    console.warn(`⚠️ DPI mismatch: ${finalDPI}x${finalHeightDPI} (expected 300x300)`);
+                    console.warn(`⚠️ DPI mismatch: ${finalDPI}x${finalHeightDPI} (expected 1200x1200)`);
                 }
             } catch (error) {
                 console.error('Error generating PNG:', error);
