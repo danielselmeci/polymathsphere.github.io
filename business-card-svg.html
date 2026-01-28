@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Polymath Sphere LLC - Business Card (SVG)</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: #FAFAFA;
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 400px 1fr;
+            gap: 30px;
+        }
+
+        .editor-panel {
+            background: white;
+            padding: 24px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            height: fit-content;
+            position: sticky;
+            top: 20px;
+        }
+
+        .editor-panel h2 {
+            font-family: 'Inter Tight', sans-serif;
+            font-size: 20px;
+            font-weight: 600;
+            color: #1A1A1A;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 16px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 12px;
+            font-weight: 500;
+            color: #6B7280;
+            margin-bottom: 6px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 10px 12px;
+            font-family: 'Inter', sans-serif;
+            font-size: 14px;
+            border: 1px solid #E5E7EB;
+            border-radius: 4px;
+            transition: border-color 0.2s;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #6366F1;
+        }
+
+        .form-group small {
+            display: block;
+            font-size: 11px;
+            color: #9CA3AF;
+            margin-top: 4px;
+        }
+
+        .controls {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 24px;
+            padding-top: 24px;
+            border-top: 1px solid #E5E7EB;
+        }
+
+        .controls button {
+            padding: 12px 20px;
+            background: #6366F1;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            font-family: 'Inter', sans-serif;
+            font-weight: 500;
+            transition: background 0.2s;
+        }
+
+        .controls button:hover {
+            background: #818CF8;
+        }
+
+        .controls button.secondary {
+            background: #6B7280;
+        }
+
+        .controls button.secondary:hover {
+            background: #9CA3AF;
+        }
+
+        .controls button.download {
+            background: #10B981;
+        }
+
+        .controls button.download:hover {
+            background: #059669;
+        }
+
+        .button-group {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+        }
+
+        .preview-area {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .preview-section {
+            background: white;
+            padding: 24px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        .preview-section h3 {
+            font-family: 'Inter Tight', sans-serif;
+            font-size: 16px;
+            font-weight: 600;
+            color: #1A1A1A;
+            margin-bottom: 16px;
+        }
+
+        .card-container {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .svg-preview {
+            width: 3.5in;
+            height: 2in;
+            border: 1px solid #E5E7EB;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .svg-preview svg {
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+
+        @media (max-width: 1200px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
+
+            .editor-panel {
+                position: static;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="editor-panel">
+            <h2>Business Card Editor (SVG)</h2>
+            
+            <div class="tabs" style="display: flex; gap: 8px; margin-bottom: 20px; border-bottom: 1px solid #E5E7EB;">
+                <button class="tab active" onclick="switchTab('front')" style="padding: 10px 16px; background: none; border: none; font-family: 'Inter', sans-serif; font-size: 14px; font-weight: 500; color: #6366F1; cursor: pointer; border-bottom: 2px solid #6366F1; margin-bottom: -1px;">Front</button>
+                <button class="tab" onclick="switchTab('back')" style="padding: 10px 16px; background: none; border: none; font-family: 'Inter', sans-serif; font-size: 14px; font-weight: 500; color: #6B7280; cursor: pointer; border-bottom: 2px solid transparent; margin-bottom: -1px;">Back</button>
+            </div>
+
+            <div id="frontTab" class="tab-content active">
+                <div class="form-group">
+                    <label for="personName">Your Name</label>
+                    <input type="text" id="personName" placeholder="Your Name" value="">
+                </div>
+                <div class="form-group">
+                    <label for="personTitle">Your Title</label>
+                    <input type="text" id="personTitle" placeholder="e.g., Founder, Principal, Director" value="">
+                </div>
+                <div class="form-group">
+                    <label for="frontEmail">Email (Front Side)</label>
+                    <input type="email" id="frontEmail" placeholder="your@email.com" value="">
+                </div>
+                <div class="form-group">
+                    <label for="frontPhone">Phone (Front Side)</label>
+                    <input type="tel" id="frontPhone" placeholder="+1 (555) 123-4567" value="">
+                </div>
+            </div>
+
+            <div id="backTab" class="tab-content" style="display: none;">
+                <div class="form-group">
+                    <label for="backEmail">Email</label>
+                    <input type="email" id="backEmail" placeholder="your@email.com" value="">
+                </div>
+                <div class="form-group">
+                    <label for="backPhone">Phone</label>
+                    <input type="tel" id="backPhone" placeholder="+1 (555) 123-4567" value="">
+                </div>
+            </div>
+
+            <div class="controls">
+                <div class="button-group">
+                    <button class="download" onclick="downloadSVG('front')">Download Front (SVG)</button>
+                    <button class="download" onclick="downloadSVG('back')">Download Back (SVG)</button>
+                </div>
+                <button onclick="toggleDarkMode()" class="secondary">Toggle Dark Mode</button>
+                <button onclick="resetCard()" class="secondary">Reset All</button>
+            </div>
+        </div>
+
+        <div class="preview-area">
+            <div class="preview-section">
+                <h3>Front Side</h3>
+                <div class="card-container">
+                    <div class="svg-preview" id="frontPreview"></div>
+                </div>
+            </div>
+
+            <div class="preview-section">
+                <h3>Back Side</h3>
+                <div class="card-container">
+                    <div class="svg-preview" id="backPreview"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let isDarkMode = false;
+        const cardData = {
+            name: '',
+            title: '',
+            frontEmail: '',
+            frontPhone: '',
+            backEmail: '',
+            backPhone: ''
+        };
+
+        function switchTab(tab) {
+            document.querySelectorAll('.tab').forEach(t => {
+                t.classList.remove('active');
+                t.style.color = '#6B7280';
+                t.style.borderBottomColor = 'transparent';
+            });
+            document.querySelectorAll('.tab-content').forEach(c => c.style.display = 'none');
+            
+            if (tab === 'front') {
+                document.querySelector('.tab:first-child').classList.add('active');
+                document.querySelector('.tab:first-child').style.color = '#6366F1';
+                document.querySelector('.tab:first-child').style.borderBottomColor = '#6366F1';
+                document.getElementById('frontTab').style.display = 'block';
+            } else {
+                document.querySelector('.tab:last-child').classList.add('active');
+                document.querySelector('.tab:last-child').style.color = '#6366F1';
+                document.querySelector('.tab:last-child').style.borderBottomColor = '#6366F1';
+                document.getElementById('backTab').style.display = 'block';
+            }
+        }
+
+        function generateFrontSVG() {
+            const bgColor = isDarkMode ? '#14141A' : '#FFFFFF';
+            const textColor = isDarkMode ? '#F5F5F5' : '#1A1A1A';
+            const secondaryColor = isDarkMode ? '#A1A1AA' : '#6B7280';
+            const accentColor = isDarkMode ? '#818CF8' : '#6366F1';
+            const gridColor = isDarkMode ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.06)';
+            const blurColor = isDarkMode ? 'rgba(129, 140, 248, 0.2)' : 'rgba(99, 102, 241, 0.15)';
+            const locationColor = isDarkMode ? '#71717A' : '#9CA3AF';
+
+            // Extract email domain for purple color
+            let emailHTML = '';
+            if (cardData.frontEmail) {
+                const emailParts = cardData.frontEmail.split('@');
+                if (emailParts.length === 2) {
+                    emailHTML = `<tspan fill="${secondaryColor}">${emailParts[0]}</tspan><tspan fill="${accentColor}">@${emailParts[1]}</tspan>`;
+                } else {
+                    emailHTML = cardData.frontEmail;
+                }
+            }
+
+            const svg = `
+<svg xmlns="http://www.w3.org/2000/svg" width="3.5in" height="2in" viewBox="0 0 336 192">
+    <defs>
+        <style>
+            @import url('https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600&family=Inter:wght@300;400;500&display=swap');
+        </style>
+        <!-- Grid pattern -->
+        <pattern id="grid" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse">
+            <path d="M 20 0 L 0 0 0 20" fill="none" stroke="${gridColor}" stroke-width="1" opacity="0.7"/>
+        </pattern>
+        <!-- Blur filter -->
+        <filter id="blur">
+            <feGaussianBlur in="SourceGraphic" stdDeviation="20"/>
+        </filter>
+        <!-- Gradient for accent line -->
+        <linearGradient id="accentGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" style="stop-color:${accentColor};stop-opacity:1" />
+            <stop offset="100%" style="stop-color:${isDarkMode ? '#A5B4FC' : '#818CF8'};stop-opacity:1" />
+        </linearGradient>
+    </defs>
+    
+    <!-- Background -->
+    <rect width="336" height="192" fill="${bgColor}"/>
+    
+    <!-- Grid pattern -->
+    <rect width="336" height="192" fill="url(#grid)"/>
+    
+    <!-- Blurred purple shape -->
+    <ellipse cx="290" cy="40" rx="60" ry="80" fill="${blurColor}" filter="url(#blur)" opacity="0.8"/>
+    
+    <!-- Content -->
+    <g font-family="Inter Tight, Inter, sans-serif">
+        ${cardData.name ? `
+        <!-- Name -->
+        <text x="43.2" y="50" font-size="24" font-weight="600" fill="${textColor}" letter-spacing="-0.03em">${escapeXML(cardData.name)}</text>
+        ` : ''}
+        
+        ${cardData.title ? `
+        <!-- Title -->
+        <text x="43.2" y="68" font-size="10" font-weight="400" fill="${accentColor}" letter-spacing="0.05em" text-transform="uppercase">${escapeXML(cardData.title)}</text>
+        ` : ''}
+        
+        ${cardData.frontEmail ? `
+        <!-- Email -->
+        <text x="43.2" y="88" font-size="9" font-weight="400" fill="${secondaryColor}" letter-spacing="0.01em">
+            ${emailHTML || escapeXML(cardData.frontEmail)}
+        </text>
+        ` : ''}
+        
+        ${cardData.frontPhone ? `
+        <!-- Phone -->
+        <text x="43.2" y="103" font-size="9" font-weight="400" fill="${secondaryColor}" letter-spacing="0.01em">${escapeXML(cardData.frontPhone)}</text>
+        ` : ''}
+        
+        <!-- Location at bottom -->
+        <text x="168" y="175" font-size="6.5" font-weight="300" fill="${locationColor}" letter-spacing="0.05em" text-anchor="middle">With love from Rogers, AR</text>
+    </g>
+    
+    <!-- Accent line at bottom -->
+    <rect x="0" y="190" width="336" height="3" fill="url(#accentGradient)"/>
+</svg>`;
+
+            return svg;
+        }
+
+        function generateBackSVG() {
+            const bgColor = isDarkMode ? '#14141A' : '#FFFFFF';
+            const textColor = isDarkMode ? '#F5F5F5' : '#1A1A1A';
+            const secondaryColor = isDarkMode ? '#A1A1AA' : '#6B7280';
+            const accentColor = isDarkMode ? '#818CF8' : '#6366F1';
+            const boxColor = isDarkMode ? '#71717A' : '#9CA3AF';
+            const borderColor = isDarkMode ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.08)';
+
+            const svg = `
+<svg xmlns="http://www.w3.org/2000/svg" width="3.5in" height="2in" viewBox="0 0 336 192">
+    <defs>
+        <style>
+            @import url('https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600&family=Inter:wght@300;400;500&display=swap');
+        </style>
+        <!-- Gradient for accent line -->
+        <linearGradient id="accentGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" style="stop-color:${accentColor};stop-opacity:1" />
+            <stop offset="100%" style="stop-color:${isDarkMode ? '#A5B4FC' : '#818CF8'};stop-opacity:1" />
+        </linearGradient>
+    </defs>
+    
+    <!-- Background -->
+    <rect width="336" height="192" fill="${bgColor}"/>
+    
+    <!-- Content -->
+    <g font-family="Inter Tight, Inter, sans-serif" text-anchor="middle">
+        <!-- Company Name -->
+        <text x="168" y="60" font-size="24" font-weight="600" fill="${textColor}" letter-spacing="-0.02em">Polymath Sphere LLC</text>
+        
+        <!-- Tagline -->
+        <text x="168" y="78" font-size="9" font-weight="300" fill="${secondaryColor}" letter-spacing="0.15em" text-transform="uppercase">A privately held digital firm</text>
+        
+        <!-- Divider -->
+        <line x1="148" y1="88" x2="188" y2="88" stroke="${accentColor}" stroke-width="1"/>
+        
+        <!-- Services Box -->
+        <rect x="98" y="100" width="140" height="24" rx="4" fill="none" stroke="${borderColor}" stroke-width="1"/>
+        <text x="168" y="116" font-size="7" font-weight="400" fill="${boxColor}" letter-spacing="0.1em" text-transform="uppercase">SOFTWARE · WEB · DESIGN</text>
+        
+        <!-- Contact Info -->
+        <g font-size="8" font-weight="400" fill="${secondaryColor}" letter-spacing="0.01em">
+            ${cardData.backEmail ? `<text x="168" y="140">${escapeXML(cardData.backEmail)}</text>` : ''}
+            ${cardData.backPhone ? `<text x="168" y="152">${escapeXML(cardData.backPhone)}</text>` : ''}
+        </g>
+        
+        <!-- Projects text -->
+        <text x="168" y="165" font-size="7" font-weight="400" fill="${secondaryColor}" font-style="italic">Our projects at:</text>
+        
+        <!-- Website -->
+        <text x="168" y="178" font-size="7" font-weight="500" fill="${accentColor}" letter-spacing="0.01em">
+            <a href="https://polymathsphere.com" fill="${accentColor}">https://polymathsphere.com</a>
+        </text>
+    </g>
+    
+    <!-- Accent line at bottom -->
+    <rect x="0" y="190" width="336" height="3" fill="url(#accentGradient)"/>
+</svg>`;
+
+            return svg;
+        }
+
+        function escapeXML(str) {
+            if (!str) return '';
+            return str.replace(/&/g, '&amp;')
+                     .replace(/</g, '&lt;')
+                     .replace(/>/g, '&gt;')
+                     .replace(/"/g, '&quot;')
+                     .replace(/'/g, '&apos;');
+        }
+
+        function updatePreviews() {
+            document.getElementById('frontPreview').innerHTML = generateFrontSVG();
+            document.getElementById('backPreview').innerHTML = generateBackSVG();
+        }
+
+        function downloadSVG(side) {
+            const svg = side === 'front' ? generateFrontSVG() : generateBackSVG();
+            const blob = new Blob([svg], { type: 'image/svg+xml;charset=utf-8' });
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.download = `polymath-sphere-${side}-side.svg`;
+            link.href = url;
+            link.click();
+            URL.revokeObjectURL(url);
+        }
+
+        function toggleDarkMode() {
+            isDarkMode = !isDarkMode;
+            updatePreviews();
+        }
+
+        function resetCard() {
+            cardData.name = '';
+            cardData.title = '';
+            cardData.frontEmail = '';
+            cardData.frontPhone = '';
+            cardData.backEmail = '';
+            cardData.backPhone = '';
+            
+            document.getElementById('personName').value = '';
+            document.getElementById('personTitle').value = '';
+            document.getElementById('frontEmail').value = '';
+            document.getElementById('frontPhone').value = '';
+            document.getElementById('backEmail').value = '';
+            document.getElementById('backPhone').value = '';
+            
+            updatePreviews();
+        }
+
+        // Event listeners
+        document.getElementById('personName').addEventListener('input', function() {
+            cardData.name = this.value.trim();
+            updatePreviews();
+        });
+
+        document.getElementById('personTitle').addEventListener('input', function() {
+            cardData.title = this.value.trim();
+            updatePreviews();
+        });
+
+        document.getElementById('frontEmail').addEventListener('input', function() {
+            cardData.frontEmail = this.value.trim();
+            updatePreviews();
+        });
+
+        document.getElementById('frontPhone').addEventListener('input', function() {
+            cardData.frontPhone = this.value.trim();
+            updatePreviews();
+        });
+
+        document.getElementById('backEmail').addEventListener('input', function() {
+            cardData.backEmail = this.value.trim();
+            updatePreviews();
+        });
+
+        document.getElementById('backPhone').addEventListener('input', function() {
+            cardData.backPhone = this.value.trim();
+            updatePreviews();
+        });
+
+        // Initial render
+        updatePreviews();
+    </script>
+</body>
+</html>
