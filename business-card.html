@@ -368,7 +368,7 @@
             bottom: 0;
             left: 0;
             width: 100%;
-            height: 2px;
+            height: 3px;
             background: linear-gradient(90deg, #6366F1, #818CF8);
         }
 
@@ -384,22 +384,22 @@
         }
 
         .design-1 .person-name {
-            font-size: 22px;
+            font-size: 24px;
             font-weight: 600;
             letter-spacing: -0.03em;
-            margin-bottom: 4px;
+            margin-bottom: 5px;
             line-height: 1.2;
             color: #1A1A1A;
         }
 
         .design-1 .person-title {
-            font-size: 9px;
+            font-size: 10px;
             font-weight: 400;
             letter-spacing: 0.05em;
             text-transform: uppercase;
             color: #6366F1;
             margin-bottom: 0;
-            margin-top: 2px;
+            margin-top: 3px;
         }
 
         .design-1 .card-body {
@@ -409,15 +409,15 @@
 
         .design-1 #frontEmailDisplay,
         .design-1 #frontPhoneDisplay {
-            font-size: 8px;
+            font-size: 9px;
             color: #6B7280;
-            margin-bottom: 4px;
+            margin-bottom: 5px;
             line-height: 1.5;
             letter-spacing: 0.01em;
         }
 
         .design-1 #frontEmailDisplay {
-            margin-top: 8px;
+            margin-top: 10px;
         }
 
         /* Style email domain in purple */
@@ -433,7 +433,7 @@
         /* Card location at bottom */
         .card-location {
             position: absolute;
-            bottom: 0.25in;
+            bottom: 0.15in;
             left: 50%;
             transform: translateX(-50%);
             font-size: 6.5px;
@@ -1616,17 +1616,17 @@
                 } else if (format === 'svg') {
                     // Export as SVG
                     const imgData = finalCanvas.toDataURL('image/png', 1.0);
-                    const svg = `
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="3.5in" height="2in" viewBox="0 0 ${targetWidthPx} ${targetHeightPx}">
+                    // Escape XML entities properly
+                    const svgContent = `<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="3.5in" height="2in" viewBox="0 0 ${targetWidthPx} ${targetHeightPx}">
     <defs>
         <style>
-            @import url('https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600&family=Inter:wght@300;400;500&display=swap');
+            @import url('https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600&amp;family=Inter:wght@300;400;500&amp;display=swap');
         </style>
     </defs>
     <image x="0" y="0" width="${targetWidthPx}" height="${targetHeightPx}" xlink:href="${imgData}"/>
 </svg>`;
                     
-                    const blob = new Blob([svg], { type: 'image/svg+xml;charset=utf-8' });
+                    const blob = new Blob([svgContent], { type: 'image/svg+xml;charset=utf-8' });
                     const url = URL.createObjectURL(blob);
                     const link = document.createElement('a');
                     link.download = `polymath-sphere-${side}-side-design-${designName}-1200dpi.svg`;
