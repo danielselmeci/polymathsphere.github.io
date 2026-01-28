@@ -415,6 +415,34 @@
             letter-spacing: 0.01em;
         }
 
+        /* Style email domain in purple */
+        .design-1 #frontEmailDisplay {
+            color: #6B7280;
+        }
+
+        .design-1 #frontEmailDisplay::after {
+            content: attr(data-domain);
+            color: #6366F1;
+        }
+
+        /* Card location at bottom */
+        .card-location {
+            position: absolute;
+            bottom: 0.35in;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 6.5px;
+            color: #9CA3AF;
+            font-weight: 300;
+            letter-spacing: 0.05em;
+            text-align: center;
+            z-index: 2;
+        }
+
+        .design-1.dark .card-location {
+            color: #71717A;
+        }
+
         .design-1 .card-body .card-info {
             font-size: 7.5px;
             line-height: 1.6;
@@ -425,22 +453,10 @@
         .design-1 .card-projects {
             font-size: 7px;
             margin-top: 10px;
-            margin-bottom: 3px;
+            margin-bottom: 0;
             font-style: normal;
             font-weight: 400;
             letter-spacing: 0.02em;
-        }
-
-        .design-1 .card-contact {
-            font-size: 7px;
-            margin-top: 0;
-            font-weight: 500;
-            letter-spacing: 0.01em;
-            transition: opacity 0.2s;
-        }
-
-        .design-1 .card-contact:hover {
-            opacity: 0.8;
         }
 
         /* Dark mode adjustments for Design 1 */
@@ -1186,15 +1202,14 @@
                                 <div id="frontEmailDisplay" class="card-info" style="display: none;"></div>
                                 <div id="frontPhoneDisplay" class="card-info" style="display: none;"></div>
                                 <div class="card-info" style="margin-top: 10px;">
-                                    Arkansas, United States
-                                </div>
-                                <div class="card-info">
-                                    Software · Web · Design
+                                    Digital Products · Web Development · Design Systems
                                 </div>
                                 <div class="card-projects">
-                                    Explore our work
+                                    View our portfolio
                                 </div>
-                                <a href="https://polymathsphere.com" class="card-contact">polymathsphere.com</a>
+                            </div>
+                            <div class="card-location">
+                                With love from Rogers, AR
                             </div>
                         </div>
                         <div class="card-accent"></div>
@@ -1347,13 +1362,29 @@
 
         frontEmailInput.addEventListener('input', function() {
             const value = this.value.trim();
+            const cardFront = document.getElementById('cardFront');
+            const isDark = cardFront.classList.contains('dark');
+            
             if (value) {
-                frontEmailDisplay.textContent = value;
+                // Extract domain from email
+                const emailParts = value.split('@');
+                if (emailParts.length === 2) {
+                    const localPart = emailParts[0];
+                    const domain = '@' + emailParts[1];
+                    if (isDark) {
+                        frontEmailDisplay.innerHTML = `<span style="color: #A1A1AA;">${localPart}</span><span style="color: #818CF8;">${domain}</span>`;
+                    } else {
+                        frontEmailDisplay.innerHTML = `<span style="color: #6B7280;">${localPart}</span><span style="color: #6366F1;">${domain}</span>`;
+                    }
+                } else {
+                    frontEmailDisplay.textContent = value;
+                }
                 frontEmailDisplay.style.display = 'block';
             } else {
                 frontEmailDisplay.style.display = 'none';
             }
         });
+        
 
         frontPhoneInput.addEventListener('input', function() {
             const value = this.value.trim();
@@ -1397,6 +1428,10 @@
         function toggleDarkMode() {
             document.getElementById('cardFront').classList.toggle('dark');
             document.getElementById('cardBack').classList.toggle('dark');
+            // Re-trigger email input to update colors
+            if (frontEmailInput.value.trim()) {
+                frontEmailInput.dispatchEvent(new Event('input'));
+            }
         }
 
         // Reset all fields
@@ -1428,7 +1463,7 @@
             changeDesign('design-1');
         }
 
-        // Download as PNG - 600 DPI
+        // Download as PNG - 300 DPI
         async function downloadCard(side) {
             const cardId = side === 'front' ? 'cardFront' : 'cardBack';
             const card = document.getElementById(cardId);
@@ -1437,29 +1472,31 @@
             card.classList.add('loading');
             
             try {
-                // Target: 600 DPI
+                // Target: 300 DPI
                 // Business card: 3.5" x 2"
-                // Required pixel dimensions: 2100px x 1200px
+                // Required pixel dimensions: 1050px x 600px (3.5*300 x 2*300)
                 const cardWidthInches = 3.5;
                 const cardHeightInches = 2;
-                const targetDPI = 600;
-                const targetWidthPx = cardWidthInches * targetDPI;  // 2100px
-                const targetHeightPx = cardHeightInches * targetDPI; // 1200px
+                const targetDPI = 300;
+                const targetWidthPx = cardWidthInches * targetDPI;  // 1050px
+                const targetHeightPx = cardHeightInches * targetDPI; // 600px
                 
                 // Get rendered dimensions
                 const renderedWidthPx = card.offsetWidth;
                 const renderedHeightPx = card.offsetHeight;
                 
-                // Calculate scale needed - use a high scale to ensure quality
-                // We'll render at high resolution then resize to exact dimensions
-                const highScale = 8; // Render at 8x for high quality
+                // Calculate scale needed
+                // We need to render at a scale that will give us at least 300 DPI
+                // Scale = target pixels / rendered pixels
+                const scale = targetWidthPx / renderedWidthPx;
                 
                 console.log(`Rendered: ${renderedWidthPx}x${renderedHeightPx}px`);
-                console.log(`Target (600 DPI): ${targetWidthPx}x${targetHeightPx}px`);
+                console.log(`Target (300 DPI): ${targetWidthPx}x${targetHeightPx}px`);
+                console.log(`Calculated scale: ${scale.toFixed(2)}`);
                 
-                // Render at high resolution
-                const highResCanvas = await html2canvas(card, {
-                    scale: highScale,
+                // Render at calculated scale
+                const sourceCanvas = await html2canvas(card, {
+                    scale: scale,
                     backgroundColor: card.classList.contains('dark') ? '#14141A' : '#FFFFFF',
                     useCORS: true,
                     logging: false,
@@ -1470,13 +1507,16 @@
                         const clonedCard = clonedDoc.getElementById(cardId);
                         if (clonedCard) {
                             clonedCard.style.fontFamily = getComputedStyle(card).fontFamily;
+                            // Force exact dimensions
+                            clonedCard.style.width = renderedWidthPx + 'px';
+                            clonedCard.style.height = renderedHeightPx + 'px';
                         }
                     }
                 });
                 
-                console.log(`High-res canvas: ${highResCanvas.width}x${highResCanvas.height}px`);
+                console.log(`Source canvas: ${sourceCanvas.width}x${sourceCanvas.height}px`);
                 
-                // Create final canvas at exactly 600 DPI (2100x1200)
+                // Create final canvas at exactly 300 DPI (1050x600)
                 const finalCanvas = document.createElement('canvas');
                 finalCanvas.width = targetWidthPx;
                 finalCanvas.height = targetHeightPx;
@@ -1486,8 +1526,8 @@
                 ctx.imageSmoothingEnabled = true;
                 ctx.imageSmoothingQuality = 'high';
                 
-                // Draw the high-res canvas into the final canvas at exact 600 DPI size
-                ctx.drawImage(highResCanvas, 0, 0, targetWidthPx, targetHeightPx);
+                // Draw the source canvas into the final canvas at exact 300 DPI size
+                ctx.drawImage(sourceCanvas, 0, 0, targetWidthPx, targetHeightPx);
                 
                 // Verify final DPI
                 const finalDPI = Math.round(finalCanvas.width / cardWidthInches);
@@ -1500,15 +1540,15 @@
                 // Download the final canvas
                 const link = document.createElement('a');
                 const designName = currentDesign.replace('design-', '');
-                link.download = `polymath-sphere-${side}-side-design-${designName}-600dpi.png`;
+                link.download = `polymath-sphere-${side}-side-design-${designName}-300dpi.png`;
                 link.href = finalCanvas.toDataURL('image/png', 1.0);
                 link.click();
                 
                 // Verify in console
-                if (finalDPI === 600 && finalHeightDPI === 600) {
-                    console.log('✅ Successfully exported at 600 DPI');
+                if (finalDPI === 300 && finalHeightDPI === 300) {
+                    console.log('✅ Successfully exported at 300 DPI');
                 } else {
-                    console.warn(`⚠️ DPI mismatch: ${finalDPI}x${finalHeightDPI} (expected 600x600)`);
+                    console.warn(`⚠️ DPI mismatch: ${finalDPI}x${finalHeightDPI} (expected 300x300)`);
                 }
             } catch (error) {
                 console.error('Error generating PNG:', error);
