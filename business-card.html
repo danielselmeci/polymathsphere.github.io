@@ -1569,18 +1569,112 @@
                             clonedCard.style.backgroundColor = computedStyle.backgroundColor;
                             clonedCard.style.color = computedStyle.color;
                             
-                            // Preserve important child element styles
+                            // Create blurred shape element for design-1 (since ::after can't be captured)
+                            if (clonedCard.classList.contains('design-1')) {
+                                const blurDiv = clonedDoc.createElement('div');
+                                blurDiv.className = 'blur-shape-render';
+                                blurDiv.style.position = 'absolute';
+                                blurDiv.style.top = '-20%';
+                                blurDiv.style.right = '-15%';
+                                blurDiv.style.width = '120px';
+                                blurDiv.style.height = '120px';
+                                blurDiv.style.borderRadius = '30% 70% 70% 30% / 30% 30% 70% 70%';
+                                blurDiv.style.background = clonedCard.classList.contains('dark') 
+                                    ? 'rgba(129, 140, 248, 0.2)' 
+                                    : 'rgba(99, 102, 241, 0.15)';
+                                blurDiv.style.zIndex = '0';
+                                blurDiv.style.pointerEvents = 'none';
+                                
+                                // Create canvas with blur effect
+                                const canvas = clonedDoc.createElement('canvas');
+                                canvas.width = 240;
+                                canvas.height = 240;
+                                const ctx = canvas.getContext('2d');
+                                
+                                // Draw shape
+                                ctx.fillStyle = clonedCard.classList.contains('dark') 
+                                    ? 'rgba(129, 140, 248, 0.2)' 
+                                    : 'rgba(99, 102, 241, 0.15)';
+                                ctx.beginPath();
+                                ctx.ellipse(120, 120, 60, 80, 0, 0, 2 * Math.PI);
+                                ctx.fill();
+                                
+                                // Apply multiple passes of box blur for smooth effect
+                                for (let pass = 0; pass < 15; pass++) {
+                                    const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+                                    const data = imageData.data;
+                                    const temp = new Uint8ClampedArray(data);
+                                    
+                                    for (let y = 2; y < canvas.height - 2; y++) {
+                                        for (let x = 2; x < canvas.width - 2; x++) {
+                                            let r = 0, g = 0, b = 0, a = 0, count = 0;
+                                            for (let dy = -2; dy <= 2; dy++) {
+                                                for (let dx = -2; dx <= 2; dx++) {
+                                                    const idx = ((y + dy) * canvas.width + (x + dx)) * 4;
+                                                    r += temp[idx];
+                                                    g += temp[idx + 1];
+                                                    b += temp[idx + 2];
+                                                    a += temp[idx + 3];
+                                                    count++;
+                                                }
+                                            }
+                                            const idx = (y * canvas.width + x) * 4;
+                                            data[idx] = r / count;
+                                            data[idx + 1] = g / count;
+                                            data[idx + 2] = b / count;
+                                            data[idx + 3] = a / count;
+                                        }
+                                    }
+                                    ctx.putImageData(imageData, 0, 0);
+                                }
+                                
+                                blurDiv.style.backgroundImage = `url(${canvas.toDataURL()})`;
+                                blurDiv.style.backgroundSize = 'cover';
+                                blurDiv.style.filter = 'none';
+                                clonedCard.appendChild(blurDiv);
+                            }
+                            
+                            // Preserve all text and element styles comprehensively
                             const allElements = clonedCard.querySelectorAll('*');
                             allElements.forEach(el => {
                                 const elStyle = getComputedStyle(el);
+                                
+                                // Text styles - preserve everything
                                 if (elStyle.color) el.style.color = elStyle.color;
-                                if (elStyle.backgroundColor && elStyle.backgroundColor !== 'rgba(0, 0, 0, 0)' && elStyle.backgroundColor !== 'transparent') {
-                                    el.style.backgroundColor = elStyle.backgroundColor;
-                                }
                                 if (elStyle.fontFamily) el.style.fontFamily = elStyle.fontFamily;
                                 if (elStyle.fontSize) el.style.fontSize = elStyle.fontSize;
                                 if (elStyle.fontWeight) el.style.fontWeight = elStyle.fontWeight;
+                                if (elStyle.fontStyle) el.style.fontStyle = elStyle.fontStyle;
+                                if (elStyle.letterSpacing) el.style.letterSpacing = elStyle.letterSpacing;
+                                if (elStyle.textTransform) el.style.textTransform = elStyle.textTransform;
+                                if (elStyle.lineHeight) el.style.lineHeight = elStyle.lineHeight;
+                                if (elStyle.textAlign) el.style.textAlign = elStyle.textAlign;
+                                
+                                // Background and borders
+                                if (elStyle.backgroundColor && elStyle.backgroundColor !== 'rgba(0, 0, 0, 0)' && elStyle.backgroundColor !== 'transparent') {
+                                    el.style.backgroundColor = elStyle.backgroundColor;
+                                }
+                                if (elStyle.border) el.style.border = elStyle.border;
+                                if (elStyle.borderRadius) el.style.borderRadius = elStyle.borderRadius;
+                                
+                                // Positioning
+                                if (elStyle.position) el.style.position = elStyle.position;
+                                if (elStyle.top && elStyle.top !== 'auto') el.style.top = elStyle.top;
+                                if (elStyle.left && elStyle.left !== 'auto') el.style.left = elStyle.left;
+                                if (elStyle.right && elStyle.right !== 'auto') el.style.right = elStyle.right;
+                                if (elStyle.bottom && elStyle.bottom !== 'auto') el.style.bottom = elStyle.bottom;
+                                if (elStyle.transform && elStyle.transform !== 'none') el.style.transform = elStyle.transform;
+                                
+                                // Remove CSS filters that html2canvas can't handle
+                                if (elStyle.filter && elStyle.filter !== 'none') {
+                                    el.style.filter = 'none';
+                                }
                             });
+                            
+                            // Hide ::after pseudo-element
+                            const style = clonedDoc.createElement('style');
+                            style.textContent = '.design-1::after { display: none !important; }';
+                            clonedDoc.head.appendChild(style);
                         }
                     }
                 });
