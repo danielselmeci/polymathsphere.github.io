@@ -377,6 +377,90 @@
             text-align: left;
         }
 
+        /* Enhanced typography for Design 1 front */
+        .design-1 .card-header {
+            margin-bottom: 12px;
+        }
+
+        .design-1 .person-name {
+            font-size: 22px;
+            font-weight: 600;
+            letter-spacing: -0.03em;
+            margin-bottom: 4px;
+            line-height: 1.2;
+            color: #1A1A1A;
+        }
+
+        .design-1 .person-title {
+            font-size: 9px;
+            font-weight: 400;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            color: #6366F1;
+            margin-bottom: 0;
+            margin-top: 2px;
+        }
+
+        .design-1 .card-body {
+            margin-top: 0;
+            padding-top: 0;
+        }
+
+        .design-1 #frontEmailDisplay,
+        .design-1 #frontPhoneDisplay {
+            font-size: 8px;
+            color: #6B7280;
+            margin-bottom: 5px;
+            line-height: 1.5;
+            letter-spacing: 0.01em;
+        }
+
+        .design-1 .card-body .card-info {
+            font-size: 7.5px;
+            line-height: 1.6;
+            margin-bottom: 4px;
+            color: #6B7280;
+        }
+
+        .design-1 .card-projects {
+            font-size: 7px;
+            margin-top: 10px;
+            margin-bottom: 3px;
+            font-style: normal;
+            font-weight: 400;
+            letter-spacing: 0.02em;
+        }
+
+        .design-1 .card-contact {
+            font-size: 7px;
+            margin-top: 0;
+            font-weight: 500;
+            letter-spacing: 0.01em;
+            transition: opacity 0.2s;
+        }
+
+        .design-1 .card-contact:hover {
+            opacity: 0.8;
+        }
+
+        /* Dark mode adjustments for Design 1 */
+        .design-1.dark .person-name {
+            color: #F5F5F5;
+        }
+
+        .design-1.dark .person-title {
+            color: #818CF8;
+        }
+
+        .design-1.dark #frontEmailDisplay,
+        .design-1.dark #frontPhoneDisplay {
+            color: #A1A1AA;
+        }
+
+        .design-1.dark .card-info {
+            color: #A1A1AA;
+        }
+
         /* Stronger grid for design 1 */
         .design-1::before {
             opacity: 0.7;
@@ -1099,15 +1183,15 @@
                                 <div id="personTitleDisplay" class="person-title" style="display: none;"></div>
                             </div>
                             <div class="card-body">
-                                <div id="frontEmailDisplay" class="card-info" style="display: none; margin-bottom: 3px;"></div>
-                                <div id="frontPhoneDisplay" class="card-info" style="display: none; margin-bottom: 3px;"></div>
-                                <div class="card-info" style="margin-top: 6px;">
+                                <div id="frontEmailDisplay" class="card-info" style="display: none;"></div>
+                                <div id="frontPhoneDisplay" class="card-info" style="display: none;"></div>
+                                <div class="card-info" style="margin-top: 10px;">
                                     Arkansas, United States
                                 </div>
                                 <div class="card-info">
                                     Software · Web · Design
                                 </div>
-                                <div class="card-projects" style="margin-top: 6px;">
+                                <div class="card-projects">
                                     Explore our work
                                 </div>
                                 <a href="https://polymathsphere.com" class="card-contact">polymathsphere.com</a>
@@ -1239,7 +1323,12 @@
             if (value) {
                 personNameDisplay.textContent = value;
                 personNameDisplay.style.display = 'block';
-                adjustTextByLength(personNameDisplay, 13, 9, 15);
+                // Adjust sizing based on design
+                if (currentDesign === 'design-1') {
+                    adjustTextByLength(personNameDisplay, 22, 16, 24);
+                } else {
+                    adjustTextByLength(personNameDisplay, 13, 9, 15);
+                }
             } else {
                 personNameDisplay.style.display = 'none';
             }
@@ -1348,80 +1437,78 @@
             card.classList.add('loading');
             
             try {
-                // Calculate scale for 600 DPI
-                // Business card: 3.5 inches wide, 2 inches tall
                 // Target: 600 DPI
-                // Required dimensions: 2100px x 1200px (3.5*600 x 2*600)
+                // Business card: 3.5" x 2"
+                // Required pixel dimensions: 2100px x 1200px
                 const cardWidthInches = 3.5;
                 const cardHeightInches = 2;
                 const targetDPI = 600;
+                const targetWidthPx = cardWidthInches * targetDPI;  // 2100px
+                const targetHeightPx = cardHeightInches * targetDPI; // 1200px
                 
-                // Get actual rendered dimensions
+                // Get rendered dimensions
                 const renderedWidthPx = card.offsetWidth;
                 const renderedHeightPx = card.offsetHeight;
                 
-                // Calculate target pixel dimensions at 600 DPI
-                const targetWidthPx = cardWidthInches * targetDPI;
-                const targetHeightPx = cardHeightInches * targetDPI;
+                // Calculate scale needed - use a high scale to ensure quality
+                // We'll render at high resolution then resize to exact dimensions
+                const highScale = 8; // Render at 8x for high quality
                 
-                // Calculate scale - ensure we get exactly 600 DPI
-                // html2canvas scale multiplies the rendered size
-                const scale = targetWidthPx / renderedWidthPx;
+                console.log(`Rendered: ${renderedWidthPx}x${renderedHeightPx}px`);
+                console.log(`Target (600 DPI): ${targetWidthPx}x${targetHeightPx}px`);
                 
-                console.log(`Rendered size: ${renderedWidthPx}x${renderedHeightPx}px`);
-                console.log(`Target size (600 DPI): ${targetWidthPx}x${targetHeightPx}px`);
-                console.log(`Calculated scale: ${scale.toFixed(3)}`);
-                
-                // Create canvas with proper DPI
-                const canvas = await html2canvas(card, {
-                    scale: scale,
+                // Render at high resolution
+                const highResCanvas = await html2canvas(card, {
+                    scale: highScale,
                     backgroundColor: card.classList.contains('dark') ? '#14141A' : '#FFFFFF',
                     useCORS: true,
                     logging: false,
                     allowTaint: false,
                     letterRendering: true,
-                    pixelRatio: 1, // Force pixel ratio to 1 for consistent scaling
+                    removeContainer: false,
                     onclone: function(clonedDoc) {
                         const clonedCard = clonedDoc.getElementById(cardId);
                         if (clonedCard) {
                             clonedCard.style.fontFamily = getComputedStyle(card).fontFamily;
-                            // Ensure exact dimensions in cloned document
-                            clonedCard.style.width = renderedWidthPx + 'px';
-                            clonedCard.style.height = renderedHeightPx + 'px';
                         }
                     }
                 });
                 
-                // Verify actual DPI
-                const actualDPI = Math.round(canvas.width / cardWidthInches);
-                const actualHeightDPI = Math.round(canvas.height / cardHeightInches);
+                console.log(`High-res canvas: ${highResCanvas.width}x${highResCanvas.height}px`);
                 
-                console.log(`Canvas size: ${canvas.width}x${canvas.height}px`);
-                console.log(`Actual DPI (width): ${actualDPI}`);
-                console.log(`Actual DPI (height): ${actualHeightDPI}`);
+                // Create final canvas at exactly 600 DPI (2100x1200)
+                const finalCanvas = document.createElement('canvas');
+                finalCanvas.width = targetWidthPx;
+                finalCanvas.height = targetHeightPx;
+                const ctx = finalCanvas.getContext('2d');
                 
-                // If DPI is still too low, create a new canvas at the exact size
-                if (actualDPI < 580) {
-                    console.warn('DPI too low, creating resized canvas...');
-                    const resizedCanvas = document.createElement('canvas');
-                    resizedCanvas.width = targetWidthPx;
-                    resizedCanvas.height = targetHeightPx;
-                    const ctx = resizedCanvas.getContext('2d');
-                    ctx.imageSmoothingEnabled = true;
-                    ctx.imageSmoothingQuality = 'high';
-                    ctx.drawImage(canvas, 0, 0, targetWidthPx, targetHeightPx);
-                    
-                    const link = document.createElement('a');
-                    const designName = currentDesign.replace('design-', '');
-                    link.download = `polymath-sphere-${side}-side-design-${designName}-600dpi.png`;
-                    link.href = resizedCanvas.toDataURL('image/png', 1.0);
-                    link.click();
+                // Enable high-quality image smoothing
+                ctx.imageSmoothingEnabled = true;
+                ctx.imageSmoothingQuality = 'high';
+                
+                // Draw the high-res canvas into the final canvas at exact 600 DPI size
+                ctx.drawImage(highResCanvas, 0, 0, targetWidthPx, targetHeightPx);
+                
+                // Verify final DPI
+                const finalDPI = Math.round(finalCanvas.width / cardWidthInches);
+                const finalHeightDPI = Math.round(finalCanvas.height / cardHeightInches);
+                
+                console.log(`Final canvas: ${finalCanvas.width}x${finalCanvas.height}px`);
+                console.log(`Final DPI (width): ${finalDPI}`);
+                console.log(`Final DPI (height): ${finalHeightDPI}`);
+                
+                // Download the final canvas
+                const link = document.createElement('a');
+                const designName = currentDesign.replace('design-', '');
+                link.download = `polymath-sphere-${side}-side-design-${designName}-600dpi.png`;
+                link.href = finalCanvas.toDataURL('image/png', 1.0);
+                link.click();
+                
+                // Verify in console
+                if (finalDPI === 600 && finalHeightDPI === 600) {
+                    console.log('✅ Successfully exported at 600 DPI');
                 } else {
-                    const link = document.createElement('a');
-                    const designName = currentDesign.replace('design-', '');
-                    link.download = `polymath-sphere-${side}-side-design-${designName}-600dpi.png`;
-                    link.href = canvas.toDataURL('image/png', 1.0);
-                    link.click();
+                    console.warn(`⚠️ DPI mismatch: ${finalDPI}x${finalHeightDPI} (expected 600x600)`);
                 }
             } catch (error) {
                 console.error('Error generating PNG:', error);
