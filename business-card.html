@@ -456,7 +456,7 @@
             letter-spacing: 0.1em;
             text-transform: uppercase;
             text-align: center;
-            margin: 12px auto;
+            margin: 8px auto;
             padding: 6px 10px;
             border: 1px solid rgba(0, 0, 0, 0.08);
             border-radius: 4px;
@@ -1047,14 +1047,14 @@
             font-weight: 300;
             letter-spacing: 0.15em;
             text-transform: uppercase;
-            margin-bottom: 20px;
+            margin-bottom: 8px;
         }
 
         .back-divider {
             width: 40px;
             height: 1px;
             background: #6366F1;
-            margin: 16px 0;
+            margin: 8px auto;
         }
 
         .back-info {
@@ -1222,6 +1222,10 @@
                 <div class="button-group">
                     <button class="download" onclick="downloadCard('front', 'pdf')" style="background: #EF4444;">Download Front (PDF)</button>
                     <button class="download" onclick="downloadCard('back', 'pdf')" style="background: #EF4444;">Download Back (PDF)</button>
+                </div>
+                <div class="button-group">
+                    <button class="download" onclick="downloadCard('front', 'svg')" style="background: #10B981;">Download Front (SVG)</button>
+                    <button class="download" onclick="downloadCard('back', 'svg')" style="background: #10B981;">Download Back (SVG)</button>
                 </div>
                 <button onclick="window.print()">Print Both Sides</button>
                 <button onclick="toggleDarkMode()" class="secondary">Toggle Dark Mode</button>
@@ -1536,7 +1540,7 @@
                 console.log(`Target (1200 DPI): ${targetWidthPx}x${targetHeightPx}px`);
                 console.log(`Calculated scale: ${scale.toFixed(2)}`);
                 
-                // Render at calculated scale
+                // Render at calculated scale with color preservation
                 const sourceCanvas = await html2canvas(card, {
                     scale: scale,
                     backgroundColor: card.classList.contains('dark') ? '#14141A' : '#FFFFFF',
@@ -1545,13 +1549,25 @@
                     allowTaint: false,
                     letterRendering: true,
                     removeContainer: false,
+                    color: true, // Ensure colors are preserved
                     onclone: function(clonedDoc) {
                         const clonedCard = clonedDoc.getElementById(cardId);
                         if (clonedCard) {
-                            clonedCard.style.fontFamily = getComputedStyle(card).fontFamily;
-                            // Force exact dimensions
+                            // Preserve all computed styles
+                            const computedStyle = getComputedStyle(card);
+                            clonedCard.style.fontFamily = computedStyle.fontFamily;
                             clonedCard.style.width = renderedWidthPx + 'px';
                             clonedCard.style.height = renderedHeightPx + 'px';
+                            clonedCard.style.backgroundColor = computedStyle.backgroundColor;
+                            clonedCard.style.color = computedStyle.color;
+                            
+                            // Ensure all child elements preserve their colors
+                            const allElements = clonedCard.querySelectorAll('*');
+                            allElements.forEach(el => {
+                                const elStyle = getComputedStyle(el);
+                                if (elStyle.color) el.style.color = elStyle.color;
+                                if (elStyle.backgroundColor) el.style.backgroundColor = elStyle.backgroundColor;
+                            });
                         }
                     }
                 });
@@ -1597,6 +1613,27 @@
                     
                     pdf.save(`polymath-sphere-${side}-side-design-${designName}-1200dpi.pdf`);
                     console.log('✅ Successfully exported as PDF at 1200 DPI');
+                } else if (format === 'svg') {
+                    // Export as SVG
+                    const imgData = finalCanvas.toDataURL('image/png', 1.0);
+                    const svg = `
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="3.5in" height="2in" viewBox="0 0 ${targetWidthPx} ${targetHeightPx}">
+    <defs>
+        <style>
+            @import url('https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600&family=Inter:wght@300;400;500&display=swap');
+        </style>
+    </defs>
+    <image x="0" y="0" width="${targetWidthPx}" height="${targetHeightPx}" xlink:href="${imgData}"/>
+</svg>`;
+                    
+                    const blob = new Blob([svg], { type: 'image/svg+xml;charset=utf-8' });
+                    const url = URL.createObjectURL(blob);
+                    const link = document.createElement('a');
+                    link.download = `polymath-sphere-${side}-side-design-${designName}-1200dpi.svg`;
+                    link.href = url;
+                    link.click();
+                    URL.revokeObjectURL(url);
+                    console.log('✅ Successfully exported as SVG at 1200 DPI');
                 } else {
                     // Export as PNG
                     const link = document.createElement('a');
