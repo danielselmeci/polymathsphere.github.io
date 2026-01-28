@@ -1517,6 +1517,17 @@
             // Add loading state
             card.classList.add('loading');
             
+            // Wait for fonts and styles to be fully loaded
+            await new Promise(resolve => {
+                if (document.fonts && document.fonts.ready) {
+                    document.fonts.ready.then(() => {
+                        setTimeout(resolve, 200); // Extra delay for rendering
+                    });
+                } else {
+                    setTimeout(resolve, 300);
+                }
+            });
+            
             try {
                 // Target: 1200 DPI
                 // Business card: 3.5" x 2"
@@ -1540,7 +1551,7 @@
                 console.log(`Target (1200 DPI): ${targetWidthPx}x${targetHeightPx}px`);
                 console.log(`Calculated scale: ${scale.toFixed(2)}`);
                 
-                // Render at calculated scale with color preservation
+                // Render at calculated scale with maximum fidelity
                 const sourceCanvas = await html2canvas(card, {
                     scale: scale,
                     backgroundColor: card.classList.contains('dark') ? '#14141A' : '#FFFFFF',
@@ -1549,25 +1560,70 @@
                     allowTaint: false,
                     letterRendering: true,
                     removeContainer: false,
-                    color: true, // Ensure colors are preserved
-                    onclone: function(clonedDoc) {
+                    color: true,
+                    foreignObjectRendering: true,
+                    imageTimeout: 15000,
+                    onclone: async function(clonedDoc) {
                         const clonedCard = clonedDoc.getElementById(cardId);
                         if (clonedCard) {
-                            // Preserve all computed styles
+                            // Preserve all computed styles exactly
                             const computedStyle = getComputedStyle(card);
                             clonedCard.style.fontFamily = computedStyle.fontFamily;
                             clonedCard.style.width = renderedWidthPx + 'px';
                             clonedCard.style.height = renderedHeightPx + 'px';
                             clonedCard.style.backgroundColor = computedStyle.backgroundColor;
                             clonedCard.style.color = computedStyle.color;
+                            clonedCard.style.transform = computedStyle.transform;
+                            clonedCard.style.opacity = computedStyle.opacity;
                             
-                            // Ensure all child elements preserve their colors
+                            // Force all styles to be inline to preserve them
                             const allElements = clonedCard.querySelectorAll('*');
                             allElements.forEach(el => {
                                 const elStyle = getComputedStyle(el);
+                                // Preserve text styles
                                 if (elStyle.color) el.style.color = elStyle.color;
-                                if (elStyle.backgroundColor) el.style.backgroundColor = elStyle.backgroundColor;
+                                if (elStyle.backgroundColor && elStyle.backgroundColor !== 'rgba(0, 0, 0, 0)') {
+                                    el.style.backgroundColor = elStyle.backgroundColor;
+                                }
+                                if (elStyle.fontFamily) el.style.fontFamily = elStyle.fontFamily;
+                                if (elStyle.fontSize) el.style.fontSize = elStyle.fontSize;
+                                if (elStyle.fontWeight) el.style.fontWeight = elStyle.fontWeight;
+                                if (elStyle.letterSpacing) el.style.letterSpacing = elStyle.letterSpacing;
+                                if (elStyle.textTransform) el.style.textTransform = elStyle.textTransform;
+                                
+                                // Preserve positioning
+                                if (elStyle.position) el.style.position = elStyle.position;
+                                if (elStyle.top) el.style.top = elStyle.top;
+                                if (elStyle.left) el.style.left = elStyle.left;
+                                if (elStyle.right) el.style.right = elStyle.right;
+                                if (elStyle.bottom) el.style.bottom = elStyle.bottom;
+                                
+                                // Preserve borders and effects
+                                if (elStyle.border) el.style.border = elStyle.border;
+                                if (elStyle.borderRadius) el.style.borderRadius = elStyle.borderRadius;
+                                if (elStyle.boxShadow) el.style.boxShadow = elStyle.boxShadow;
+                                if (elStyle.filter) el.style.filter = elStyle.filter;
+                                if (elStyle.backdropFilter) el.style.backdropFilter = elStyle.backdropFilter;
                             });
+                            
+                            // Ensure fonts are loaded
+                            const fonts = ['Inter Tight', 'Inter'];
+                            const fontPromises = [];
+                            fonts.forEach(font => {
+                                if (clonedDoc.fonts && clonedDoc.fonts.load) {
+                                    fontPromises.push(clonedDoc.fonts.load(`400 1em "${font}"`));
+                                    fontPromises.push(clonedDoc.fonts.load(`500 1em "${font}"`));
+                                    fontPromises.push(clonedDoc.fonts.load(`600 1em "${font}"`));
+                                }
+                            });
+                            
+                            // Wait for fonts to load
+                            if (fontPromises.length > 0) {
+                                await Promise.all(fontPromises);
+                            }
+                            
+                            // Small delay to ensure rendering
+                            await new Promise(resolve => setTimeout(resolve, 50));
                         }
                     }
                 });
