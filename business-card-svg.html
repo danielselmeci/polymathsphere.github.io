@@ -340,24 +340,35 @@
             const accentColor = isDarkMode ? '#818CF8' : '#6366F1';
             const boxColor = isDarkMode ? '#71717A' : '#9CA3AF';
             const borderColor = isDarkMode ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.08)';
+            const gridColor = isDarkMode ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.06)';
+            const blurColor = isDarkMode ? 'rgba(129, 140, 248, 0.2)' : 'rgba(99, 102, 241, 0.15)';
 
             const svg = '<svg xmlns="http://www.w3.org/2000/svg" width="3.5in" height="2in" viewBox="0 0 336 192">' +
     '<defs>' +
         '<style type="text/css"><![CDATA[' +
             '@import url("https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600&amp;family=Inter:wght@300;400;500&amp;display=swap");' +
         ']]></style>' +
+        '<pattern id="grid" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse">' +
+            '<path d="M 20 0 L 0 0 0 20" fill="none" stroke="' + escapeXMLAttribute(gridColor) + '" stroke-width="1" opacity="0.7"/>' +
+        '</pattern>' +
+        '<filter id="blur">' +
+            '<feGaussianBlur in="SourceGraphic" stdDeviation="20"/>' +
+        '</filter>' +
         '<linearGradient id="accentGradient" x1="0%" y1="0%" x2="100%" y2="0%">' +
             '<stop offset="0%" style="stop-color:' + escapeXMLAttribute(accentColor) + ';stop-opacity:1" />' +
             '<stop offset="100%" style="stop-color:' + escapeXMLAttribute(isDarkMode ? '#A5B4FC' : '#818CF8') + ';stop-opacity:1" />' +
         '</linearGradient>' +
     '</defs>' +
     '<rect width="336" height="192" fill="' + escapeXMLAttribute(bgColor) + '"/>' +
+    '<rect width="336" height="192" fill="url(#grid)"/>' +
+    '<ellipse cx="290" cy="40" rx="60" ry="80" fill="' + escapeXMLAttribute(blurColor) + '" filter="url(#blur)" opacity="0.8"/>' +
+    '<rect x="98" y="100" width="140" height="24" rx="4" fill="' + escapeXMLAttribute(bgColor) + '"/>' +
     '<g font-family="Inter Tight, Inter, sans-serif" text-anchor="middle">' +
         '<text x="168" y="60" font-size="24" font-weight="600" fill="' + escapeXMLAttribute(textColor) + '" letter-spacing="-0.02em">Polymath Sphere LLC</text>' +
         '<text x="168" y="78" font-size="9" font-weight="300" fill="' + escapeXMLAttribute(secondaryColor) + '" letter-spacing="0.15em" text-transform="uppercase">A privately held digital firm</text>' +
         '<line x1="148" y1="88" x2="188" y2="88" stroke="' + escapeXMLAttribute(accentColor) + '" stroke-width="1"/>' +
         '<rect x="98" y="100" width="140" height="24" rx="4" fill="none" stroke="' + escapeXMLAttribute(borderColor) + '" stroke-width="1"/>' +
-        '<text x="168" y="116" font-size="7" font-weight="400" fill="' + escapeXMLAttribute(boxColor) + '" letter-spacing="0.1em" text-transform="uppercase">SOFTWARE · WEB · DESIGN</text>' +
+        '<text x="168" y="116" font-size="7" font-weight="400" fill="' + escapeXMLAttribute(boxColor) + '" letter-spacing="0.1em" text-transform="uppercase">SOFTWARE · PLATFORMS · DESIGN · ADVISORY</text>' +
         '<g font-size="8" font-weight="400" fill="' + escapeXMLAttribute(secondaryColor) + '" letter-spacing="0.01em">' +
             (cardData.backEmail ? '<text x="168" y="140">' + escapeXML(cardData.backEmail) + '</text>' : '') +
             (cardData.backPhone ? '<text x="168" y="152">' + escapeXML(cardData.backPhone) + '</text>' : '') +
