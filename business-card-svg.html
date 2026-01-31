@@ -287,7 +287,7 @@
             const secondaryColor = isDarkMode ? '#A1A1AA' : '#6B7280';
             const accentColor = isDarkMode ? '#818CF8' : '#6366F1';
             const gridColor = isDarkMode ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.06)';
-            const blurColor = isDarkMode ? 'rgba(129, 140, 248, 0.2)' : 'rgba(99, 102, 241, 0.15)';
+            const ambientColor = isDarkMode ? 'rgba(255, 255, 255, 0.05)' : 'rgba(0, 0, 0, 0.04)';
             const locationColor = isDarkMode ? '#71717A' : '#9CA3AF';
 
             // Extract email domain for purple color
@@ -319,7 +319,7 @@
     '</defs>' +
     '<rect width="336" height="192" fill="' + escapeXMLAttribute(bgColor) + '"/>' +
     '<rect width="336" height="192" fill="url(#grid)"/>' +
-    '<ellipse cx="290" cy="40" rx="60" ry="80" fill="' + escapeXMLAttribute(blurColor) + '" filter="url(#blur)" opacity="0.8"/>' +
+    '<ellipse cx="290" cy="40" rx="60" ry="80" fill="' + escapeXMLAttribute(ambientColor) + '" filter="url(#blur)" opacity="0.9"/>' +
     '<g font-family="Inter Tight, Inter, sans-serif">' +
         (cardData.name ? '<text x="43.2" y="50" font-size="24" font-weight="600" fill="' + escapeXMLAttribute(textColor) + '" letter-spacing="-0.03em">' + escapeXML(cardData.name) + '</text>' : '') +
         (cardData.title ? '<text x="43.2" y="68" font-size="10" font-weight="400" fill="' + escapeXMLAttribute(accentColor) + '" letter-spacing="0.05em" text-transform="uppercase">' + escapeXML(cardData.title) + '</text>' : '') +
@@ -327,7 +327,7 @@
         (cardData.frontPhone ? '<text x="43.2" y="103" font-size="9" font-weight="400" fill="' + escapeXMLAttribute(secondaryColor) + '" letter-spacing="0.01em">' + escapeXML(cardData.frontPhone) + '</text>' : '') +
         '<text x="168" y="175" font-size="6.5" font-weight="300" fill="' + escapeXMLAttribute(locationColor) + '" letter-spacing="0.05em" text-anchor="middle">With love from Rogers, AR</text>' +
     '</g>' +
-    '<rect x="0" y="177" width="336" height="3" fill="url(#accentGradient)"/>' +
+    '<rect x="0" y="175" width="336" height="5" fill="url(#accentGradient)"/>' +
 '</svg>';
 
             return svg;
@@ -341,7 +341,7 @@
             const boxColor = isDarkMode ? '#71717A' : '#9CA3AF';
             const borderColor = isDarkMode ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.08)';
             const gridColor = isDarkMode ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.06)';
-            const blurColor = isDarkMode ? 'rgba(129, 140, 248, 0.2)' : 'rgba(99, 102, 241, 0.15)';
+            const ambientColor = isDarkMode ? 'rgba(255, 255, 255, 0.05)' : 'rgba(0, 0, 0, 0.04)';
 
             const svg = '<svg xmlns="http://www.w3.org/2000/svg" width="3.5in" height="2in" viewBox="0 0 336 192">' +
     '<defs>' +
@@ -361,7 +361,7 @@
     '</defs>' +
     '<rect width="336" height="192" fill="' + escapeXMLAttribute(bgColor) + '"/>' +
     '<rect width="336" height="192" fill="url(#grid)"/>' +
-    '<ellipse cx="290" cy="40" rx="60" ry="80" fill="' + escapeXMLAttribute(blurColor) + '" filter="url(#blur)" opacity="0.8"/>' +
+    '<ellipse cx="290" cy="40" rx="60" ry="80" fill="' + escapeXMLAttribute(ambientColor) + '" filter="url(#blur)" opacity="0.9"/>' +
     '<rect x="58" y="100" width="220" height="20" rx="4" fill="' + escapeXMLAttribute(bgColor) + '"/>' +
     '<g font-family="Inter Tight, Inter, sans-serif" text-anchor="middle">' +
         '<text x="168" y="60" font-size="24" font-weight="600" fill="' + escapeXMLAttribute(textColor) + '" letter-spacing="-0.02em">Polymath Sphere LLC</text>' +
@@ -373,10 +373,10 @@
             (cardData.backEmail ? '<text x="168" y="138">' + escapeXML(cardData.backEmail) + '</text>' : '') +
             (cardData.backPhone ? '<text x="168" y="150">' + escapeXML(cardData.backPhone) + '</text>' : '') +
         '</g>' +
-        '<text x="168" y="163" font-size="7" font-weight="400" fill="' + escapeXMLAttribute(secondaryColor) + '" font-style="italic">Our projects at:</text>' +
-        '<text x="168" y="176" font-size="7" font-weight="500" fill="' + escapeXMLAttribute(accentColor) + '" letter-spacing="0.01em">https://polymathsphere.com</text>' +
+        '<text x="168" y="155" font-size="7" font-weight="400" fill="' + escapeXMLAttribute(secondaryColor) + '" font-style="italic">Our projects at:</text>' +
+        '<text x="168" y="168" font-size="7" font-weight="500" fill="' + escapeXMLAttribute(accentColor) + '" letter-spacing="0.01em">https://polymathsphere.com</text>' +
     '</g>' +
-    '<rect x="0" y="177" width="336" height="3" fill="url(#accentGradient)"/>' +
+    '<rect x="0" y="175" width="336" height="5" fill="url(#accentGradient)"/>' +
 '</svg>';
 
             return svg;
