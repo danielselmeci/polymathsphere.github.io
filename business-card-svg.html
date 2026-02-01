@@ -209,6 +209,11 @@
                     <label for="frontPhone">Phone (Front Side)</label>
                     <input type="tel" id="frontPhone" placeholder="+1 (555) 123-4567" value="">
                 </div>
+                <div class="form-group">
+                    <label for="frontLogo">Logo (paste SVG code, optional)</label>
+                    <textarea id="frontLogo" placeholder="Paste your full SVG logo code here. It will appear in the lower-right of the front." rows="4" style="width: 100%; padding: 10px 12px; font-family: monospace; font-size: 11px; border: 1px solid #E5E7EB; border-radius: 4px; resize: vertical;"></textarea>
+                    <small>Paste the entire SVG file or just the inner content. Logo is scaled and placed in the lower-right.</small>
+                </div>
             </div>
 
             <div id="backTab" class="tab-content" style="display: none;">
@@ -256,9 +261,17 @@
             title: '',
             frontEmail: '',
             frontPhone: '',
+            frontLogo: '',
             backEmail: '',
             backPhone: ''
         };
+
+        function stripOuterSvg(svgString) {
+            if (!svgString || !svgString.trim()) return '';
+            let s = svgString.trim().replace(/<\?xml[\s\S]*?\?>/gi, '').replace(/<!DOCTYPE[\s\S]*?>/gi, '');
+            const match = s.match(/<svg[\s\S]*?>([\s\S]*?)<\/svg>/i);
+            return match ? match[1].trim() : s;
+        }
 
         function switchTab(tab) {
             document.querySelectorAll('.tab').forEach(t => {
@@ -327,6 +340,7 @@
         (cardData.frontPhone ? '<text x="43.2" y="103" font-size="9" font-weight="400" fill="' + escapeXMLAttribute(secondaryColor) + '" letter-spacing="0.01em">' + escapeXML(cardData.frontPhone) + '</text>' : '') +
         '<text x="168" y="168" font-size="6.5" font-weight="300" fill="' + escapeXMLAttribute(locationColor) + '" letter-spacing="0.05em" text-anchor="middle">With love from Rogers, AR</text>' +
     '</g>' +
+    (cardData.frontLogo ? '<g transform="translate(268, 128) scale(0.12)">' + stripOuterSvg(cardData.frontLogo) + '</g>' : '') +
     '<rect x="0" y="175" width="336" height="5" fill="url(#accentGradient)"/>' +
 '</svg>';
 
@@ -427,6 +441,7 @@
             cardData.title = '';
             cardData.frontEmail = '';
             cardData.frontPhone = '';
+            cardData.frontLogo = '';
             cardData.backEmail = '';
             cardData.backPhone = '';
             
@@ -434,6 +449,7 @@
             document.getElementById('personTitle').value = '';
             document.getElementById('frontEmail').value = '';
             document.getElementById('frontPhone').value = '';
+            document.getElementById('frontLogo').value = '';
             document.getElementById('backEmail').value = '';
             document.getElementById('backPhone').value = '';
             
@@ -468,6 +484,11 @@
 
         document.getElementById('backPhone').addEventListener('input', function() {
             cardData.backPhone = this.value.trim();
+            updatePreviews();
+        });
+
+        document.getElementById('frontLogo').addEventListener('input', function() {
+            cardData.frontLogo = this.value.trim();
             updatePreviews();
         });
 
