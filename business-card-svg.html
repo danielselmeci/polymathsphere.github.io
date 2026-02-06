@@ -7,6 +7,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <style>
         * {
             margin: 0;
@@ -216,15 +217,15 @@
                         <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-bottom: 8px;">
                             <div>
                                 <label style="font-size: 11px; color: #6B7280;">X</label>
-                                <input type="number" id="frontLogoX" value="268" min="12" max="324" style="width: 100%; padding: 6px 8px; font-size: 13px;">
+                                <input type="number" id="frontLogoX" value="235" min="12" max="324" style="width: 100%; padding: 6px 8px; font-size: 13px;">
                             </div>
                             <div>
                                 <label style="font-size: 11px; color: #6B7280;">Y</label>
-                                <input type="number" id="frontLogoY" value="128" min="12" max="168" style="width: 100%; padding: 6px 8px; font-size: 13px;">
+                                <input type="number" id="frontLogoY" value="85" min="12" max="168" style="width: 100%; padding: 6px 8px; font-size: 13px;">
                             </div>
                             <div>
                                 <label style="font-size: 11px; color: #6B7280;">Size</label>
-                                <input type="number" id="frontLogoSize" value="48" min="16" max="120" style="width: 100%; padding: 6px 8px; font-size: 13px;">
+                                <input type="number" id="frontLogoSize" value="85" min="16" max="150" style="width: 100%; padding: 6px 8px; font-size: 13px;">
                             </div>
                         </div>
                         <button type="button" onclick="removeFrontLogo()" style="padding: 6px 12px; font-size: 12px; background: #EF4444; color: white; border: none; border-radius: 4px; cursor: pointer;">Remove logo</button>
@@ -248,6 +249,10 @@
                 <div class="button-group">
                     <button class="download" onclick="downloadSVG('front')">Download Front (SVG)</button>
                     <button class="download" onclick="downloadSVG('back')">Download Back (SVG)</button>
+                </div>
+                <div class="button-group" style="margin-top: 8px;">
+                    <button class="download" onclick="downloadPDF('front')" style="background: #EF4444;">Download Front (PDF)</button>
+                    <button class="download" onclick="downloadPDF('back')" style="background: #EF4444;">Download Back (PDF)</button>
                 </div>
                 <button onclick="toggleDarkMode()" class="secondary">Toggle Dark Mode</button>
                 <button onclick="resetCard()" class="secondary">Reset All</button>
@@ -281,9 +286,9 @@
             frontLogoImage: '',
             frontLogoWidth: 0,
             frontLogoHeight: 0,
-            frontLogoX: 268,
-            frontLogoY: 128,
-            frontLogoSize: 48,
+            frontLogoX: 235,
+            frontLogoY: 85,
+            frontLogoSize: 85,
             backEmail: '',
             backPhone: ''
         };
@@ -294,9 +299,9 @@
             cardData.frontLogoHeight = 0;
             document.getElementById('frontLogoFile').value = '';
             document.getElementById('frontLogoControls').style.display = 'none';
-            document.getElementById('frontLogoX').value = cardData.frontLogoX = 268;
-            document.getElementById('frontLogoY').value = cardData.frontLogoY = 128;
-            document.getElementById('frontLogoSize').value = cardData.frontLogoSize = 48;
+            document.getElementById('frontLogoX').value = cardData.frontLogoX = 235;
+            document.getElementById('frontLogoY').value = cardData.frontLogoY = 85;
+            document.getElementById('frontLogoSize').value = cardData.frontLogoSize = 85;
             updatePreviews();
         }
 
@@ -466,6 +471,36 @@
             URL.revokeObjectURL(url);
         }
 
+        function downloadPDF(side) {
+            const svg = side === 'front' ? generateFrontSVG() : generateBackSVG();
+            const blob = new Blob([svg], { type: 'image/svg+xml;charset=utf-8' });
+            const url = URL.createObjectURL(blob);
+            const img = new Image();
+            img.onload = function() {
+                const dpi = 300;
+                const w = 3.5 * dpi;
+                const h = 2 * dpi;
+                const canvas = document.createElement('canvas');
+                canvas.width = w;
+                canvas.height = h;
+                const ctx = canvas.getContext('2d');
+                ctx.fillStyle = isDarkMode ? '#14141A' : '#FFFFFF';
+                ctx.fillRect(0, 0, w, h);
+                ctx.drawImage(img, 0, 0, w, h);
+                const dataUrl = canvas.toDataURL('image/png');
+                URL.revokeObjectURL(url);
+                const { jsPDF } = window.jspdf;
+                const doc = new jsPDF({ orientation: 'landscape', unit: 'in', format: [3.5, 2] });
+                doc.addImage(dataUrl, 'PNG', 0, 0, 3.5, 2);
+                doc.save(`polymath-sphere-${side}-side.pdf`);
+            };
+            img.onerror = function() {
+                URL.revokeObjectURL(url);
+                alert('Could not render card for PDF. Try downloading SVG instead.');
+            };
+            img.src = url;
+        }
+
         function toggleDarkMode() {
             isDarkMode = !isDarkMode;
             updatePreviews();
@@ -479,9 +514,9 @@
             cardData.frontLogoImage = '';
             cardData.frontLogoWidth = 0;
             cardData.frontLogoHeight = 0;
-            cardData.frontLogoX = 268;
-            cardData.frontLogoY = 128;
-            cardData.frontLogoSize = 48;
+            cardData.frontLogoX = 235;
+            cardData.frontLogoY = 85;
+            cardData.frontLogoSize = 85;
             cardData.backEmail = '';
             cardData.backPhone = '';
             
@@ -491,9 +526,9 @@
             document.getElementById('frontPhone').value = '';
             document.getElementById('frontLogoFile').value = '';
             document.getElementById('frontLogoControls').style.display = 'none';
-            document.getElementById('frontLogoX').value = 268;
-            document.getElementById('frontLogoY').value = 128;
-            document.getElementById('frontLogoSize').value = 48;
+            document.getElementById('frontLogoX').value = 235;
+            document.getElementById('frontLogoY').value = 85;
+            document.getElementById('frontLogoSize').value = 85;
             document.getElementById('backEmail').value = '';
             document.getElementById('backPhone').value = '';
             
@@ -545,12 +580,12 @@
                     cardData.frontLogoImage = dataUrl;
                     cardData.frontLogoWidth = img.naturalWidth;
                     cardData.frontLogoHeight = img.naturalHeight;
-                    cardData.frontLogoX = 268;
-                    cardData.frontLogoY = 128;
-                    cardData.frontLogoSize = 48;
-                    document.getElementById('frontLogoX').value = 268;
-                    document.getElementById('frontLogoY').value = 128;
-                    document.getElementById('frontLogoSize').value = 48;
+cardData.frontLogoX = 235;
+                    cardData.frontLogoY = 85;
+                    cardData.frontLogoSize = 85;
+                    document.getElementById('frontLogoX').value = 235;
+                    document.getElementById('frontLogoY').value = 85;
+                    document.getElementById('frontLogoSize').value = 85;
                     document.getElementById('frontLogoControls').style.display = 'block';
                     updatePreviews();
                 };
@@ -560,17 +595,17 @@
         });
 
         document.getElementById('frontLogoX').addEventListener('input', function() {
-            cardData.frontLogoX = Math.max(12, Math.min(324, parseInt(this.value, 10) || 268));
+            cardData.frontLogoX = Math.max(12, Math.min(324, parseInt(this.value, 10) || 235));
             this.value = cardData.frontLogoX;
             updatePreviews();
         });
         document.getElementById('frontLogoY').addEventListener('input', function() {
-            cardData.frontLogoY = Math.max(12, Math.min(168, parseInt(this.value, 10) || 128));
+            cardData.frontLogoY = Math.max(12, Math.min(168, parseInt(this.value, 10) || 85));
             this.value = cardData.frontLogoY;
             updatePreviews();
         });
         document.getElementById('frontLogoSize').addEventListener('input', function() {
-            cardData.frontLogoSize = Math.max(16, Math.min(120, parseInt(this.value, 10) || 48));
+            cardData.frontLogoSize = Math.max(16, Math.min(150, parseInt(this.value, 10) || 85));
             this.value = cardData.frontLogoSize;
             updatePreviews();
         });
