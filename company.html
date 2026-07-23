@@ -13,6 +13,7 @@
     <meta property="og:title" content="Company — Polymath Sphere LLC">
     <meta property="og:description" content="Polymath Sphere LLC is an Arkansas-based technical innovation venture and digital media agency founded by Daniel Selmeci.">
     <meta property="og:url" content="https://polymathsphere.com/company.html">
+    <meta property="og:image" content="https://polymathsphere.com/images/logo.png">
     <title>Company — Polymath Sphere LLC</title>
     <link rel="icon" href="favicon.svg" type="image/svg+xml">
     <link rel="stylesheet" href="styles.css">
@@ -22,17 +23,76 @@
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
-      "@type": "Organization",
-      "name": "Polymath Sphere LLC",
-      "url": "https://polymathsphere.com",
-      "description": "Polymath Sphere LLC is an Arkansas-based technical innovation venture and digital media agency specializing in software development, application design, and creative media production. Founded by entrepreneur and photographer Daniel Selmeci, the company serves as the foundational umbrella for creative projects and high-utility mobile utilities. Polymath Sphere LLC is committed to bridging structural software solutions with global lifestyle and travel needs, housing platforms such as the GO: Travel App.",
-      "founder": {
-        "@type": "Person",
-        "name": "Daniel Selmeci",
-        "url": "https://danielselmeci.com"
-      },
-      "sameAs": [
-        "https://danielselmeci.com"
+      "@graph": [
+        {
+          "@type": "Organization",
+          "@id": "https://polymathsphere.com/#organization",
+          "name": "Polymath Sphere LLC",
+          "legalName": "Polymath Sphere LLC",
+          "url": "https://polymathsphere.com",
+          "logo": {
+            "@type": "ImageObject",
+            "@id": "https://polymathsphere.com/#logo",
+            "url": "https://polymathsphere.com/images/logo.png",
+            "contentUrl": "https://polymathsphere.com/images/logo.png",
+            "width": 512,
+            "height": 512,
+            "caption": "Polymath Sphere LLC"
+          },
+          "image": {
+            "@id": "https://polymathsphere.com/#logo"
+          },
+          "description": "Polymath Sphere LLC is an Arkansas-based technical innovation venture and digital media agency specializing in software development, application design, and creative media production. Founded by entrepreneur and photographer Daniel Selmeci, the company serves as the foundational umbrella for creative projects and high-utility mobile utilities. Polymath Sphere LLC is committed to bridging structural software solutions with global lifestyle and travel needs, housing platforms such as the GO: Travel App.",
+          "email": "contact@polymathsphere.com",
+          "address": {
+            "@type": "PostalAddress",
+            "addressRegion": "AR",
+            "addressCountry": "US"
+          },
+          "founder": {
+            "@type": "Person",
+            "name": "Daniel Selmeci",
+            "url": "https://danielselmeci.com"
+          },
+          "sameAs": [
+            "https://danielselmeci.com"
+          ]
+        },
+        {
+          "@type": "WebPage",
+          "@id": "https://polymathsphere.com/company.html#webpage",
+          "url": "https://polymathsphere.com/company.html",
+          "name": "Company — Polymath Sphere LLC",
+          "isPartOf": {
+            "@id": "https://polymathsphere.com/#website"
+          },
+          "about": {
+            "@id": "https://polymathsphere.com/#organization"
+          },
+          "description": "Polymath Sphere LLC is an Arkansas-based technical innovation venture and digital media agency founded by Daniel Selmeci.",
+          "breadcrumb": {
+            "@id": "https://polymathsphere.com/company.html#breadcrumb"
+          },
+          "inLanguage": "en-US"
+        },
+        {
+          "@type": "BreadcrumbList",
+          "@id": "https://polymathsphere.com/company.html#breadcrumb",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "Home",
+              "item": "https://polymathsphere.com/"
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": "Company",
+              "item": "https://polymathsphere.com/company.html"
+            }
+          ]
+        }
       ]
     }
     </script>
@@ -41,8 +101,7 @@
     <nav class="nav">
         <div class="nav-container">
             <a href="/" class="nav-logo">Polymath Sphere LLC</a>
-            <button class="nav-toggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="nav-menu">Menu</button>
-            <div class="nav-links" id="nav-menu">
+            <div class="nav-links">
                 <a href="company.html">Company</a>
                 <a href="studio.html">Studio</a>
                 <a href="ventures.html">Platforms</a>

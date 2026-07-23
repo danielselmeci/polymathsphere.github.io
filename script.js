@@ -98,29 +98,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Mobile nav toggle
-    const navToggle = document.querySelector('.nav-toggle');
-    const navLinks = document.getElementById('nav-menu');
-
-    if (navToggle && navLinks) {
-        navToggle.addEventListener('click', () => {
-            const isOpen = navLinks.classList.toggle('is-open');
-            navToggle.setAttribute('aria-expanded', String(isOpen));
-            navToggle.setAttribute('aria-label', isOpen ? 'Close menu' : 'Open menu');
-            navToggle.textContent = isOpen ? 'Close' : 'Menu';
-        });
-
-        navLinks.querySelectorAll('a').forEach(link => {
-            link.addEventListener('click', () => {
-                navLinks.classList.remove('is-open');
-                navToggle.setAttribute('aria-expanded', 'false');
-                navToggle.setAttribute('aria-label', 'Open menu');
-                navToggle.textContent = 'Menu';
-            });
-        });
-    }
-
-
     // Intersection Observer for scroll animations
     const observerOptions = {
         threshold: 0.15,
