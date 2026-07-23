@@ -98,6 +98,28 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
+    // Mobile nav toggle
+    const navToggle = document.querySelector('.nav-toggle');
+    const navLinks = document.getElementById('nav-menu');
+
+    if (navToggle && navLinks) {
+        navToggle.addEventListener('click', () => {
+            const isOpen = navLinks.classList.toggle('is-open');
+            navToggle.setAttribute('aria-expanded', String(isOpen));
+            navToggle.setAttribute('aria-label', isOpen ? 'Close menu' : 'Open menu');
+            navToggle.textContent = isOpen ? 'Close' : 'Menu';
+        });
+
+        navLinks.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                navLinks.classList.remove('is-open');
+                navToggle.setAttribute('aria-expanded', 'false');
+                navToggle.setAttribute('aria-label', 'Open menu');
+                navToggle.textContent = 'Menu';
+            });
+        });
+    }
+
 
     // Intersection Observer for scroll animations
     const observerOptions = {
@@ -241,39 +263,6 @@ document.addEventListener('DOMContentLoaded', function() {
         ).join(' ');
     }
 
-    // Number Counter Animation
-    function animateCounter(element, target, duration = 2000) {
-        const start = 0;
-        const increment = target / (duration / 16);
-        let current = start;
-        
-        const timer = setInterval(() => {
-            current += increment;
-            if (current >= target) {
-                element.textContent = Math.floor(target);
-                clearInterval(timer);
-            } else {
-                element.textContent = Math.floor(current);
-            }
-        }, 16);
-    }
-
-    // Observe elements with counter class
-    const counterObserver = new IntersectionObserver(function(entries) {
-        entries.forEach(entry => {
-            if (entry.isIntersecting && !entry.target.classList.contains('counted')) {
-                entry.target.classList.add('counted');
-                const target = parseInt(entry.target.getAttribute('data-target')) || 100;
-                animateCounter(entry.target, target);
-            }
-        });
-    }, { threshold: 0.5 });
-
-    // Find and observe all counter elements
-    document.querySelectorAll('.counter-number').forEach(counter => {
-        counterObserver.observe(counter);
-    });
-
     // Scroll progress indicator
     const progressBar = document.createElement('div');
     progressBar.className = 'scroll-progress';
@@ -344,34 +333,52 @@ document.addEventListener('DOMContentLoaded', function() {
             }
             
             try {
-                // Use mailto as fallback (you can replace this with a form service)
-                const subject = encodeURIComponent(`Contact from ${data.name}`);
-                const body = encodeURIComponent(`Name: ${data.name}\nEmail: ${data.email}\n\nMessage:\n${data.message}`);
-                const mailtoLink = `mailto:contact@polymathsphere.com?subject=${subject}&body=${body}`;
-                
-                // Open mailto (this will use user's default email client)
-                window.location.href = mailtoLink;
-                
-                // Show success message
+                const honey = formData.get('_honey');
+                if (honey) {
+                    formMessage.className = 'form-message success';
+                    formMessage.textContent = 'Thank you. Your message has been sent.';
+                    formMessage.style.display = 'block';
+                    contactForm.reset();
+                    submitButton.disabled = false;
+                    submitButton.textContent = originalText;
+                    return;
+                }
+
+                const response = await fetch('https://formsubmit.co/ajax/contact@polymathsphere.com', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        name: data.name,
+                        email: data.email,
+                        message: data.message,
+                        _subject: `Contact from ${data.name} — Polymath Sphere`,
+                        _replyto: data.email,
+                        _template: 'table'
+                    })
+                });
+
+                if (!response.ok) {
+                    throw new Error('Form submission failed');
+                }
+
                 formMessage.className = 'form-message success';
-                formMessage.textContent = 'Thank you! Your email client should open shortly.';
+                formMessage.textContent = 'Thank you. Your message has been sent.';
                 formMessage.style.display = 'block';
-                
-                // Reset form
                 contactForm.reset();
-                
-                // Re-enable button
                 submitButton.disabled = false;
                 submitButton.textContent = originalText;
-                
-                // Hide message after 5 seconds
+
                 setTimeout(() => {
                     formMessage.style.display = 'none';
                 }, 5000);
-                
             } catch (error) {
+                const subject = encodeURIComponent(`Contact from ${data.name}`);
+                const body = encodeURIComponent(`Name: ${data.name}\nEmail: ${data.email}\n\nMessage:\n${data.message}`);
                 formMessage.className = 'form-message error';
-                formMessage.textContent = 'An error occurred. Please try again or email us directly.';
+                formMessage.innerHTML = `Unable to send right now. <a href="mailto:contact@polymathsphere.com?subject=${subject}&body=${body}">Email us directly</a>.`;
                 formMessage.style.display = 'block';
                 submitButton.disabled = false;
                 submitButton.textContent = originalText;
@@ -416,21 +423,5 @@ style.textContent = `
         }
     }
     
-    .counter-number {
-        transition: transform 0.3s ease;
-    }
-    
-    .counter-number.counted {
-        animation: counterPop 0.5s ease;
-    }
-    
-    @keyframes counterPop {
-        0%, 100% {
-            transform: scale(1);
-        }
-        50% {
-            transform: scale(1.1);
-        }
-    }
 `;
 document.head.appendChild(style);

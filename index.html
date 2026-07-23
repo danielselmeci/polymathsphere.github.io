@@ -5,11 +5,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
-    <meta name="robots" content="noindex, nofollow">
+    <meta name="description" content="Polymath Sphere LLC is an Arkansas-based technical innovation venture and digital media agency specializing in software development, application design, and creative media production.">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://polymathsphere.com/">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Polymath Sphere LLC">
+    <meta property="og:title" content="Polymath Sphere LLC">
+    <meta property="og:description" content="Arkansas-based technical innovation venture and digital media agency. Software development, application design, and creative media production.">
+    <meta property="og:url" content="https://polymathsphere.com/">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Polymath Sphere LLC">
+    <meta name="twitter:description" content="Arkansas-based technical innovation venture and digital media agency.">
     <title>Polymath Sphere LLC</title>
-    <noscript>
-        <meta http-equiv="refresh" content="0; url=/">
-    </noscript>
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
     <link rel="stylesheet" href="styles.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -27,7 +35,7 @@
         "url": "https://danielselmeci.com"
       },
       "sameAs": [
-        "https://crunchbase.com"
+        "https://danielselmeci.com"
       ]
     }
     </script>
@@ -41,21 +49,22 @@
     <nav class="nav">
         <div class="nav-container">
             <a href="/" class="nav-logo">Polymath Sphere LLC</a>
-            <div class="nav-links">
+            <button class="nav-toggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="nav-menu">Menu</button>
+            <div class="nav-links" id="nav-menu">
                 <a href="company.html">Company</a>
                 <a href="studio.html">Studio</a>
+                <a href="ventures.html">Platforms</a>
                 <a href="index.html#contact" class="nav-contact">Contact</a>
             </div>
         </div>
     </nav>
 
     <main>
-        <!-- Hero Section -->
         <section class="hero">
             <div class="container">
                 <h1 class="hero-title">Polymath Sphere LLC</h1>
-                <p class="hero-subtitle">A privately held digital firm.</p>
-                <p class="hero-tagline">Software · Platforms · Design · Advisory</p>
+                <p class="hero-subtitle">An Arkansas-based technical innovation venture and digital media agency.</p>
+                <p class="hero-tagline">Software · Platforms · Design · Media</p>
                 <div class="hero-buttons">
                     <a href="studio.html" class="btn btn-text">Studio</a>
                     <a href="#contact" class="btn btn-text">Contact</a>
@@ -63,18 +72,16 @@
             </div>
         </section>
 
-        <!-- Company Section -->
         <section class="section">
             <div class="container">
                 <h2 class="section-title">Company</h2>
                 <div class="content-block">
-                    <p class="large-text">Polymath Sphere LLC is a U.S.-based private company focused on the ownership and development of digital systems.</p>
-                    <p class="large-text">The firm maintains an internal studio responsible for building its software assets and undertaking a limited number of external engagements.</p>
+                    <p class="large-text">Polymath Sphere LLC specializes in software development, application design, and creative media production.</p>
+                    <p class="large-text">Founded by entrepreneur and photographer Daniel Selmeci, the company serves as the foundational umbrella for creative projects and high-utility mobile utilities.</p>
                 </div>
             </div>
         </section>
 
-        <!-- Studio Section -->
         <section class="section studio-section">
             <div class="container">
                 <h2 class="section-title">Studio</h2>
@@ -85,16 +92,25 @@
             </div>
         </section>
 
-        <!-- Capabilities Section -->
+        <section class="section platforms-section">
+            <div class="container">
+                <h2 class="section-title">Platforms</h2>
+                <div class="content-block">
+                    <p class="large-text">Polymath Sphere bridges structural software solutions with global lifestyle and travel needs.</p>
+                </div>
+                <div class="platform-list">
+                    <div class="platform-item">
+                        <h3 class="platform-title">GO: Travel App</h3>
+                        <p class="platform-description">Travel intelligence for travelers who value precision, efficiency, and control.</p>
+                        <a href="ventures.html#go-travel-app" class="btn btn-text">Learn more</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
         <section class="section capabilities-section">
             <div class="container">
                 <h2 class="section-title">Capabilities</h2>
-                <div class="stats-row">
-                    <div class="stat-item">
-                        <span class="counter-number" data-target="4">0</span>
-                        <span class="counter-label">Core Capabilities</span>
-                    </div>
-                </div>
                 <div class="capabilities-list">
                     <div class="capability-item">
                         <h3 class="capability-title">Product & Software Development</h3>
@@ -116,7 +132,6 @@
             </div>
         </section>
 
-        <!-- Engagement Model Section -->
         <section class="section engagement-section">
             <div class="container">
                 <h2 class="section-title">Engagement Model</h2>
@@ -127,12 +142,12 @@
             </div>
         </section>
 
-        <!-- Contact Section -->
         <section id="contact" class="section contact-section">
             <div class="container">
                 <h2 class="section-title">Contact</h2>
                 <p class="contact-text">For inquiries regarding studio engagements or general information.</p>
                 <form class="contact-form" id="contactForm">
+                    <input type="text" name="_honey" class="form-honey" tabindex="-1" autocomplete="off" aria-hidden="true">
                     <div class="form-group">
                         <input type="text" id="name" name="name" placeholder="Name" required>
                     </div>
@@ -161,6 +176,7 @@
                 <div class="footer-links">
                     <a href="company.html">Company</a>
                     <a href="studio.html">Studio</a>
+                    <a href="ventures.html">Platforms</a>
                     <a href="careers.html">Careers</a>
                     <a href="legal.html">Legal</a>
                     <a href="impressum.html">Impressum</a>

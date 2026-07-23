@@ -331,6 +331,28 @@ body::after {
     background: var(--color-accent-light);
 }
 
+.nav-contact::after {
+    display: none;
+}
+
+.nav-toggle {
+    display: none;
+    background: none;
+    border: none;
+    color: var(--color-text);
+    font-family: var(--font-body);
+    font-size: 0.875rem;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    cursor: pointer;
+    padding: 0.25rem 0;
+    transition: var(--transition-fast);
+}
+
+.nav-toggle:hover {
+    color: var(--color-accent);
+}
+
 /* Container */
 .container {
     max-width: var(--container-width);
@@ -689,6 +711,64 @@ body::after {
     z-index: 1;
 }
 
+/* Platforms */
+.platform-list {
+    margin-top: var(--spacing-lg);
+    max-width: var(--text-column-width);
+}
+
+.platform-item {
+    padding: var(--spacing-lg) 0;
+    border-top: 1px solid var(--color-border);
+}
+
+.platform-title {
+    font-family: var(--font-headline);
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--color-text);
+    margin-bottom: var(--spacing-sm);
+    letter-spacing: -0.01em;
+}
+
+.platform-description {
+    font-size: 16px;
+    color: var(--color-text-secondary);
+    line-height: 1.6;
+    font-weight: 300;
+    margin-bottom: var(--spacing-md);
+}
+
+.platform-detail {
+    max-width: var(--text-column-width);
+}
+
+.platform-detail-name {
+    font-family: var(--font-headline);
+    font-size: clamp(1.75rem, 4vw, 2.5rem);
+    font-weight: 600;
+    color: var(--color-text);
+    margin-bottom: var(--spacing-sm);
+    letter-spacing: -0.02em;
+}
+
+.platform-detail-tagline {
+    font-size: 1.05rem;
+    color: var(--color-text-secondary);
+    font-weight: 300;
+    margin-bottom: var(--spacing-lg);
+    line-height: 1.5;
+}
+
+.form-honey {
+    position: absolute;
+    left: -9999px;
+    opacity: 0;
+    height: 0;
+    width: 0;
+    overflow: hidden;
+}
+
 /* Contact Section */
 .contact-section {
     background: var(--color-surface);
@@ -727,6 +807,12 @@ body::after {
 .contact-form {
     max-width: 600px;
     margin-top: var(--spacing-lg);
+    position: relative;
+}
+
+.form-message a {
+    color: inherit;
+    text-decoration: underline;
 }
 
 .form-group {
@@ -966,18 +1052,38 @@ a:hover {
     
     .nav-container {
         flex-wrap: wrap;
+        gap: 0.75rem;
     }
     
     .nav-logo {
         font-size: 0.875rem;
     }
+
+    .nav-toggle {
+        display: block;
+        margin-left: auto;
+    }
     
     .nav-links {
-        gap: 1.5rem;
+        display: none;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+        width: 100%;
+        padding: 0.75rem 0 0.25rem;
+        border-top: 1px solid var(--color-border);
+    }
+
+    .nav-links.is-open {
+        display: flex;
     }
     
     .nav-links a {
-        font-size: 0.8125rem;
+        font-size: 0.9375rem;
+    }
+
+    .nav-contact {
+        padding: 0.65rem 1.5rem;
     }
     
     .hero {
@@ -1046,35 +1152,6 @@ a:hover {
         opacity: 1;
         transform: translateY(0);
     }
-}
-
-/* Number Counter Styles */
-.stats-row {
-    display: flex;
-    gap: var(--spacing-xl);
-    margin-bottom: var(--spacing-lg);
-    flex-wrap: wrap;
-}
-
-.stat-item {
-    display: flex;
-    align-items: baseline;
-    gap: var(--spacing-sm);
-}
-
-.counter-number {
-    font-family: var(--font-headline);
-    font-weight: 600;
-    color: var(--color-accent);
-    font-size: 2.5rem;
-    display: inline-block;
-    line-height: 1;
-}
-
-.counter-label {
-    color: var(--color-text-secondary);
-    font-size: 0.9375rem;
-    font-weight: 400;
 }
 
 /* Selection */
