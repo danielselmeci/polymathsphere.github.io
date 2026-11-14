@@ -301,6 +301,18 @@ a:hover {
     animation: fadeInUp 0.8s ease-out 0.1s both;
 }
 
+.hero-slogan {
+    font-family: var(--font-headline);
+    font-size: clamp(1.35rem, 3vw, 1.9rem);
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    line-height: 1.25;
+    margin: calc(var(--spacing-md) * -0.5) 0 var(--spacing-lg);
+    padding-left: 0.875rem;
+    border-left: 2px solid var(--bp-ink);
+    animation: fadeInUp 0.8s ease-out 0.15s both;
+}
+
 .hero-subtitle {
     font-size: clamp(1.1rem, 2.4vw, 1.35rem);
     color: var(--bp-ink-soft);
