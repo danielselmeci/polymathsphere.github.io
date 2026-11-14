@@ -269,7 +269,7 @@ a:hover {
 
 .hero .container {
     display: grid;
-    grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
+    grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr);
     gap: var(--spacing-xl);
     align-items: center;
     width: 100%;
@@ -293,12 +293,26 @@ a:hover {
 
 .hero-title {
     font-family: var(--font-headline);
-    font-size: clamp(2.5rem, 6vw, 4.5rem);
+    font-size: clamp(2.4rem, 5.6vw, 4.1rem);
     font-weight: 600;
     line-height: 1.05;
     letter-spacing: -0.025em;
     margin-bottom: var(--spacing-lg);
     animation: fadeInUp 0.8s ease-out 0.1s both;
+}
+
+.nowrap {
+    white-space: nowrap;
+}
+
+/* "LLC" sits right after the name as a small suffix, like a mark */
+.hero-llc {
+    font-size: 0.26em;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    vertical-align: 0.15em;
+    margin-left: 0.05em;
+    color: var(--bp-ink-soft);
 }
 
 .hero-slogan {
