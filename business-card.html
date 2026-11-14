@@ -180,6 +180,20 @@
                     <form id="cardForm" autocomplete="off">
                         <fieldset>
                             <legend>Details</legend>
+                            <div class="form-group"><label for="f-what">What we do (front)</label><input id="f-what" name="what" list="what-list" value="Software &amp; design studio"></div>
+                            <div class="form-group"><label for="f-slogan">Slogan (back)</label><input id="f-slogan" name="slogan" list="slogan-list" value="Many disciplines. One studio."></div>
+                            <datalist id="what-list">
+                                <option value="Software &amp; design studio">
+                                <option value="iPhone apps &amp; digital products">
+                                <option value="Apps · Web · Design · Media">
+                                <option value="Independent software studio">
+                            </datalist>
+                            <datalist id="slogan-list">
+                                <option value="Many disciplines. One studio.">
+                                <option value="Drafted with care. Built to last.">
+                                <option value="Software, designed like a blueprint.">
+                                <option value="Thoughtful software, built to last.">
+                            </datalist>
                             <div class="form-group"><label for="f-name">Name</label><input id="f-name" name="name" value="Daniel Selmeci"></div>
                             <div class="form-group"><label for="f-title">Title</label><input id="f-title" name="title" value="Founder"></div>
                             <div class="form-group"><label for="f-email">Email</label><input id="f-email" name="email" type="email" value="contact@polymathsphere.com"></div>
@@ -271,6 +285,8 @@
         function readOptions() {
             const d = new FormData(form);
             return {
+                what: (d.get('what') || '').trim(),
+                slogan: (d.get('slogan') || '').trim(),
                 name: (d.get('name') || '').trim(),
                 title: (d.get('title') || '').trim(),
                 email: (d.get('email') || '').trim(),
@@ -373,7 +389,17 @@
                 drawMark(ctx, m + markSize / 2, m + markSize / 2, markSize, t.ink, 0.016 * u);
                 setFont(ctx, 600, 0.1 * u, HEAD, 0.16);
                 ctx.textAlign = 'left';
-                txt('POLYMATH SPHERE', m + markSize + 0.1 * u, m + markSize / 2 + 0.03 * u);
+                const wordX = m + markSize + 0.1 * u;
+                if (o.what) {
+                    txt('POLYMATH SPHERE', wordX, m + markSize / 2 - 0.01 * u);
+                    ctx.fillStyle = t.soft;
+                    const ws = fitFont(ctx, o.what, 500, BODY, 0.08 * u, W * u - wordX - m - 0.5 * u, 0.01);
+                    setFont(ctx, 500, ws, BODY, 0.01);
+                    txt(o.what, wordX, m + markSize / 2 + 0.115 * u);
+                    ctx.fillStyle = t.ink;
+                } else {
+                    txt('POLYMATH SPHERE', wordX, m + markSize / 2 + 0.03 * u);
+                }
 
                 // Sheet label, top right
                 setFont(ctx, 400, 0.07 * u, MONO, 0.12);
@@ -422,8 +448,8 @@
                 });
             } else {
                 // Back: the faceted sphere as a small technical drawing
-                const cx = W * u / 2, cy = H * u * 0.43;
-                const r = 0.42 * u;
+                const cx = W * u / 2, cy = H * u * 0.39;
+                const r = 0.38 * u;
                 ctx.strokeStyle = t.soft;
                 ctx.lineWidth = 0.004 * u;
                 ctx.setLineDash([0.035 * u, 0.012 * u, 0.006 * u, 0.012 * u]);
@@ -441,11 +467,17 @@
                 ctx.fillStyle = t.ink;
                 ctx.textAlign = 'center';
                 setFont(ctx, 600, 0.1 * u, HEAD, 0.22);
-                txt('POLYMATH SPHERE', cx + 0.011 * u, H * u - 0.42 * u);
+                txt('POLYMATH SPHERE', cx + 0.011 * u, H * u - 0.53 * u);
+                if (o.slogan) {
+                    ctx.fillStyle = t.ink;
+                    const ss = fitFont(ctx, o.slogan, 400, BODY, 0.1 * u, W * u - m * 2, 0);
+                    setFont(ctx, 400, ss, BODY, 0);
+                    txt(o.slogan, cx, H * u - 0.37 * u);
+                }
                 if (o.web) {
                     ctx.fillStyle = t.soft;
-                    setFont(ctx, 400, 0.075 * u, MONO, 0.14);
-                    txt(o.web.toUpperCase(), cx + 0.004 * u, H * u - 0.25 * u);
+                    setFont(ctx, 400, 0.072 * u, MONO, 0.14);
+                    txt(o.web.toUpperCase(), cx + 0.004 * u, H * u - 0.21 * u);
                 }
             }
             ctx.restore();
@@ -509,7 +541,7 @@
         try {
             const saved = JSON.parse(localStorage.getItem(STORE) || 'null');
             if (saved) {
-                ['name', 'title', 'email', 'phone', 'web', 'loc'].forEach(k => {
+                ['what', 'slogan', 'name', 'title', 'email', 'phone', 'web', 'loc'].forEach(k => {
                     if (typeof saved[k] === 'string') form.elements[k].value = saved[k];
                 });
                 ['theme', 'size'].forEach(k => {
