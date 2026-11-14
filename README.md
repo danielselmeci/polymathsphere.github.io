@@ -56,7 +56,12 @@ Then visit `http://localhost:8000`
 
 ## Business card maker
 
-`business-card.html` (not linked from the site, not indexed) makes front and back cards in three styles (Blueprint, Night, Paper), US 3.5 x 2 in or EU 85 x 55 mm, with optional 1/8 in bleed. It draws directly to a canvas, so downloads match the preview: a two-page print PDF at 600 dpi, or a PNG per side.
+`business-card.html` (not linked from the site, not indexed) makes front and back cards in three styles (Blueprint, Night, Paper), US 3.5 x 2 in or EU 85 x 55 mm, with optional 1/8 in bleed. One layout feeds two outputs, so downloads match the preview:
+
+- **Print PDF** (two pages, front and back): vector, with Inter, Inter Tight and IBM Plex Mono embedded from `fonts/print/`. Choose **CMYK** for print shops (plain DeviceCMYK process colors, no ICC profile; tints are solid colors, not transparency) or **RGB** for home/office printers.
+- **PNG** per side: RGB at 600 dpi, with the on-screen text halo, for screens and email signatures.
+
+CMYK values: Blueprint paper C92 M66 Y0 K6, Night paper C100 M85 Y35 K60, ink white (or pale blue on Night). Order a printed proof, since screen blue can't be matched exactly in ink.
 
 ## Positioning
 
