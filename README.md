@@ -40,6 +40,7 @@ Then visit `http://localhost:8000`
 - `404.html` - Not-found page (uses absolute paths, since GitHub Pages serves it at any URL)
 - `about.html` - Redirect to `company.html`
 - `triplogmini/` - TripLog Mini app site, support and privacy pages
+- `civis/` - Civis app site, support, privacy and terms pages
 - `business-card.html` - Internal business card maker (not indexed)
 - `styles.css`, `script.js` - Shared styles and behavior
 - `fonts/` - Self-hosted Inter and Inter Tight (latin subset, variable weight)
