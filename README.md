@@ -48,7 +48,8 @@ Then visit `http://localhost:8000`
 ## Design System
 
 - **Theme**: Blueprint. Light appearance is classic blueprint blue (#1B4F9C) with a white grid; dark appearance is a deep navy blueprint (#0B1D38) with a pale blue grid. It follows the device setting automatically.
-- **Logo**: "Facets", a geodesic sphere (many faces, one form). Source: `images/logo.svg` (uses `currentColor`); also `favicon.svg`, `images/logo.png` (512 px), `images/apple-touch-icon.png` (180 px).
+- **Logo**: "Facets", a geodesic sphere (many faces, one form). Source: `images/logo.svg` (uses `currentColor`); also `images/logo.png` (512 px) and `images/apple-touch-icon.png` (180 px).
+- **Favicon**: a simplified Facets mark (hexagon and triangles only) so it stays crisp at 16-32 px. `favicon.svg` switches to navy in dark mode; `favicon.ico` (16/32/48) and `images/favicon-16.png`/`favicon-32.png` are fallbacks for browsers without SVG icons.
 - **Typography**: Inter Tight (headlines), Inter (body), self-hosted from `fonts/`; system monospace for drawing-style labels
 - **Details**: numbered section labels, registration marks on panels, a title-block footer, and a technical drawing of the logo on the homepage
 - **Motion**: Subtle reveal on scroll and a line-drawing animation in the hero; all animation is turned off when the visitor prefers reduced motion
