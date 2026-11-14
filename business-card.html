@@ -248,9 +248,9 @@
     <script>
     (function () {
         const THEMES = {
-            blueprint: { paper: '#1B4F9C', ink: '#FFFFFF', soft: 'rgba(255,255,255,0.78)', major: 'rgba(255,255,255,0.2)', minor: 'rgba(255,255,255,0.075)' },
-            navy:      { paper: '#0B1D38', ink: '#E8F0FF', soft: 'rgba(232,240,255,0.72)', major: 'rgba(140,180,255,0.18)', minor: 'rgba(140,180,255,0.065)' },
-            paper:     { paper: '#FFFFFF', ink: '#1B4F9C', soft: 'rgba(27,79,156,0.78)', major: 'rgba(27,79,156,0.16)', minor: 'rgba(27,79,156,0.06)' }
+            blueprint: { paper: '#1B4F9C', ink: '#FFFFFF', soft: 'rgba(255,255,255,0.92)', major: 'rgba(255,255,255,0.17)', minor: 'rgba(255,255,255,0.06)', halo: 'rgba(6,28,66,0.6)' },
+            navy:      { paper: '#0B1D38', ink: '#E8F0FF', soft: 'rgba(232,240,255,0.85)', major: 'rgba(140,180,255,0.16)', minor: 'rgba(140,180,255,0.055)', halo: 'rgba(3,10,24,0.75)' },
+            paper:     { paper: '#FFFFFF', ink: '#1B4F9C', soft: 'rgba(27,79,156,0.88)', major: 'rgba(27,79,156,0.14)', minor: 'rgba(27,79,156,0.05)', halo: null }
         };
         // Card sizes in inches
         const SIZES = { us: { w: 3.5, h: 2 }, eu: { w: 85 / 25.4, h: 55 / 25.4 } };
@@ -333,6 +333,17 @@
             const ctx = canvas.getContext('2d');
             const u = dpi; // 1 inch in pixels
             const ox = bleed * u, oy = bleed * u;
+            // Text gets a soft dark halo on the blue styles so it stands off the grid
+            const txt = (str, x, y) => {
+                ctx.save();
+                if (t.halo) {
+                    ctx.shadowColor = t.halo;
+                    ctx.shadowBlur = 0.03 * u;
+                    ctx.shadowOffsetY = 0.004 * u;
+                }
+                ctx.fillText(str, x, y);
+                ctx.restore();
+            };
 
             ctx.fillStyle = t.paper;
             ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -362,13 +373,13 @@
                 drawMark(ctx, m + markSize / 2, m + markSize / 2, markSize, t.ink, 0.016 * u);
                 setFont(ctx, 600, 0.1 * u, HEAD, 0.16);
                 ctx.textAlign = 'left';
-                ctx.fillText('POLYMATH SPHERE', m + markSize + 0.1 * u, m + markSize / 2 + 0.03 * u);
+                txt('POLYMATH SPHERE', m + markSize + 0.1 * u, m + markSize / 2 + 0.03 * u);
 
                 // Sheet label, top right
                 setFont(ctx, 400, 0.07 * u, MONO, 0.12);
                 ctx.fillStyle = t.soft;
                 ctx.textAlign = 'right';
-                ctx.fillText('PS-01', W * u - m, m + 0.07 * u);
+                txt('PS-01', W * u - m, m + 0.07 * u);
 
                 // Divider with end ticks
                 const ruleY = H * u - 0.9 * u;
@@ -386,12 +397,12 @@
                 ctx.fillStyle = t.ink;
                 const nameSize = fitFont(ctx, o.name || 'Your name', 600, HEAD, 0.17 * u, leftW, -0.01);
                 setFont(ctx, 600, nameSize, HEAD, -0.01);
-                ctx.fillText(o.name || 'Your name', m, ruleY + 0.3 * u);
+                txt(o.name || 'Your name', m, ruleY + 0.3 * u);
                 if (o.title) {
                     ctx.fillStyle = t.soft;
-                    const ts = fitFont(ctx, o.title, 400, BODY, 0.1 * u, leftW, 0);
-                    setFont(ctx, 400, ts, BODY, 0);
-                    ctx.fillText(o.title, m, ruleY + 0.48 * u);
+                    const ts = fitFont(ctx, o.title, 500, BODY, 0.1 * u, leftW, 0);
+                    setFont(ctx, 500, ts, BODY, 0);
+                    txt(o.title, m, ruleY + 0.48 * u);
                 }
 
                 // Contact lines, bottom right
@@ -406,7 +417,7 @@
                 let y = H * u - m - (lines.length - 1) * lh;
                 lines.forEach((l, i) => {
                     ctx.fillStyle = i === 0 ? t.ink : t.soft;
-                    ctx.fillText(l, W * u - m, y);
+                    txt(l, W * u - m, y);
                     y += lh;
                 });
             } else {
@@ -430,11 +441,11 @@
                 ctx.fillStyle = t.ink;
                 ctx.textAlign = 'center';
                 setFont(ctx, 600, 0.1 * u, HEAD, 0.22);
-                ctx.fillText('POLYMATH SPHERE', cx + 0.011 * u, H * u - 0.42 * u);
+                txt('POLYMATH SPHERE', cx + 0.011 * u, H * u - 0.42 * u);
                 if (o.web) {
                     ctx.fillStyle = t.soft;
                     setFont(ctx, 400, 0.075 * u, MONO, 0.14);
-                    ctx.fillText(o.web.toUpperCase(), cx + 0.004 * u, H * u - 0.25 * u);
+                    txt(o.web.toUpperCase(), cx + 0.004 * u, H * u - 0.25 * u);
                 }
             }
             ctx.restore();

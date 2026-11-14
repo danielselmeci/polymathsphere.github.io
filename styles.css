@@ -26,12 +26,14 @@
     --bp-paper: #1B4F9C;
     --bp-paper-deep: #17468B;
     --bp-ink: #FFFFFF;
-    --bp-ink-soft: rgba(255, 255, 255, 0.82);
-    --bp-ink-faint: rgba(255, 255, 255, 0.6);
+    --bp-ink-soft: rgba(255, 255, 255, 0.93);
+    --bp-ink-faint: rgba(255, 255, 255, 0.76);
     --bp-line: rgba(255, 255, 255, 0.34);
     --bp-line-strong: rgba(255, 255, 255, 0.7);
-    --bp-grid-major: rgba(255, 255, 255, 0.2);
-    --bp-grid-minor: rgba(255, 255, 255, 0.075);
+    --bp-grid-major: rgba(255, 255, 255, 0.17);
+    --bp-grid-minor: rgba(255, 255, 255, 0.06);
+    /* A soft navy halo behind text lifts it off the grid lines */
+    --bp-halo: 0 1px 2px rgba(6, 28, 66, 0.55), 0 0 10px rgba(6, 28, 66, 0.4);
     --bp-panel: rgba(255, 255, 255, 0.05);
     --bp-panel-hover: rgba(255, 255, 255, 0.1);
     --bp-highlight: #BFE3FF;
@@ -67,8 +69,9 @@
         --bp-paper: #0B1D38;
         --bp-paper-deep: #091830;
         --bp-ink: #E8F0FF;
-        --bp-ink-soft: rgba(232, 240, 255, 0.78);
-        --bp-ink-faint: rgba(232, 240, 255, 0.55);
+        --bp-ink-soft: rgba(232, 240, 255, 0.86);
+        --bp-ink-faint: rgba(232, 240, 255, 0.64);
+        --bp-halo: 0 1px 2px rgba(3, 10, 24, 0.7), 0 0 10px rgba(3, 10, 24, 0.55);
         --bp-line: rgba(150, 185, 255, 0.3);
         --bp-line-strong: rgba(170, 200, 255, 0.65);
         --bp-grid-major: rgba(140, 180, 255, 0.16);
@@ -96,10 +99,11 @@ html {
 
 body {
     font-family: var(--font-body);
-    font-weight: 300;
+    font-weight: 400;
     font-size: 16px;
     line-height: 1.6;
     color: var(--bp-ink);
+    text-shadow: var(--bp-halo);
     background-color: var(--bp-paper);
     background-image:
         linear-gradient(var(--bp-grid-major) 1px, transparent 1px),
@@ -396,6 +400,13 @@ a:hover {
 .btn-submit:disabled {
     opacity: 0.6;
     cursor: not-allowed;
+}
+
+/* Text on a solid light fill does not need the halo */
+.btn-submit,
+.btn-text:hover,
+.nav-links a.nav-contact:hover {
+    text-shadow: none;
 }
 
 /* ---------------- Sections ---------------- */
