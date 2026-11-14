@@ -2,6 +2,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="theme-color" content="#1B4F9C" media="(prefers-color-scheme: light)">
+    <meta name="theme-color" content="#0B1D38" media="(prefers-color-scheme: dark)">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
@@ -22,6 +24,7 @@
     <meta name="twitter:image" content="https://polymathsphere.com/images/og-image.png">
     <title>Polymath Sphere LLC</title>
     <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
     <link rel="stylesheet" href="styles.css">
     <link rel="preload" href="fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="preload" href="fonts/inter-tight-latin.woff2" as="font" type="font/woff2" crossorigin>
@@ -113,14 +116,9 @@
     </script>
 </head>
 <body>
-    <div class="morphing-shapes">
-        <div class="morph-shape"></div>
-        <div class="morph-shape"></div>
-        <div class="morph-shape"></div>
-    </div>
     <nav class="nav">
         <div class="nav-container">
-            <a href="/" class="nav-logo">Polymath Sphere LLC</a>
+            <a href="/" class="nav-logo" aria-label="Polymath Sphere LLC, home"><svg class="logo-mark" viewBox="-42 -42 84 84" fill="none" stroke="currentColor" stroke-width="4" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true"><polygon points="29.4,17 0,34 -29.4,17 -29.4,-17 0,-34 29.4,-17"/><polygon points="0,17 -14.7,-8.5 14.7,-8.5"/><path d="M0 17L29.4 17M0 17L0 34M0 17L-29.4 17M-14.7 -8.5L-29.4 17M-14.7 -8.5L-29.4 -17M-14.7 -8.5L0 -34M14.7 -8.5L0 -34M14.7 -8.5L29.4 -17M14.7 -8.5L29.4 17"/></svg><span>Polymath Sphere</span></a>
             <div class="nav-links">
                 <a href="company.html">Company</a>
                 <a href="studio.html">Studio</a>
@@ -133,12 +131,42 @@
     <main>
         <section class="hero">
             <div class="container">
-                <h1 class="hero-title">Polymath Sphere LLC</h1>
-                <p class="hero-subtitle">An independent software and design studio in Arkansas. We build our own iPhone apps and take on a limited number of client projects.</p>
-                <p class="hero-tagline">Software · Platforms · Design · Media</p>
-                <div class="hero-buttons">
-                    <a href="ventures.html" class="btn btn-text">See our apps</a>
-                    <a href="#contact" class="btn btn-text">Work with us</a>
+                <div class="hero-text">
+                    <p class="hero-label">Sheet 01 &middot; Polymath Sphere LLC</p>
+                    <h1 class="hero-title">Polymath Sphere LLC</h1>
+                    <p class="hero-subtitle">An independent software and design studio in Arkansas. We build our own iPhone apps and take on a limited number of client projects.</p>
+                    <p class="hero-tagline">Software · Platforms · Design · Media</p>
+                    <div class="hero-buttons">
+                        <a href="ventures.html" class="btn btn-text">See our apps</a>
+                        <a href="#contact" class="btn btn-text">Work with us</a>
+                    </div>
+                </div>
+                <div class="hero-figure" aria-hidden="true">
+                    <svg viewBox="0 0 400 400" fill="none" stroke="currentColor" stroke-linejoin="round">
+                        <defs>
+                            <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 1L9 5L0 9" stroke="currentColor" stroke-width="1.2" fill="none"/></marker>
+                        </defs>
+                        <g stroke-width="0.75" opacity="0.55">
+                            <path d="M30 190H370M200 26V352" stroke-dasharray="14 4 2 4"/>
+                            <circle cx="200" cy="190" r="136" stroke-dasharray="4 5"/>
+                            <path d="M64 196V372M336 196V372"/>
+                        </g>
+                        <g stroke-width="2.25">
+                            <polygon class="draw" pathLength="1" points="303.9,250 200,310 96.1,250 96.1,130 200,70 303.9,130"/>
+                            <polygon class="draw" pathLength="1" points="200,250 148.04,160 251.96,160"/>
+                            <path class="draw" pathLength="1" d="M200 250L303.9 250M200 250L200 310M200 250L96.1 250M148.04 160L96.1 250M148.04 160L96.1 130M148.04 160L200 70M251.96 160L200 70M251.96 160L303.9 130M251.96 160L303.9 250"/>
+                        </g>
+                        <g stroke-width="1">
+                            <path d="M66 364H334" marker-start="url(#arrow)" marker-end="url(#arrow)"/>
+                            <path d="M252 120L300 56H372"/>
+                            <circle cx="252" cy="120" r="2.5" fill="currentColor"/>
+                        </g>
+                        <g fill="currentColor" stroke="none" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" letter-spacing="1.5">
+                            <text x="200" y="356" text-anchor="middle">&#216; 1.000</text>
+                            <text x="304" y="49">20 FACES</text>
+                        </g>
+                    </svg>
+                    <p class="fig-caption">Fig. 1 &mdash; Sphere, faceted</p>
                 </div>
             </div>
         </section>
@@ -208,7 +236,7 @@
         <div class="container">
             <div class="footer-content">
                 <div class="footer-main">
-                    <p class="footer-name">Polymath Sphere LLC</p>
+                    <p class="footer-name"><svg class="logo-mark" viewBox="-42 -42 84 84" fill="none" stroke="currentColor" stroke-width="4" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true"><polygon points="29.4,17 0,34 -29.4,17 -29.4,-17 0,-34 29.4,-17"/><polygon points="0,17 -14.7,-8.5 14.7,-8.5"/><path d="M0 17L29.4 17M0 17L0 34M0 17L-29.4 17M-14.7 -8.5L-29.4 17M-14.7 -8.5L-29.4 -17M-14.7 -8.5L0 -34M14.7 -8.5L0 -34M14.7 -8.5L29.4 -17M14.7 -8.5L29.4 17"/></svg>Polymath Sphere LLC</p>
                     <p class="footer-location">Arkansas, United States</p>
                     <p class="footer-statement">Privately held. Independently operated.</p>
                     <p class="footer-statement">&copy; 2026 Polymath Sphere LLC. All rights reserved.</p>
