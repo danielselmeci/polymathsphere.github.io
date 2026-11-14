@@ -1,5 +1,9 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
   <style>.bg{fill:#1B4F9C}@media (prefers-color-scheme:dark){.bg{fill:#0B1D38}}</style>
-  <rect class="bg" width="32" height="32" rx="6"/>
-  <g transform="translate(16 16) scale(0.31)" fill="none" stroke="#fff" stroke-width="5.5" stroke-linejoin="round" stroke-linecap="round"><polygon points="29.4,17 0,34 -29.4,17 -29.4,-17 0,-34 29.4,-17"/><polygon points="0,17 -14.7,-8.5 14.7,-8.5"/><path d="M0 17L29.4 17M0 17L0 34M0 17L-29.4 17M-14.7 -8.5L-29.4 17M-14.7 -8.5L-29.4 -17M-14.7 -8.5L0 -34M14.7 -8.5L0 -34M14.7 -8.5L29.4 -17M14.7 -8.5L29.4 17"/></g>
+  <rect class="bg" width="32" height="32" rx="7"/>
+  <g transform="translate(16 16.4) scale(0.345)" fill="none" stroke="#fff" stroke-width="5.6" stroke-linejoin="round" stroke-linecap="round">
+    <polygon points="29.4,17 0,34 -29.4,17 -29.4,-17 0,-34 29.4,-17"/>
+    <polygon points="0,17 -14.7,-8.5 14.7,-8.5"/>
+    <path d="M-29.4 17L0 -34L29.4 17Z"/>
+  </g>
 </svg>
