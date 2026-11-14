@@ -40,17 +40,23 @@ Then visit `http://localhost:8000`
 - `404.html` - Not-found page (uses absolute paths, since GitHub Pages serves it at any URL)
 - `about.html` - Redirect to `company.html`
 - `triplogmini/` - TripLog Mini app site, support and privacy pages
-- `business-card.html`, `business-card-svg.html` - Internal business card tools (not indexed)
+- `business-card.html` - Internal business card maker (not indexed)
 - `styles.css`, `script.js` - Shared styles and behavior
 - `fonts/` - Self-hosted Inter and Inter Tight (latin subset, variable weight)
-- `images/og-image.png` - 1200x630 social share image
+- `images/` - Logo files and the 1200x630 social share image
 
 ## Design System
 
-- **Colors**: Off-white background (#FAFAFA), charcoal text (#1A1A1A), indigo accent (#6366F1); dark mode follows the system setting
-- **Typography**: Inter Tight (headlines), Inter (body), self-hosted from `fonts/`
-- **Motion**: Subtle reveal on scroll; all animation is turned off when the visitor prefers reduced motion
+- **Theme**: Blueprint. Light appearance is classic blueprint blue (#1B4F9C) with a white grid; dark appearance is a deep navy blueprint (#0B1D38) with a pale blue grid. It follows the device setting automatically.
+- **Logo**: "Facets", a geodesic sphere (many faces, one form). Source: `images/logo.svg` (uses `currentColor`); also `favicon.svg`, `images/logo.png` (512 px), `images/apple-touch-icon.png` (180 px).
+- **Typography**: Inter Tight (headlines), Inter (body), self-hosted from `fonts/`; system monospace for drawing-style labels
+- **Details**: numbered section labels, registration marks on panels, a title-block footer, and a technical drawing of the logo on the homepage
+- **Motion**: Subtle reveal on scroll and a line-drawing animation in the hero; all animation is turned off when the visitor prefers reduced motion
 - **Tone**: Calm, minimal, confident, institutional
+
+## Business card maker
+
+`business-card.html` (not linked from the site, not indexed) makes front and back cards in three styles (Blueprint, Night, Paper), US 3.5 x 2 in or EU 85 x 55 mm, with optional 1/8 in bleed. It draws directly to a canvas, so downloads match the preview: a two-page print PDF at 600 dpi, or a PNG per side.
 
 ## Positioning
 
