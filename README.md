@@ -1,6 +1,6 @@
 # Polymath Sphere LLC Website
 
-Corporate website for Polymath Sphere LLC, a privately held digital firm that owns, develops, and selectively delivers software and design systems.
+Corporate website for Polymath Sphere LLC, an independent software and design studio in Arkansas that builds its own iPhone apps and takes on a limited number of client projects.
 
 **Domain:** polymathsphere.com
 
@@ -34,10 +34,9 @@ Then visit `http://localhost:8000`
 - `index.html` - Homepage
 - `company.html` - Company information
 - `studio.html` - Studio capabilities and process
-- `ventures.html` - Platforms (GO: Travel App, TripLog Mini)
+- `ventures.html` - Platforms (Go: TravelApp, TripLog Mini)
 - `careers.html` - Careers (not indexed)
 - `legal.html` - Privacy policy and terms
-- `impressum.html` - Legal imprint
 - `404.html` - Not-found page (uses absolute paths, since GitHub Pages serves it at any URL)
 - `about.html` - Redirect to `company.html`
 - `triplogmini/` - TripLog Mini app site, support and privacy pages
@@ -52,6 +51,13 @@ Then visit `http://localhost:8000`
 - **Typography**: Inter Tight (headlines), Inter (body), self-hosted from `fonts/`
 - **Motion**: Subtle reveal on scroll; all animation is turned off when the visitor prefers reduced motion
 - **Tone**: Calm, minimal, confident, institutional
+
+## Positioning
+
+Polymath Sphere LLC is an independent software and design studio that:
+- Builds and owns its own iPhone apps (Go: TravelApp at gotravelapp.com, TripLog Mini at /triplogmini/)
+- Takes on a limited number of client projects, each under its own statement of work
+- Is privately held and independently operated
 
 ## Privacy notes
 
