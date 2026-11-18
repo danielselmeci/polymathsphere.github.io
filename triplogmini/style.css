@@ -32,11 +32,9 @@ h3 { font-size: 20px; }
 .eyebrow { text-transform: uppercase; letter-spacing: 2.5px; font-size: 12px; font-weight: 700; color: var(--accent); margin-bottom: 10px; }
 .badge { display: inline-flex; align-items: center; gap: 10px; background: var(--ink); color: var(--paper); padding: 13px 22px; border-radius: 14px; font-weight: 600; }
 .badge:hover { text-decoration: none; opacity: .9; }
-.badge.soon { cursor: default; }
-.badge.soon:hover { opacity: 1; }
 .note { font-size: 13px; color: var(--muted); margin-top: 10px; }
 .shots { display: flex; gap: 16px; overflow-x: auto; padding: 30px 4px 36px; scroll-snap-type: x mandatory; }
-.shots img { height: 520px; width: auto; max-height: 70vh; border-radius: 28px; box-shadow: 0 14px 40px rgba(0,0,0,.14); scroll-snap-align: center; flex: none; }
+.shots img { height: 520px; max-height: 70vh; border-radius: 28px; box-shadow: 0 14px 40px rgba(0,0,0,.14); scroll-snap-align: center; flex: none; }
 .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; margin: 20px 0 50px; }
 .card { background: var(--card); border: 1px solid var(--line); border-radius: 22px; padding: 22px; }
 .card .emoji { font-size: 26px; display: block; margin-bottom: 8px; }
