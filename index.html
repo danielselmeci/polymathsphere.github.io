@@ -144,8 +144,8 @@
                         <a href="#contact" class="btn btn-text">Work with us</a>
                     </div>
                 </div>
-                <div class="hero-figure" aria-hidden="true">
-                    <svg viewBox="0 0 400 400" fill="none" stroke="currentColor" stroke-linejoin="round">
+                <div class="hero-figure">
+                    <svg viewBox="0 0 400 400" aria-hidden="true" fill="none" stroke="currentColor" stroke-linejoin="round">
                         <defs>
                             <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 1L9 5L0 9" stroke="currentColor" stroke-width="1.2" fill="none"/></marker>
                         </defs>
@@ -154,7 +154,7 @@
                             <circle cx="200" cy="190" r="136" stroke-dasharray="4 5"/>
                             <path d="M64 196V372M336 196V372"/>
                         </g>
-                        <g stroke-width="2.25">
+                        <g class="facets-2d" stroke-width="2.25">
                             <polygon class="draw" pathLength="1" points="303.9,250 200,310 96.1,250 96.1,130 200,70 303.9,130"/>
                             <polygon class="draw" pathLength="1" points="200,250 148.04,160 251.96,160"/>
                             <path class="draw" pathLength="1" d="M200 250L303.9 250M200 250L200 310M200 250L96.1 250M148.04 160L96.1 250M148.04 160L96.1 130M148.04 160L200 70M251.96 160L200 70M251.96 160L303.9 130M251.96 160L303.9 250"/>
@@ -169,7 +169,8 @@
                             <text x="304" y="49">20 FACES</text>
                         </g>
                     </svg>
-                    <p class="fig-caption">Fig. 1 &mdash; Sphere, faceted</p>
+                    <canvas class="sphere-3d" tabindex="0" role="img" aria-label="3D model of the Polymath Sphere logo, a faceted sphere. Drag, or use the arrow keys, to rotate it." hidden></canvas>
+                    <p class="fig-caption">Fig. 1 &mdash; Sphere, faceted<span class="fig-hint"> &middot; drag to rotate</span></p>
                 </div>
             </div>
         </section>
@@ -256,5 +257,6 @@
         </div>
     </footer>
     <script src="script.js"></script>
+    <script src="interactive.js"></script>
 </body>
 </html>

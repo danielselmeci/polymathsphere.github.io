@@ -37,6 +37,8 @@
     --bp-panel: rgba(255, 255, 255, 0.05);
     --bp-panel-hover: rgba(255, 255, 255, 0.1);
     --bp-highlight: #BFE3FF;
+    --bp-grid-glow: rgba(255, 255, 255, 0.55);
+    --bp-grid-glow-minor: rgba(255, 255, 255, 0.22);
     --bp-nav: rgba(27, 79, 156, 0.9);
     --bp-success: #C8F7D4;
     --bp-error: #FFD3D3;
@@ -79,6 +81,8 @@
         --bp-panel: rgba(140, 180, 255, 0.05);
         --bp-panel-hover: rgba(140, 180, 255, 0.1);
         --bp-highlight: #8EC5FF;
+        --bp-grid-glow: rgba(150, 195, 255, 0.5);
+        --bp-grid-glow-minor: rgba(150, 195, 255, 0.2);
         --bp-nav: rgba(11, 29, 56, 0.9);
     }
 }
@@ -821,6 +825,230 @@ main {
 .footer-links a:hover {
     color: var(--bp-ink);
     text-decoration: underline;
+}
+
+/* ---------------- Interactive layer (interactive.js) ---------------- */
+
+/* 3D sphere in the hero */
+.sphere-3d {
+    position: absolute;
+    top: 0;
+    left: 0;
+    touch-action: pan-y;
+    cursor: grab;
+    outline: none;
+}
+
+.sphere-3d.is-dragging {
+    cursor: grabbing;
+}
+
+.sphere-3d:focus-visible {
+    outline: 1px dashed var(--bp-highlight);
+    outline-offset: -12px;
+}
+
+.hero-figure.is-3d .facets-2d {
+    display: none;
+}
+
+.fig-hint {
+    display: none;
+}
+
+.hero-figure.is-3d .fig-hint {
+    display: inline;
+}
+
+/* Grid that lights up around the cursor */
+.grid-glow {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    background-image:
+        linear-gradient(var(--bp-grid-glow) 1px, transparent 1px),
+        linear-gradient(90deg, var(--bp-grid-glow) 1px, transparent 1px),
+        linear-gradient(var(--bp-grid-glow-minor) 1px, transparent 1px),
+        linear-gradient(90deg, var(--bp-grid-glow-minor) 1px, transparent 1px);
+    background-size:
+        var(--grid-major) var(--grid-major),
+        var(--grid-major) var(--grid-major),
+        var(--grid-minor) var(--grid-minor),
+        var(--grid-minor) var(--grid-minor);
+    background-position: -1px -1px;
+    -webkit-mask-image: radial-gradient(circle 200px at var(--mx, -999px) var(--my, -999px), #000 0%, rgba(0, 0, 0, 0.35) 45%, transparent 100%);
+    mask-image: radial-gradient(circle 200px at var(--mx, -999px) var(--my, -999px), #000 0%, rgba(0, 0, 0, 0.35) 45%, transparent 100%);
+    opacity: 0;
+    transition: opacity 0.4s var(--ease);
+}
+
+.grid-glow.is-on {
+    opacity: 1;
+}
+
+/* Sections sketch themselves in: title rules and panel corner marks draw */
+@media (prefers-reduced-motion: no-preference) {
+    .js .section-title::after {
+        transform-origin: left center;
+        transform: scaleX(0);
+        transition: transform 0.9s var(--ease) 0.25s;
+    }
+
+    .js .section.visible .section-title::after {
+        transform: scaleX(1);
+    }
+
+    .js .capability-item::before,
+    .js .capability-item::after,
+    .js .process-item::before,
+    .js .process-item::after {
+        transition: width 0.5s var(--ease) 0.35s, height 0.5s var(--ease) 0.35s;
+    }
+
+    .js .capability-item:not(.visible)::before,
+    .js .capability-item:not(.visible)::after,
+    .js .process-item:not(.visible)::before,
+    .js .process-item:not(.visible)::after {
+        width: 0;
+        height: 0;
+    }
+
+    .page-header .container::after {
+        transform-origin: left center;
+        animation: drawRule 0.9s var(--ease) 0.3s both;
+    }
+}
+
+@keyframes drawRule {
+    from { transform: scaleX(0); }
+    to { transform: scaleX(1); }
+}
+
+/* Inspect mode */
+.inspect-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font: inherit;
+    font-size: 0.8125rem;
+    color: var(--bp-ink-soft);
+    background: transparent;
+    border: 1px dashed var(--bp-line-strong);
+    border-radius: 2px;
+    padding: 0.4rem 0.7rem;
+    cursor: pointer;
+    text-shadow: var(--bp-halo);
+    transition: color 0.2s var(--ease), background 0.2s var(--ease), border-color 0.2s var(--ease);
+}
+
+.inspect-toggle:hover {
+    color: var(--bp-ink);
+    border-color: var(--bp-ink);
+}
+
+.inspect-toggle[aria-pressed="true"] {
+    color: var(--bp-paper);
+    background: var(--bp-highlight);
+    border: 1px solid var(--bp-highlight);
+    text-shadow: none;
+}
+
+.inspect-layer {
+    display: none;
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 2000;
+    font-family: var(--font-label);
+    text-shadow: none;
+}
+
+.inspect-on .inspect-layer {
+    display: block;
+}
+
+.inspect-on,
+.inspect-on * {
+    cursor: crosshair !important;
+}
+
+.insp-x,
+.insp-y {
+    position: absolute;
+    background: var(--bp-highlight);
+    opacity: 0.75;
+}
+
+.insp-x {
+    left: 0;
+    right: 0;
+    top: 0;
+    height: 1px;
+}
+
+.insp-y {
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: 1px;
+}
+
+.insp-box {
+    position: absolute;
+    top: 0;
+    left: 0;
+    border: 1px dashed var(--bp-highlight);
+    background: rgba(191, 227, 255, 0.08);
+    opacity: 0;
+    transition: opacity 0.12s linear;
+}
+
+.insp-tag {
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    padding: 0.35rem 0.55rem;
+    background: var(--bp-highlight);
+    color: #0B2A55;
+    font-size: 0.6875rem;
+    letter-spacing: 0.04em;
+    line-height: 1.35;
+    white-space: nowrap;
+    opacity: 0;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
+}
+
+.insp-name {
+    font-weight: 600;
+}
+
+.insp-type:empty {
+    display: none;
+}
+
+.insp-coords,
+.insp-hint {
+    position: absolute;
+    bottom: 14px;
+    padding: 0.3rem 0.55rem;
+    font-size: 0.6875rem;
+    letter-spacing: 0.08em;
+    color: var(--bp-ink);
+    background: var(--bp-paper);
+    border: 1px solid var(--bp-line-strong);
+}
+
+.insp-coords {
+    right: 14px;
+}
+
+.insp-hint {
+    left: 14px;
+    color: var(--bp-ink-soft);
 }
 
 /* ---------------- Motion ---------------- */

@@ -43,6 +43,7 @@ Then visit `http://localhost:8000`
 - `civis/` - Civis app site, support, privacy and terms pages
 - `business-card.html` - Internal business card maker (not indexed)
 - `styles.css`, `script.js` - Shared styles and behavior
+- `interactive.js` - 3D sphere, cursor-lit grid and inspect mode
 - `fonts/` - Self-hosted Inter and Inter Tight (latin subset, variable weight)
 - `images/` - Logo files and the 1200x630 social share image
 
@@ -55,6 +56,16 @@ Then visit `http://localhost:8000`
 - **Details**: numbered section labels, registration marks on panels, a title-block footer, and a technical drawing of the logo on the homepage
 - **Motion**: Subtle reveal on scroll and a line-drawing animation in the hero; all animation is turned off when the visitor prefers reduced motion
 - **Tone**: Calm, minimal, confident, institutional
+
+## Interactive layer
+
+`interactive.js` (loaded on every main page after `script.js`) adds three things on top of the static site, which still works without JavaScript:
+
+- **3D sphere**: the homepage figure becomes a wireframe icosahedron (the Facets logo in 3D). It starts in the logo's orientation, draws itself in, then spins slowly. Drag or use the arrow keys to rotate; double-click or Home resets it.
+- **Cursor-lit grid**: the blueprint grid brightens around the mouse pointer (mouse only).
+- **Inspect mode**: an "Inspect" switch in the top bar (or press I; Esc exits) shows a drafting crosshair, page coordinates, and a label with each element's type, size and font. The setting is remembered per browser. Mouse only.
+
+Sections also "sketch in": title rules and panel corner marks draw when they scroll into view. With reduced motion on, nothing moves on its own; the sphere still turns when dragged.
 
 ## Business card maker
 
